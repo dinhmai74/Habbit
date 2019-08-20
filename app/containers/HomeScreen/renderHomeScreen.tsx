@@ -23,9 +23,9 @@ import {
   AppLoading,
   InlineDecorationText,
   AppBackground,
+  AppHeader,
 } from '../../components'
 // eslint-disable-next-line import/no-extraneous-dependencies
-import AppHeader from '../../components/AppHeader'
 import I18n from '../../localization'
 import { Colors, Images, strings } from '../../themes'
 import HabitCardStatic from './components/HabitCard'
@@ -40,7 +40,7 @@ import { formatDate, today } from '../../tools/DateHelper'
 import { IDateItem } from '.'
 import RenderWaitingScreen from '../../components/RenderWaitingScreen'
 import { IHabitItem } from '../../model'
-import { spacing } from '../../themes/spacing';
+import { spacing } from '../../themes/spacing'
 
 // @ts-ignore
 const HabitCard = animatable.createAnimatableComponent(HabitCardStatic)
@@ -66,13 +66,13 @@ type Props = NavigationScreenProps & {
   updateTaskStatus: (
     tasksId: string,
     status: string,
-    dateWatching: string,
+    dateWatching: string
   ) => void
   onChangeDate: (item: IDateItem) => void
   watchingDate: string
   refresh: () => void
   deleteTask: (taskId: string) => void
-  onCardPress: (item: IHabitItem) => void,
+  onCardPress: (item: IHabitItem) => void
 }
 
 interface State {
@@ -93,7 +93,7 @@ export interface ViewLayout {
 
 export interface ViewLayoutEvent {
   nativeEvent: {
-    layout: ViewLayout,
+    layout: ViewLayout
   }
 }
 
@@ -160,7 +160,7 @@ export default class HomeRender extends Component<Props, State> {
   updateTaskStatus = (
     tasksId: string,
     status: string,
-    dateWatching: string,
+    dateWatching: string
   ) => {
     this.props.updateTaskStatus(tasksId, status, dateWatching)
   }
@@ -181,7 +181,7 @@ export default class HomeRender extends Component<Props, State> {
   }: {
     item: IHabitItem
     // eslint-disable-next-line react/no-unused-prop-types
-    index: number,
+    index: number
   }) => {
     if (item.status) {
       return (
@@ -221,27 +221,25 @@ export default class HomeRender extends Component<Props, State> {
     const { initLoading } = this.state
 
     return (
-      <AppBackground>
+      <AppBackground noImage bg={Colors.dimBg}>
         <AppHeader
           onLayout={this.onHeaderLayout}
-          leftIcon={Images.iconChart}
-          leftTitleOnClick={() => this.props.leftIconOnClick()}
-          title={I18n.t(strings.titleHomeScreen)}
-          rightIcon={Images.iconSetting}
-          rightTitleOnClick={() => this.props.rightIconOnClick()}
+          leftIcon={'history'}
+          onLeftPress={this.props.leftIconOnClick}
+          headerTx={strings.titleHomeScreen}
+          rightIcon={'setting'}
+          onRightPress={this.props.rightIconOnClick}
+          height={200}
           isLinear
-          style={styles.header}
         />
         {!error ? (
           initLoading ? (
-            <AppLoading
-              loadingSrc={Images.loadingHome}
-            />
+            <AppLoading loadingSrc={Images.loadingHome} />
           ) : (
             <Content
               style={{
                 marginBottom: 200,
-                padding: spacing[2]
+                padding: spacing[2],
               }}
             >
               <ScrollView>
@@ -264,7 +262,7 @@ export default class HomeRender extends Component<Props, State> {
                     text={capitalize(
                       watchingDate === today
                         ? I18n.t(strings.textPullToAdd)
-                        : I18n.t(strings.textNothingHere),
+                        : I18n.t(strings.textNothingHere)
                     )}
                   />
                 )}

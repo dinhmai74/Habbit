@@ -1,5 +1,3 @@
-import AppBackground from './app-background/AppBackground'
-import AppHeader from './AppHeader'
 import AppImageHeader from './AppImageHeader'
 import AppLoading from './AppLoading'
 import CardContainer from './CardContainer'
@@ -15,13 +13,12 @@ export * from './icon'
 export * from './SizeBox'
 export * from './WrappedSpacingComponent'
 export * from './app-background'
+export * from './AppHeader/index'
 
 export {
   Partials,
   AlertStatus,
-  AppBackground,
   RowView,
-  AppHeader,
   CardContainer,
   AppLoading,
   AppImageHeader,
@@ -31,7 +28,6 @@ export {
 export default {
   Partials,
   AlertStatus,
-  AppHeader,
   RowView,
   CardContainer,
   AppLoading,

@@ -2,6 +2,7 @@ import { palette } from './palette'
 
 const colors = {
   background: palette.white,
+  dimBg: palette.dimWhite,
   // background: "red",
   headerBackground: '#683ab7',
   linearStart: '#AA55FF',

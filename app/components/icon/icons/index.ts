@@ -8,6 +8,7 @@ export const icons = {
   bottomColoredImage: require('./coloredBg.jpg'),
   headerMap: require('./header-map.png'),
   history: require('./icons8-order_history.png'),
+  setting: require('./icon-setting.png'),
 }
 
 export type IconTypes = keyof typeof icons
