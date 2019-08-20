@@ -180,10 +180,8 @@ const AppHeaderContainer = styled(View)`
     ${Metrics.doubleBaseMargin}px;
   flex: 1;
   justify-content: space-between;
-  ${
-    // @ts-ignore
-  { ...StyleSheet.absoluteFill }
-  };
+  ${// @ts-ignore
+  { ...StyleSheet.absoluteFill }};
 `
 
 const Overlay = styled(View)`

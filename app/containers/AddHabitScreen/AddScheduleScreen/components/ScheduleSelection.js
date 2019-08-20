@@ -11,7 +11,7 @@ import ButtonGroup from "./ButtonGroup"
 const styles = {
   title: {
     marginBottom: 10,
-    color: Colors.text,
+    color: Colors.text.text,
   },
   container: {
     backgroundColor: "transparent",

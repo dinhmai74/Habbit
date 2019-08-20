@@ -1,12 +1,12 @@
-import React, { PureComponent, } from "react"
-import { StyleSheet, } from "react-native"
-import { Item, Icon, Input, } from "native-base"
-import { Colors, ApplicationStyles, Fonts, Metrics, } from "../../../../themes"
+import React, { PureComponent } from 'react'
+import { StyleSheet } from 'react-native'
+import { Item, Icon, Input } from 'native-base'
+import { Colors, ApplicationStyles, Fonts, Metrics } from '../../../../themes'
 
 const styles = StyleSheet.create({
   icon: {
-    color: Colors.text,
-    alignSelf: "center",
+    color: Colors.text.text,
+    alignSelf: 'center',
   },
   input: {
     ...ApplicationStyles.text.textInput.base,
@@ -28,7 +28,7 @@ type Props = {
 export default class HabitInput extends PureComponent<Props> {
   static defaultProps = {
     style: null,
-    iconType: "MaterialCommunityIcons",
+    iconType: 'MaterialCommunityIcons',
     iconStyle: null,
     error: false,
     onSubmitEditing: () => {},
@@ -47,18 +47,18 @@ export default class HabitInput extends PureComponent<Props> {
       ...rest
     } = this.props
     return (
-      <Item error={error} style={[{ borderColor: "transparent", }, style,]}>
+      <Item error={error} style={[{ borderColor: 'transparent' }, style]}>
         <Icon
-          style={[styles.icon, iconStyle,]}
+          style={[styles.icon, iconStyle]}
           type={iconType}
           fontSize={Metrics.icons.medium}
           name={iconName}
         />
         <Input
-          autoCapitalize='none'
+          autoCapitalize="none"
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
-          style={[styles.input,]}
+          style={[styles.input]}
           placeholder={inputPlaceholder}
           {...rest}
         />

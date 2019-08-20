@@ -39,7 +39,7 @@ const ApplicationStyles = {
     textInput: {
       base: {
         fontFamily: Fonts.type.base,
-        color: Colors.text,
+        color: Colors.text.text,
         includeFontPadding: false, // Android
       },
       sectionText: {
@@ -58,13 +58,13 @@ const ApplicationStyles = {
     },
     titleText: {
       ...Fonts.style.h5,
-      color: Colors.text,
+      color: Colors.text.text,
     },
     headerText: {
       ...Fonts.style.h3,
       fontFamily: Fonts.type.bold,
       fontSize: 22,
-      color: Colors.text,
+      color: Colors.text.text,
     },
     blackText: {
       color: Colors.black,
@@ -109,13 +109,13 @@ const ApplicationStyles = {
     titleText: {
       ...Fonts.style.h3,
       fontSize: 18,
-      color: Colors.text,
+      color: Colors.text.text,
     },
     headerText: {
       ...Fonts.style.h3,
       fontFamily: Fonts.type.bold,
       fontSize: 22,
-      color: Colors.text,
+      color: Colors.text.text,
     },
   },
   container: {

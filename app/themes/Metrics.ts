@@ -4,7 +4,19 @@ import { getStatusBarHeight } from 'react-native-status-bar-height'
 const { width, height } = Dimensions.get('window')
 const statusBarHeight = getStatusBarHeight()
 
+export const screen = { height, width }
+
 const metrics = {
+  icon: {
+    normal: 24,
+    small: 18,
+    big: 32,
+  },
+  logo: {
+    small: 100,
+    normal: 200,
+  },
+  screen,
   marginHorizontal: 10,
   marginVertical: 10,
   section: 25,

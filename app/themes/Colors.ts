@@ -1,3 +1,5 @@
+import { palette } from './palette'
+
 const colors = {
   background: 'rgba(242,244,253,1)',
   // background: "red",
@@ -38,7 +40,6 @@ const colors = {
   eggplant: '#251a34',
   border: '#483F53',
   banner: '#5F3E63',
-  text: '#595959',
   inActiveText: '#c3c3c3',
 
   authButtonColor: '#6c56b7',
@@ -62,6 +63,93 @@ const colors = {
   divider: '#cccccc',
   lightRed: '#e74c3c',
   blue: '#0fbcf9',
+
+  /**
+   * The palette is available to use, but prefer using the name.
+   */
+  palette,
+  /**
+   * A helper for making something see-thru. Use sparingly as many layers of transparency
+   * can cause older Android devices to slow down due to the excessive compositing required
+   * by their under-powered GPUs.
+   */
+  /**
+   * The screen background.
+   */
+  linear: {
+    start: palette.lightStateBlue,
+    end: palette.royalBlue,
+  },
+  button: {
+    linear: {
+      start: palette.persianBlue,
+      end: palette.mediumOrchid,
+    },
+    primaryBg: palette.pattensBlue,
+    primaryText: palette.blue,
+    secondaryBg: palette.white,
+    secondaryText: palette.red,
+  },
+  text: {
+    primary: palette.white,
+    text: '#595959',
+    secondary: palette.lightStateBlue,
+    third: palette.lightGrey,
+    black: palette.black,
+    normal: palette.concrete,
+  },
+  header: {
+    text: {
+      normal: palette.white,
+      transparency: palette.orchid,
+    },
+    bg: {
+      normal: palette.red,
+      transparency: palette.white,
+      linear: {
+        start: '#ce9ffc',
+        end: '#7367f0',
+      },
+    },
+  },
+  /**
+   * The main tinting color.
+   */
+  primary: palette.mediumStateBlue,
+  /**
+   * The main tinting color, but darker.
+   */
+  /**
+   * secondary tinting color
+   */
+  secondary: palette.lightStateBlue,
+  primaryDarker: palette.royalBlue,
+  /**
+   * A subtle color used for borders and lines.
+   */
+  /**
+   * The default color of text in many components.
+   */
+  /**
+   * Secondary information.
+   */
+  dim: palette.lightGrey,
+  /**
+   * Error messages and icons.
+   */
+
+  /**
+   * Storybook background for Text stories, or any stories where
+   * the text color is color.text, which is white by default, and does not show
+   * in Stories against the default white background
+   */
+  storybookDarkBg: palette.black,
+
+  /**
+   * Storybook text color for stories that display Text components against the
+   * white background
+   */
+  storybookTextColor: palette.black,
 }
 
 export default colors

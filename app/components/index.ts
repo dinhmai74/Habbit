@@ -8,6 +8,7 @@ import RowView from './RowView'
 import ToastService from './ToastService'
 
 export * from './Button'
+export * from './AppButton'
 export * from './Text'
 export * from './form'
 

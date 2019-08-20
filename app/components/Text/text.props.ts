@@ -1,0 +1,37 @@
+import { TextStyle } from 'react-native'
+import { TextProps as ETextProps } from 'react-native-elements'
+import { TextPresets } from './text.presets'
+
+// tslint:disable-next-line: interface-name
+export interface TextProps extends ETextProps {
+  /**
+   * Children components.
+   */
+  children?: React.ReactNode
+
+  /**
+   * Text which is looked up via i18n.
+   */
+  tx?: string
+
+  /**
+   * Optional options to pass to i18n. Useful for interpolation
+   * as well as explicitly setting locale or translation fallbacks.
+   */
+  txOptions?: object
+
+  /**
+   * The text to display if not using `tx` or nested components.
+   */
+  text?: string
+
+  /**
+   * An optional style override useful for padding & margin.
+   */
+  style?: TextStyle | TextStyle[]
+
+  /**
+   * One of the different types of text presets.
+   */
+  preset?: TextPresets
+}

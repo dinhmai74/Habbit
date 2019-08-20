@@ -47,7 +47,7 @@ interface IProps {
 class HabitCard extends Component<IProps> {
   static defaultProps = {
     style: null,
-    color: Colors.text,
+    color: Colors.text.text,
     leftText: capitalize(I18n.t(strings.textDone)),
     rightText: capitalize(I18n.t(strings.textSkip)),
     onCardPress: () => {},
@@ -299,22 +299,22 @@ const Container = styled(CardItem)`
 `
 
 const LeftSwipeView = styled(View)`
-  display: flex
-  flex: 1
-  alignItems: flex-end
-  justifyContent: flex-end
-  paddingRight: 20
-  margin-right: 20
-  backgroundColor: ${Colors.green}
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-right: 20px;
+  margin-right: 20px;
+  background: ${Colors.green};
 `
 
 const RightSwipeView = styled(View)`
-  display: flex
-  flex: 1
-  justifyContent: center
-  paddingLeft: 20
-  margin-right: 20
-  backgroundColor: ${Colors.buttonColorInColoredBackground}
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  padding-left: 20;
+  margin-right: 20;
+  background: ${Colors.buttonColorInColoredBackground};
 `
 
 const styles = StyleSheet.create({
