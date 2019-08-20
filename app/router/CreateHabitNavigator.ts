@@ -17,27 +17,20 @@ import {
 } from './transactionConfig'
 import HobbiesScreen from '../containers/DemoHobbiesScreen/HobbiesScreen';
 
-const transitionConfig = () => ({
-  transitionSpec: transitionSpec,
-  screenInterpolator: sceneProps => {
-    return getScreenInterpolator(sceneProps)  
-  },
-  containerStyle: {
-    backgroundColor: 'transparent',
-  },
-})
+const RouteConfigs = {
+  addHabit: AddHabitScreen,
+  addDetailHabit: AddDetailHabitScreen,
+  addSchedule: AddScheduleScreen,
+  hobbies: HobbiesScreen,
+}
 
 const CreateHabitNavigator = createStackNavigator(
-  {
-    addHabit: AddHabitScreen,
-    addDetailHabit: AddDetailHabitScreen,
-    addSchedule: AddScheduleScreen,
-    hobbies: HobbiesScreen,
-  },
+  RouteConfigs,
   {
     initialRouteName: strings.routeAddHabit,
     headerMode: 'none',
   }
 )
+export type CreateHabitRouteName= keyof typeof RouteConfigs
 
 export default CreateHabitNavigator

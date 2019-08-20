@@ -1,7 +1,7 @@
 import { palette } from './palette'
 
 const colors = {
-  background: 'rgba(242,244,253,1)',
+  background: palette.white,
   // background: "red",
   headerBackground: '#683ab7',
   linearStart: '#AA55FF',

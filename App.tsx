@@ -12,6 +12,7 @@ import strings from './app/themes/strings'
 import getTheme from './native-base-theme/components'
 import material from './native-base-theme/variables/material.js'
 import StorybookUIHMRRoot from './storybook'
+import NavigateService from './app/tools/NavigateService'
 
 // if (__DEV__) {
 //   NativeModules.DevSettings.setIsDebuggingRemotely(true)
@@ -31,7 +32,11 @@ class App extends Component {
         <StyleProvider style={getTheme(material)}>
           <Container>
             <Provider store={store}>
-              <RootNavigator />
+              <RootNavigator
+                ref={(navigatorRef) => {
+                  NavigateService.setTopLevelNavigator(navigatorRef)
+                }}
+              />
             </Provider>
           </Container>
         </StyleProvider>

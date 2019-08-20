@@ -1,5 +1,5 @@
 import { Toast } from 'native-base'
-import { translate } from '../../../Habit/app/i18n'
+import AppI18n from '../localization';
 
 type TToast = 'danger' | 'success' | 'warning' | undefined
 type TPosition = 'top' | 'bottom' | 'center' | undefined
@@ -11,8 +11,8 @@ function showToast(
   position: TPosition = 'bottom',
   duration = 3000,
 ) {
-  const text = translate(message)
-  const buttonText = translate('common.ok')
+  const text = AppI18n.t(message)
+  const buttonText = AppI18n.t('common.ok')
 
   return Toast.show({
     text,

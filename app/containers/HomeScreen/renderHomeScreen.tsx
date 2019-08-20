@@ -20,9 +20,9 @@ import { NavigationScreenProps } from 'react-navigation'
 
 import { Button, ProgressBar, Spinner } from 'native-base'
 import {
-  AppBackGround,
   AppLoading,
   InlineDecorationText,
+  AppBackground,
 } from '../../components'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import AppHeader from '../../components/AppHeader'
@@ -40,6 +40,7 @@ import { formatDate, today } from '../../tools/DateHelper'
 import { IDateItem } from '.'
 import RenderWaitingScreen from '../../components/RenderWaitingScreen'
 import { IHabitItem } from '../../model'
+import { spacing } from '../../themes/spacing';
 
 // @ts-ignore
 const HabitCard = animatable.createAnimatableComponent(HabitCardStatic)
@@ -220,7 +221,7 @@ export default class HomeRender extends Component<Props, State> {
     const { initLoading } = this.state
 
     return (
-      <AppBackGround>
+      <AppBackground>
         <AppHeader
           onLayout={this.onHeaderLayout}
           leftIcon={Images.iconChart}
@@ -240,7 +241,7 @@ export default class HomeRender extends Component<Props, State> {
             <Content
               style={{
                 marginBottom: 200,
-                top: this.state.headerHeight * HEADER_HEIGHT_PERCENT,
+                padding: spacing[2]
               }}
             >
               <ScrollView>
@@ -294,7 +295,7 @@ export default class HomeRender extends Component<Props, State> {
           onDateChange={this.onChangeDate}
           style={styles.bottomDateSelection}
         />
-      </AppBackGround>
+      </AppBackground>
     )
   }
 }

@@ -19,8 +19,8 @@ import {
   AuthButton,
   Heading,
   TextButton,
+  AppBackground
 } from '../../components'
-import AppBackground from '../../components/AppBackground'
 import AppHeader from '../../components/AppHeader'
 import I18n from '../../localization'
 import {

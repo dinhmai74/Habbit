@@ -2,7 +2,7 @@ import LottieView from 'lottie-react-native'
 import React, { Component } from 'react'
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
 import { Colors, Images } from '../themes'
-import AppBackGround from './AppBackground'
+import { AppBackground } from './app-background';
 
 interface IProps {
   handleRefresh: () => void
@@ -32,14 +32,14 @@ export default class RenderWaitingScreen extends Component<IProps> {
 
   render() {
     return (
-      <AppBackGround isLinear>
+      <AppBackground isLinear>
         <LottieView
           ref={(animation) => {
             this.animation = animation
           }}
           source={Images.loading}
         />
-      </AppBackGround>
+      </AppBackground>
     )
   }
 }

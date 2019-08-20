@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/react-native"
 import * as React from "react"
-import { Story, StoryScreen, UseCase } from "../../../Habit/storybook/views"
+import { Story, StoryScreen, UseCase } from "../../../storybook/views"
 import { Icon } from "./icon"
 
 declare var module

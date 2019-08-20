@@ -85,5 +85,34 @@
   "myNotes": "My notes",
   "nameIconTimer": "Name, icon",
   "schedule": "Schedule",
-  "resetOrDelete": "Delete"
+  "resetOrDelete": "Delete",
+
+  "common": {
+    "ok": "OK!",
+    "cancel": "Cancel",
+    "back": "Back"
+  },
+  "title": {
+    "login": "Login",
+    "signUp": "Sign Up"
+  },
+  "auth": {
+    "email": "Email",
+    "userName": "Username",
+    "password": "Password",
+    "confirmPassword": "Confirm password"
+  },
+  "errors": {
+    "invalidEmail": "Invalid email address.",
+    "invalidEmailFormat": "A valid email can only contain latin letters, numbers, '@' and '.'.",
+    "emailRequired": "An email address is required.",
+    "userNameRequired": "A user name is required.",
+    "passwordRequired": "A password is required.",
+    "passwordMinLength": "A secure password must be at least 5 characters long.",
+    "passwordsNotMatch": "Your passwords are not the same!",
+    "yourFieldsIsEmpty": "You have an empty field!"
+  },
+  "message": {
+    "loginSuccess": "Login success, we'll navigate soon!"
+  }
 }

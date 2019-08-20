@@ -1,4 +1,4 @@
-import AppBackGround from './AppBackground'
+import AppBackground from './app-background/AppBackground'
 import AppHeader from './AppHeader'
 import AppImageHeader from './AppImageHeader'
 import AppLoading from './AppLoading'
@@ -11,11 +11,15 @@ export * from './Button'
 export * from './AppButton'
 export * from './Text'
 export * from './form'
+export * from './icon'
+export * from './SizeBox'
+export * from './WrappedSpacingComponent'
+export * from './app-background'
 
 export {
   Partials,
   AlertStatus,
-  AppBackGround,
+  AppBackground,
   RowView,
   AppHeader,
   CardContainer,
@@ -27,7 +31,6 @@ export {
 export default {
   Partials,
   AlertStatus,
-  AppBackGround,
   AppHeader,
   RowView,
   CardContainer,

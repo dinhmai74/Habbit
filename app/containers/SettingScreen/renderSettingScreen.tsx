@@ -3,7 +3,7 @@
 import { Content } from 'native-base'
 import React, { Component } from 'react'
 
-import AppBackground from '../../components/AppBackground'
+import {AppBackground} from '../../components'
 import AppImageHeader from '../../components/AppImageHeader'
 import I18n from '../../localization'
 import { Images, strings } from '../../themes'

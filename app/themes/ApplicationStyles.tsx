@@ -2,6 +2,7 @@ import { Platform } from 'react-native'
 import Colors from './Colors'
 import Fonts from './Fonts'
 import Metrics from './Metrics'
+import { spacing } from './spacing';
 
 // This file is for a reusable grouping of Theme items.
 // Similar to an XML fragment layout in Android
@@ -122,7 +123,7 @@ const ApplicationStyles = {
     card: {
       borderRadius: 5,
       backgroundColor: Colors.white,
-      padding: Metrics.buttonPadding,
+      padding: spacing[5],
     },
     onePageCard: {
       borderRadius: 10,

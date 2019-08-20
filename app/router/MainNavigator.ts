@@ -26,8 +26,8 @@ import CreateHabitNavigator from './CreateHabitNavigator'
 import EditNameIconScreen from '../containers/EditNameIcon/EditNameIconScreen'
 
 const transitionConfig = () => ({
-  transitionSpec: transitionSpec,
-  screenInterpolator: sceneProps => {
+  transitionSpec,
+  screenInterpolator: (sceneProps) => {
     return getScreenInterpolator(sceneProps)
   },
   containerStyle: {
@@ -35,24 +35,24 @@ const transitionConfig = () => ({
   },
 })
 
-const MainNavigator = createStackNavigator(
-  {
-    home: HomeScreen,
-    setting: SettingScreen,
-    lifeLog: LifeLogScreen,
-    createHabit: CreateHabitNavigator,
-    detailTask: DetailTaskScreen,
-    editSchedule: AddScheduleScreen,
+const RouteConfigs = {
+  home: HomeScreen,
+  setting: SettingScreen,
+  lifeLog: LifeLogScreen,
+  createHabit: CreateHabitNavigator,
+  detailTask: DetailTaskScreen,
+  editSchedule: AddScheduleScreen,
+}
+
+const MainNavigator = createStackNavigator(RouteConfigs, {
+  initialRouteName: strings.routeHome,
+  headerMode: 'none',
+  navigationOptions: {
+    gesturesEnabled: false,
   },
-  {
-    initialRouteName: strings.routeHome,
-    headerMode: 'none',
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-    lazy: true,
-    transitionConfig,
-  }
-)
+  transitionConfig,
+})
+
+export type MainRouteName = keyof typeof RouteConfigs
 
 export default MainNavigator
