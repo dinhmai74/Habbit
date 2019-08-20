@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Habbit</string>
+    <string name="facebook_app_id">265043814427464</string>
+    <string name="fb_login_protocol_scheme">fb265043814427464</string>
+</resources>

@@ -1,0 +1,165 @@
+{
+  "icon": [
+    {
+      "name": "alarm",
+      "color": "#599105"
+    },
+    {
+      "name": "mail",
+      "color": "#F6046B"
+    },
+    {
+      "name": "favorite",
+      "color": "#D33A41"
+    },
+    {
+      "name": "book",
+      "color": "#CB8DD8"
+    },
+    {
+      "name": "create",
+      "color": "#1D9EAB"
+    },
+    {
+      "name": "chat",
+      "color": "#7B3D55"
+    },
+    {
+      "name": "computer",
+      "color": "#35E74D"
+    },
+    {
+      "name": "games",
+      "color": "#D759C8"
+    },
+    {
+      "name": "dialpad",
+      "color": "#5D1F12"
+    },
+    {
+      "name": "home",
+      "color": "#FD2AC9"
+    },
+    {
+      "name": "history",
+      "color": "#409803"
+    },
+    {
+      "name": "keyboard",
+      "color": "#37913B"
+    },
+    {
+      "name": "language",
+      "color": "#80E8D8"
+    },
+    {
+      "name": "phone",
+      "color": "#D84192"
+    },
+    {
+      "name": "photo",
+      "color": "#2D9AB4"
+    },
+    {
+      "name": "backspace",
+      "color": "#33F1B4"
+    },
+    {
+      "name": "settings",
+      "color": "#267B17"
+    },
+    {
+      "name": "star",
+      "color": "#2C2E62"
+    },
+    {
+      "name": "sync",
+      "color": "#824DED"
+    },
+    {
+      "name": "today",
+      "color": "#185995"
+    },
+    {
+      "name": "undo",
+      "color": "#476ACB"
+    },
+    {
+      "name": "work",
+      "color": "#BAA47A"
+    },
+    {
+      "name": "style",
+      "color": "#5F9C38"
+    },
+    {
+      "name": "stars",
+      "color": "#459E18"
+    },
+    {
+      "name": "repeat",
+      "color": "#0592A5"
+    },
+    {
+      "name": "mouse",
+      "color": "#48BD1C"
+    },
+    {
+      "name": "nature",
+      "color": "#70CD39"
+    },
+    {
+      "name": "warning",
+      "color": "#D79585"
+    },
+    {
+      "name": "visibility",
+      "color": "#C19BB2"
+    },
+    {
+      "name": "toys",
+      "color": "#4867EF"
+    },
+    {
+      "name": "smartphone",
+      "color": "#406B45"
+    },
+    {
+      "name": "shop",
+      "color": "#4E1B48"
+    },
+    {
+      "name": "router",
+      "color": "#C60FB4"
+    },
+    {
+      "name": "room",
+      "color": "#2219B3"
+    },
+    {
+      "name": "public",
+      "color": "#427F6D"
+    },
+    {
+      "name": "poll",
+      "color": "#A0B5CB"
+    },
+    {
+      "name": "memory",
+      "color": "#B0D9D0"
+    },
+    {
+      "name": "folder",
+      "color": "#478C4C"
+    },
+    {
+      "name": "error",
+      "color": "#5212F4"
+    },
+    {
+      "name": "done",
+      "color": "#1A4D94"
+    }
+  ],
+  "color": ["#B0EED0", "#3A0EE3", "#9432A5", "#A5A0D5", "#61E519", "#3295AC"]
+}

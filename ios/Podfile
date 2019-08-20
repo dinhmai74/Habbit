@@ -1,0 +1,43 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.0'
+
+target 'Habbit' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for Habbit
+  pod 'Firebase'
+  pod 'Firebase/Core', '~> 5.15.0'
+  pod 'Firebase/Auth', '~> 5.15.0'
+  pod 'Firebase/Database', '~> 5.15.0'
+
+  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
+  pod 'lottie-ios', :path => '../node_modules/lottie-ios'
+  pod 'React', :path => '../node_modules/react-native'
+pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+pod 'GoogleSignIn', '~> 4.4.0'
+  pod 'RNGoogleSignin', :path => '../node_modules/react-native-google-signin'
+pod 'FBSDKLoginKit'
+pod 'FBSDKCoreKit'
+  pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+
+  target 'HabbitTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'Habbit-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for Habbit-tvOS
+
+  target 'Habbit-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

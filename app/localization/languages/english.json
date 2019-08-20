@@ -1,0 +1,89 @@
+{
+  "increase": "Increase",
+  "decrease": "Decrease",
+  "reset": "Reset",
+  "openIpAddressScreen": "Open IP Address Screen",
+  /** title */
+  //  Auth
+  "titleMainAuth": "Habit",
+  "titleSubMainAuth": "Make your life better!",
+  // Main
+  "titleHomeScreen": "Productive",
+  "titleLifeLog": "Life log",
+  "titleSetting": "Settings",
+  "titleAddDetailHabit": "Add habit",
+  "titleAddSchedule": "Schedule",
+  // setting
+  "titleInstructions": "Instructions",
+  "titleProfile": "Profile",
+  /** text */
+  // Main Auth
+  "textAlreadyHaveAnAccount": "already have an account",
+  "textDontHaveAnAccount": "don't have an account ",
+  // sign up
+  "textUsername": "user name",
+  "textEmail": "email",
+  "textPassword": "password",
+  "textPasswordRepeated": "confirm password",
+  "or": "Or connect with",
+  // home
+  "textNothingHere": "no habits were due on..",
+  "textPullToAdd": "nothing left here ",
+  "textRelease": "release",
+  "textWriteYourOwn": "write your own",
+  "textOrChooseFromTheseTopic": "or chose from these topic",
+  "textSignUp": "sign up",
+  "textLogin": "login",
+  // add habit
+  "textNameOfHabit": "name of habit",
+  "textTimeDuration": "time duration",
+  "textEveryday": "everyday",
+  "textIWillDoIt": "I will do it",
+  "textOnceOfAnyTime": "once at any time",
+  "textIWantRepeat": "I want to repeat this habit",
+  "textOnTheseDay": "on these days",
+  // setting
+  "textLogout": "logout",
+  "textProfileSetting": "profile settings",
+  "textGeneral": "general",
+  "textHelp": "help",
+  "textSwipeRightForDone": "swipe right for done",
+  "textSwipeLeftToSkip": "swipe left to skip",
+  "textOkIUnderStand": "OK, I understand",
+  "textPullToRefresh": "Pull down to refresh",
+  "textTapForDetail": "Tap for details",
+  "textUpdateSuccess": "Update success!",
+  "textOldPassword": "Old password",
+  // common
+  "textDone": "done",
+  "textSkip": "skip",
+  "textNext": "next",
+  "textOk": "ok",
+  "textCancel": "cancel",
+  "textEditScheduleSuccess": "Edit schedule success!",
+  /* Error */
+  "errMessUnmatchedPassword": "Your passwords don’t match",
+  "errEditScheduleFailed": "Edit schedule failed!",
+  "errMessYourUserNameIsEmpty": "Your user name is empty",
+  "errMessYourPasswordIsEmpty": "Your password is empty",
+  "errMessYourEmailIsEmpty": "Your email is empty",
+  "errMessYourLoginDetailsWereIncorrect": "Your login details were incorrect",
+  "errMessYouMustSignIn": "You must sign in",
+  "errMessInternetProblems": "Internet problems!",
+  "errMessYourHabitQuestIsEmpty": "Your habit quest is empty!",
+  "errMessPleaseChoseYourIcon": "Please choose your icon!",
+  "errGoogleLoginByPlayService": "Please make sure your device has Google Play Service",
+  "errGoogleLogin": "Something went wrong, please try again.",
+  /* Line Log*/
+  "totalPerfectDays": "Total perfect days",
+  "yourCurrentSteak": "Your current steak",
+  "yourBestSteak": "Your best streak",
+  "totalHabitDone": "Total Habit Done",
+  "averagePerDay": "Average per day",
+  "howLifeLogWorks": "How life log works",
+  /* Edit Task Line*/
+  "myNotes": "My notes",
+  "nameIconTimer": "Name, icon",
+  "schedule": "Schedule",
+  "resetOrDelete": "Delete"
+}
