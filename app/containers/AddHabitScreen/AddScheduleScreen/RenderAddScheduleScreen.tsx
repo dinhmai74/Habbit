@@ -4,7 +4,7 @@ import { Content, H3, Image, Spinner, Text } from 'native-base'
 import React, { Component } from 'react'
 import { LayoutAnimation, UIManager } from 'react-native'
 
-import { AppBackGround, AppHeader, CardContainer } from '../../../components'
+import { AppBackground, AppHeader, CardContainer, IconTypes } from '../../../components'
 import AppLoading from '../../../components/AppLoading'
 import I18n from '../../../localization'
 import { TimeShift, TypeSchedule } from '../../../model'
@@ -16,15 +16,16 @@ import styles from './styles'
 interface State {
   loading: boolean,
 }
+
 interface Props {
   onSubmit: (value: any, callback?: () => void) => void,
   onChangeType: () => void,
   typeButtons: TypeSchedule[],
   onTheseDays: any[],
   summaryOnTheseDaysText: string | null | undefined,
-  timesSelected: number[]| null,
-  shiftSelected: number[]| null,
-  selectedType: number| null,
+  timesSelected: number[] | null,
+  shiftSelected: number[] | null,
+  selectedType: number | null,
   shiftButtons: TimeShift[],
   fetching: boolean,
   edit: boolean,
@@ -50,13 +51,13 @@ export default class RenderAddScheduleScreen extends Component<Props, State> {
   componentWillUpdate() {
     // tslint:disable-next-line: no-unused-expression
     UIManager.setLayoutAnimationEnabledExperimental &&
-      UIManager.setLayoutAnimationEnabledExperimental(true)
+    UIManager.setLayoutAnimationEnabledExperimental(true)
     LayoutAnimation.easeInEaseOut()
   }
 
   rightTitleOnPress = () => {
     const values = this.getAllValue()
-    this.props.onSubmit(values);
+    this.props.onSubmit(values)
   }
 
   getAllValue = () => {
@@ -72,13 +73,17 @@ export default class RenderAddScheduleScreen extends Component<Props, State> {
       if (indexes[0] === -1) {
         if (habitSchedule.type === 'daily' || habitSchedule.type === 'weekly') {
           indexes = [0, 1, 2, 3, 4, 5, 6]
-        } else if (habitSchedule.type === 'monthly') { indexes = [0, 1, 2, 3] }
+        } else if (habitSchedule.type === 'monthly') {
+          indexes = [0, 1, 2, 3]
+        }
       }
       habitSchedule.times = indexes
     }
     if (this.refShift) {
       let indexes = this.refShift.getSelectedIndex()
-      if (indexes[0] === -1) { indexes = [0, 1, 2] }
+      if (indexes[0] === -1) {
+        indexes = [0, 1, 2]
+      }
       habitSchedule.shift = indexes
     }
 
@@ -87,7 +92,9 @@ export default class RenderAddScheduleScreen extends Component<Props, State> {
 
   renderRightHeader = () => {
     const { loading } = this.state
-    if (loading) { return <Spinner /> }
+    if (loading) {
+      return <Spinner/>
+    }
     return (
       <Text style={styles.buttonText} onPress={this.rightTitleOnPress}>
         {capitalize(I18n.t(strings.textDone))}
@@ -108,19 +115,20 @@ export default class RenderAddScheduleScreen extends Component<Props, State> {
       shiftSelected,
     } = this.props
 
-    const leftIcon = edit ? Images.iconClose : Images.iconLeftArrow
+    const leftIcon: IconTypes = edit ? 'close' : 'back'
     return (
-      <AppBackGround isLinear>
+      <AppBackground isLinear>
 
         {
           // @ts-ignore
-          fetching ? <AppLoading fetching={fetching} /> : null
+          fetching ? <AppLoading fetching={fetching}/> : null
         }
         <AppHeader
           leftIcon={leftIcon}
-          title={I18n.t(strings.titleAddSchedule)}
-          style={{ marginBottom: 0 }}
-          rightComponent={this.renderRightHeader()}
+          headerText={I18n.t(strings.titleAddSchedule)}
+          color={Colors.white}
+          type={'transparent'}
+          rightIcon={this.renderRightHeader()}
         />
         <CardContainer>
           <Content style={styles.container}>
@@ -154,7 +162,7 @@ export default class RenderAddScheduleScreen extends Component<Props, State> {
             />
           </Content>
         </CardContainer>
-      </AppBackGround>
+      </AppBackground>
     )
   }
 }

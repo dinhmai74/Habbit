@@ -1,6 +1,5 @@
 import React, { Component, } from "react"
 import {
-  Text,
   View,
   TouchableOpacity,
   StyleSheet,
@@ -9,10 +8,11 @@ import {
 import { Icon, } from "react-native-elements"
 import { Metrics, Colors, Fonts, strings, } from "../../themes"
 import {
-  AppBackGround,
-  AppHeader,
+  AppBackground,
+  AppHeader, Icon as AppIcon,
   InlineDecorationText,
-} from "../../components"
+  Text
+} from '../../components'
 import images from "../../themes/Images"
 
 const data = [
@@ -69,7 +69,7 @@ export default class HobbiesScreen extends Component {
             color={item.item.color}
             size={40}
           />
-          <Text style={[styles.text, { alignSelf: "center", paddingLeft: 20, },]}>
+          <Text  style={[styles.text, { alignSelf: "center", paddingLeft: 20, },]}>
             {item.item.content}
           </Text>
         </View>
@@ -77,14 +77,23 @@ export default class HobbiesScreen extends Component {
     )
   }
 
+  renderLeftIcon = () => (
+    <TouchableOpacity onPress={this.props.goBack}>
+      <AppIcon icon={"back"} color={Colors.white} />
+    </TouchableOpacity>
+  )
+
   render() {
+    const leftIcon=this.renderLeftIcon()
     return (
-      <AppBackGround isLinear>
+      <AppBackground isLinear>
         <AppHeader
-          style={{ paddingBottom: 10, }}
-          leftIcon={images.iconLeftArrow}
-          title='Hobbies'
+          leftIcon={"back"}
+          headerTx={"title.hobbies"}
+          type={"transparent"}
+          color={Colors.white}
         />
+
         <View style={styles.contentContainer}>
           <Icon
             containerStyle={{
@@ -108,7 +117,7 @@ export default class HobbiesScreen extends Component {
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
-      </AppBackGround>
+      </AppBackground>
     )
   }
 }

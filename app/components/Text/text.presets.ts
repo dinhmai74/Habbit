@@ -1,11 +1,12 @@
 import { TextStyle } from 'react-native'
 import { Colors, Fonts } from '../../themes'
+import { Col } from 'native-base'
 
 /**
  * All text will start off looking like this.
  */
 const BASE: TextStyle = {
-  color: Colors.text.primary,
+  color: Colors.text.text,
   ...Fonts.style.normal,
 }
 
@@ -41,6 +42,10 @@ export const presets = {
   } as TextStyle,
 
   subtitle: { ...BASE, fontSize: 14, textAlign: 'center' } as TextStyle,
+
+  cardTitle: { ...BASE, fontSize: 18, color: Colors.dim } as TextStyle,
+
+  bigContent: { ...BASE, fontSize: 40, color: Colors.primary } as TextStyle,
 
   /**
    * Field labels that appear on forms above the inputs.

@@ -8,16 +8,17 @@ import {
 } from 'react-native'
 import { Icon } from 'react-native-elements'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import { InlineDecorationText, AppBackground } from '../../components'
-import AppHeader from '../../components/AppHeader'
+import { InlineDecorationText, AppBackground , AppHeader, Icon as AppIcon} from '../../components'
 import TextWithIcon from '../../components/TextWithIcon'
 import I18n from '../../localization'
 import { Colors, Images, strings } from '../../themes'
 import styles from './styles'
+import { Content } from 'native-base'
+import NavigateService from '../../tools/NavigateService'
 
-const starIcon = <FontAwesome name='star' size={30} color={Colors.yellow} />
+const starIcon = <FontAwesome name='star' size={30} color={Colors.yellow}/>
 const rightArrowIcon = (
-  <FontAwesome name='chevron-right' size={30} color={Colors.ember} />
+  <FontAwesome name='chevron-right' size={30} color={Colors.ember}/>
 )
 
 const SWIPE_THRESHOLD = 100
@@ -62,8 +63,8 @@ const data = [
 ]
 
 export default class RenderHabitScreen extends Component<IProps> {
-  static defaultProps: any;
-  panResponder: any;
+  static defaultProps: any
+  panResponder: any
 
   constructor(props: IProps) {
     super(props)
@@ -71,43 +72,55 @@ export default class RenderHabitScreen extends Component<IProps> {
       onStartShouldSetPanResponder: () => true,
       onPanResponderRelease: (event, gesture) => {
         if (gesture.vy < 0 && gesture.dy < -SWIPE_THRESHOLD) {
-          if (this.props.goBack ) { this.props.goBack() }
+          if (this.props.goBack) {
+            this.props.goBack()
+          }
         }
       },
     })
   }
 
   onWriteYourOwnPress = () => {
-    if (this.props.goToAddDetailScreen) { this.props.goToAddDetailScreen() }
+    if (this.props.goToAddDetailScreen) {
+      this.props.goToAddDetailScreen()
+    }
   }
 
   renderFlatListTopicItem = () => {
-    return <View />
+    return <View/>
   }
 
-  renderListIcon = ({item}: {item: {icon: string, color: string, name: string }} ) => {
-      return (<TouchableOpacity onPress={this.props.goToHobbiesScreen}>
-        <View style={{ paddingLeft: 40, paddingRight: 40 }}>
-          <View style={{ width: 70 }}>
-            <Icon containerStyle={{
-              paddingBottom: 10,
-              paddingTop: 10,
-            }} type='MaterialCommunityIcons' name={item.icon} color={item.color} size={50} />
-            <Text style={{ textAlign: 'center' }}>{item.name}</Text>
-          </View>
+  renderListIcon = ({ item }: { item: { icon: string, color: string, name: string } }) => {
+    return (<TouchableOpacity onPress={this.props.goToHobbiesScreen}>
+      <View style={{ paddingLeft: 40, paddingRight: 40 }}>
+        <View style={{ width: 70 }}>
+          <Icon containerStyle={{
+            paddingBottom: 10,
+            paddingTop: 10,
+          }} type='MaterialCommunityIcons' name={item.icon} color={item.color} size={50}/>
+          <Text style={{ textAlign: 'center' }}>{item.name}</Text>
         </View>
-      </TouchableOpacity>);
-    }
+      </View>
+    </TouchableOpacity>)
+  }
+
+  renderLeftIcon = () => (
+    <TouchableOpacity onPress={this.props.goBack}>
+      <AppIcon icon={"close"} color={Colors.white} />
+    </TouchableOpacity>
+  )
 
   render() {
+    const leftIcon = this.renderLeftIcon()
     return (
       <AppBackground {...this.panResponder.panHandlers} isLinear>
-        <AppHeader
-          style={styles.appHeader}
-          leftIcon={Images.iconClose}
-          title=''
-        />
-        <View style={styles.contentContainer}>
+          <AppHeader
+            style={styles.appHeader}
+            leftIcon={leftIcon}
+            type={'transparent'}
+          />
+        <Content scrollEnabled={false}  >
+          <View style={styles.contentContainer}>
           <TextWithIcon
             leftIcon={Images.iconEdit}
             text={I18n.t(strings.textWriteYourOwn)}
@@ -123,14 +136,18 @@ export default class RenderHabitScreen extends Component<IProps> {
             keyExtractor={(item, index) => index.toString()}
             numColumns={2}
           />
-        </View>
+          </View>
+        </Content>
       </AppBackground>
     )
   }
 }
 
 RenderHabitScreen.defaultProps = {
-    goBack: () => {},
-    goToAddDetailScreen: () => {},
-    goToHobbiesScreen: () => {} ,
+  goBack: () => {
+  },
+  goToAddDetailScreen: () => {
+  },
+  goToHobbiesScreen: () => {
+  },
 }

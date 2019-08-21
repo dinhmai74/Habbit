@@ -16,21 +16,26 @@ import {
   ToastService,
   Icon,
   withSpacing,
-  Text,
+  Text, AppHeader,
 } from '../../components'
 import I18n from '../../localization'
 import { AppBackground } from '../../components/app-background'
 import metrics from '../../themes/Metrics'
-import FirebaseWorker from '../../api/firebase';
+import FirebaseWorker from '../../api/firebase'
+import colors from '../../themes/Colors'
+import NavigateService from '../../tools/NavigateService'
 
 const StyledAppText = withSpacing(Text)
 const Content = withSpacing(NContent)
 
-export interface ILoginScreenProps {}
+export interface ILoginScreenProps {
+}
+
 interface IState {
   value: string
   email: string
   password: string
+
   [rest: string]: any
 }
 
@@ -70,7 +75,7 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
 
   handleSubmit = async (
     values: FormValues,
-    formikBag: FormikActions<FormValues>
+    formikBag: FormikActions<FormValues>,
   ) => {
     formikBag.setSubmitting(true)
     const result = await FirebaseWorker.signIn(values.email, values.password)
@@ -91,14 +96,14 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
    */
 
   renderForm({
-    values,
-    handleSubmit,
-    setFieldValue,
-    touched,
-    errors,
-    setFieldTouched,
-    isSubmitting,
-  }: FormikProps<FormValues>) {
+               values,
+               handleSubmit,
+               setFieldValue,
+               touched,
+               errors,
+               setFieldTouched,
+               isSubmitting,
+             }: FormikProps<FormValues>) {
     let errorEmail = false
     if (errors.email) {
       errorEmail = true
@@ -153,19 +158,20 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
             marginBottom={0}
           />
         )}
-        <SizedBox height={6} />
+        <SizedBox height={6}/>
         <AppButton
           tx='title.login'
           // @ts-ignore
           onPress={handleSubmit}
           disabled={isSubmitting}
           loading={isSubmitting}
+          disabledStyle={{ backgroundColor: colors.white }}
           preset='authTrans'
           marginLeft={buttonSidePadding}
           marginRight={buttonSidePadding}
-          loadingProps={{ size: 'small', color: 'white' }}
+          loadingProps={{ size: 'small', color: colors.primary}}
         />
-        <SizedBox height={4} />
+        <SizedBox height={4}/>
 
         <AppButton
           tx='title.signUp'
@@ -185,8 +191,8 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
       <AppBackground>
         <Content padding={5}>
           <Body>
-            <SizedBox height={8} />
-            <Icon icon='logoColored' size={metrics.logo.normal} />
+            <SizedBox height={8}/>
+            <Icon icon='logoColored' size={metrics.logo.normal}/>
           </Body>
           <Formik
             initialValues={{ email: 'dinhmai@gmail.com', password: 'password' }}

@@ -173,7 +173,7 @@ class DetailTaskScreen extends Component<IProps, IState> {
     return (
       <AppBackground>
         <Content>
-          <AppHeader isLinear leftIcon={Images.iconLeftArrow} title={title} />
+          <AppHeader type={"transparent"} leftIcon={"back"} title={title} />
           <Modal isVisible={this.state.isModalVisible}>
             {this.renderModal(currentStreak, bestStreak)}
           </Modal>

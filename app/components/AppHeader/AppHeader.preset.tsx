@@ -5,21 +5,23 @@ import { Icon } from '../icon'
 import { spacing } from '../../themes/spacing'
 import { Colors as color } from '../../themes'
 import { screen } from '../../themes/Metrics'
-import { presets } from '../Text/text.presets';
+import { presets } from '../Text/text.presets'
 
 // static styles
 export const ROOT: ViewStyle = {
-  paddingHorizontal: spacing[4],
+  paddingHorizontal: spacing[3],
   justifyContent: 'space-between',
 }
 export const TRANSPARENT_ROOT_STYLE: ViewStyle = {
   ...ROOT,
   paddingTop: spacing[3],
-  paddingBottom: spacing[1],
+  paddingBottom: spacing[4],
+  width: '100%',
+  alignSelf: 'flex-start',
 }
 export const NORMAL_ROOT_STYLE: ViewStyle = {
   ...ROOT,
-  paddingBottom: spacing[1],
+  paddingBottom: spacing[4],
   paddingTop: spacing[1],
 }
 

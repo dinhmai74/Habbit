@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { View, SafeAreaView } from 'react-native'
-import { Icon as ElementIcon } from 'react-native-elements'
+import { Divider, Icon as ElementIcon } from 'react-native-elements'
 import { withNavigation } from 'react-navigation'
 
-import { Button } from 'native-base'
+import { Body, Button, Left, Right } from 'native-base'
 import { SizedBox } from '../SizeBox'
 import {
   NORMAL_ROOT_STYLE,
@@ -38,10 +38,13 @@ const StylesSafeArea = {
 /**
  * Header that appears on many screens. Will hold navigation buttons and screen title.
  */
-class Header extends React.PureComponent<IHeaderProps, {}> {
+class AppHeader extends React.PureComponent<IHeaderProps, {}> {
   static defaultProps = {
     type: 'normal',
-    onRightPress: () => {},
+    leftIconFontSize: 25,
+    rightIconFontSize: 25,
+    onRightPress: () => {
+    },
   }
 
   onLeftPress = () => {
@@ -59,6 +62,7 @@ class Header extends React.PureComponent<IHeaderProps, {}> {
       height,
       middleSubtitle,
       middleTitle,
+      hasDivider
     } = this.props
     const header = headerText || (headerTx && AppI18n.t(headerTx)) || ''
     let rootStyle = TRANSPARENT_ROOT_STYLE
@@ -78,6 +82,8 @@ class Header extends React.PureComponent<IHeaderProps, {}> {
         ? [Colors.header.bg.linear.start, Colors.header.bg.linear.end]
         : ['transparent', 'transparent']
 
+    const colorTx = this.props.color && { color: this.props.color }
+
     return (
       <View style={rootStyle}>
         {/* render center title */}
@@ -90,7 +96,7 @@ class Header extends React.PureComponent<IHeaderProps, {}> {
             {this.renderLeftIcon()}
             {headerTextComponent || (
               <Text
-                style={{ ...titleTextStyle, ...titleStyle }}
+                style={[titleTextStyle, colorTx, titleStyle]}
                 text={header}
               />
             )}
@@ -99,37 +105,44 @@ class Header extends React.PureComponent<IHeaderProps, {}> {
 
           {/* subtitle is under header row (center by itself) */}
           <StyledBody>
-            {middleSubtitle && <Text text={middleSubtitle} preset='subtitle' />}
-            {middleTitle && <Text text={middleTitle} preset='header' />}
+            {middleSubtitle && <Text text={middleSubtitle} preset='subtitle'/>}
+            {middleTitle && <Text text={middleTitle} preset='header'/>}
           </StyledBody>
         </StyledNotFloatingView>
 
-        <StyledBgImg
+        {type === 'normal' && <StyledBgImg
           height={height}
           colors={bgColors}
           start={{ x: 0.5, y: 0 }}
           end={{ x: 0.5, y: 1.0 }}
           locations={[0, 0.8]}
         >
-          <StyledImage icon='headerMap' height={height} />
+          <StyledImage icon='headerMap' height={height}/>
         </StyledBgImg>
+        }
+        { hasDivider && <Divider style={{ width: '100%' }}/>}
       </View>
     )
   }
 
   renderRightIcon = () => {
-    const { rightIcon, onRightPress, type } = this.props
+    const { rightIcon, onRightPress, type, color } = this.props
     if (!rightIcon) {
-      return <View style={RIGHT} />
+      return <View style={RIGHT}/>
     }
 
     if (typeof rightIcon === 'string') {
-      const iconColor =
-        type === 'transparent' ? Colors.text.primary : palette.white
+      let iconColor
+      if (color) {
+        iconColor = color
+      } else {
+        iconColor =
+          type === 'transparent' ? Colors.text.text : palette.white
+      }
 
       return (
         <Button onPress={onRightPress} transparent>
-          <Icon icon={rightIcon} style={{ tintColor: iconColor }} />
+          <Icon icon={rightIcon} style={{ tintColor: iconColor }}/>
         </Button>
       )
     }
@@ -138,9 +151,14 @@ class Header extends React.PureComponent<IHeaderProps, {}> {
   }
 
   renderCloseIcon() {
-    const { leftIcon, type } = this.props
-    const iconColor: string =
-      type === 'transparent' ? Colors.text.primary : palette.white
+    const { leftIcon, type, color } = this.props
+    let iconColor
+    if (color) {
+      iconColor = color
+    } else {
+      iconColor =
+        type === 'transparent' ? Colors.text.text : palette.white
+    }
     if (leftIcon === 'close') {
       return (
         <ElementIcon
@@ -162,12 +180,18 @@ class Header extends React.PureComponent<IHeaderProps, {}> {
   }
 
   renderLeftIcon = () => {
-    const { leftIcon, type, leftIconFontFamily, leftIconFontSize } = this.props
+    const { leftIcon, type, leftIconFontFamily, leftIconFontSize, color } = this.props
 
     if (!leftIcon) {
       return null
     }
-    const iconColor = type === 'transparent' ? palette.black : palette.white
+    let iconColor
+    if (color) {
+      iconColor = color
+    } else {
+      iconColor =
+        type === 'transparent' ? Colors.text.text : palette.white
+    }
 
     const size = leftIconFontSize || 16
 
@@ -177,13 +201,13 @@ class Header extends React.PureComponent<IHeaderProps, {}> {
         'chevron-thin-left',
         'entypo',
         size,
-        iconColor
+        iconColor,
       )
     }
 
     // not render close icon but still have space
     if (leftIcon === 'close') {
-      return <SizedBox height={5} />
+      return <SizedBox height={5}/>
     }
 
     // render left icon base on font
@@ -197,13 +221,15 @@ class Header extends React.PureComponent<IHeaderProps, {}> {
     }
 
     // return component if not a icon
-    return leftIcon
+    return <View style={{ alignSelf: 'flex-start' }}>
+      {leftIcon}
+    </View>
   }
 
   private renderLeftLocalIcon(
     leftIcon: string,
     iconColor: string,
-    size: number
+    size: number,
   ) {
     return (
       <Button
@@ -213,7 +239,7 @@ class Header extends React.PureComponent<IHeaderProps, {}> {
           alignItems: 'center',
         }}
       >
-        <Icon icon={leftIcon as IconTypes} size={size} color={iconColor} />
+        <Icon icon={leftIcon as IconTypes} size={size} color={iconColor}/>
       </Button>
     )
   }
@@ -222,7 +248,7 @@ class Header extends React.PureComponent<IHeaderProps, {}> {
     leftIcon: string | JSX.Element,
     leftIconFontFamily: string,
     size: number,
-    iconColor: string
+    iconColor: string,
   ) {
     return (
       <ElementIcon
@@ -239,4 +265,4 @@ class Header extends React.PureComponent<IHeaderProps, {}> {
 }
 
 // @ts-ignore
-export default withNavigation(Header)
+export default withNavigation(AppHeader)

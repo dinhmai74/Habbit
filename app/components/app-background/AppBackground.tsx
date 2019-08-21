@@ -81,7 +81,7 @@ export class AppBackground extends Component<IAppBackground, {}> {
     const { noImage, navigation } = this.props
     const name = navigation.state.routeName
     let bg = Colors.transparent
-    const gotBgHeader: RootRouteName[] = ['home', 'lifeLog']
+    const gotBgHeader: RootRouteName[] = ['home',]
     if (contains(name, gotBgHeader)) {
       bg = Colors.header.bg.linear.start
     }

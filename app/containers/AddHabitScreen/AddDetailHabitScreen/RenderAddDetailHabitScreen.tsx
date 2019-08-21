@@ -1,12 +1,12 @@
 // @flow
 import { Content } from 'native-base'
 import React, { Component } from 'react'
-import { FlatList, View } from 'react-native'
+import { FlatList, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-elements'
 import {
-  AppBackGround,
+  AppBackground,
   AppHeader,
-  InlineDecorationText,
+  InlineDecorationText, Text,
 } from '../../../components'
 import I18n from '../../../localization'
 
@@ -28,6 +28,7 @@ interface IState {
   colorIcon: string
   iconName: string
   createdDate: string
+
   [anotherState: string]: any
 }
 
@@ -49,7 +50,8 @@ class RenderAddDetailHabitScreen extends Component<IProps, IState> {
     }
   }
 
-  componentWillUpdate() {}
+  componentWillUpdate() {
+  }
 
   onChangeInput = (text: string, type: string): void => {
     this.setState({
@@ -126,16 +128,30 @@ class RenderAddDetailHabitScreen extends Component<IProps, IState> {
     )
   }
 
+  renderRightIcon = () => {
+    const { textHabit } = this.state
+    if (!textHabit) {
+      return null
+    }
+
+    return (
+      <TouchableOpacity onPress={this.rightTitleOnClick}>
+        <Text style={{ color: Colors.white, textTransform: "capitalize" }} tx={strings.textNext}/>
+      </TouchableOpacity>
+    )
+  }
+
   render() {
     const { textHabit } = this.state
-    const isHasValue = textHabit
+
+    const rightIcon = this.renderRightIcon()
     return (
-      <AppBackGround isLinear>
+      <AppBackground isLinear>
         <AppHeader
-          leftIcon={images.iconLeftArrow}
+          type={'transparent'}
+          leftIcon={'back'}
           title={I18n.t(strings.titleAddDetailHabit)}
-          rightTitle={isHasValue ? capitalize(I18n.t(strings.textNext)) : null}
-          rightTitleOnClick={this.rightTitleOnClick}
+          rightIcon={rightIcon}
           style={{ paddingBottom: 5 }}
         />
         <Content style={styles.contentContainer}>
@@ -170,8 +186,8 @@ class RenderAddDetailHabitScreen extends Component<IProps, IState> {
             numColumns={4}
           />
         </Content>
-        <View style={{ paddingBottom: 10, marginBottom: 25 }} />
-      </AppBackGround>
+        <View style={{ paddingBottom: 10, marginBottom: 25 }}/>
+      </AppBackground>
     )
   }
 }

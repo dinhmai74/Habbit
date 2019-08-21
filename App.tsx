@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import Reactotron from 'reactotron-react-native'
 import './app/localization/I18n'
 
-import { AsyncStorage, NativeModules, Platform } from 'react-native'
+import { AsyncStorage, NativeModules, Platform, YellowBox } from 'react-native'
 import firebase from 'react-native-firebase'
 import RootNavigator from './app/router/RootNavigator'
 import store from './app/store'
@@ -17,6 +17,11 @@ import NavigateService from './app/tools/NavigateService'
 // if (__DEV__) {
 //   NativeModules.DevSettings.setIsDebuggingRemotely(true)
 // }
+YellowBox.ignoreWarnings([
+  'componentWillMount is deprecated',
+  'componentWillReceiveProps is deprecated',
+  'Cannot update during an existing state',
+])
 
 class App extends Component {
   async componentDidMount() {

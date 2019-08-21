@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native'
 import { ApplicationStyles, Colors, Fonts } from '../../themes'
 import metrics from '../../themes/Metrics'
+import { spacing } from '../../themes/spacing'
 
 export default StyleSheet.create({
   container: {},
@@ -8,6 +9,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     backgroundColor: Colors.lightGray,
     margin: metrics.sidesPadding,
+    marginBottom: spacing[8]
   },
   text: {
     textAlign: 'center',

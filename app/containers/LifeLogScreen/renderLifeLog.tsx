@@ -1,21 +1,11 @@
 import LottieView from 'lottie-react-native'
-import { Spinner, Text as NativebaseText } from 'native-base'
+import { Card as NBCard, CardItem, Row, Spinner, Text as NativebaseText } from 'native-base'
 import React, { Component } from 'react'
 import {
   Animated,
-  Dimensions,
-  Easing,
-  NativeScrollEvent,
-  RefreshControl,
-  ScrollResponderEvent,
-  ScrollView,
-  ScrollViewProps,
   StyleSheet,
-  Text,
-  TextInput,
   TouchableOpacity,
   View,
-  Alert,
 } from 'react-native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
@@ -24,28 +14,35 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 import moment from 'moment'
 import Modal from 'react-native-modal'
-import { AppLoading , AppBackground} from '../../components'
-import AppHeader from '../../components/AppHeader'
+import { AppLoading, AppBackground, Text, withSpacing, AppHeader, BorderCard, SizedBox } from '../../components'
 import CalendarsHabit from '../../components/Calendar/CalendarHabit'
 import LineLog from '../../components/LineLog/LineLog'
 // @ts-ignore
 import PullToRefreshListView from '../../components/PullToRefreshView'
 import I18n from '../../localization'
 import { Colors, Fonts, Images, Metrics, strings } from '../../themes'
+import { spacing } from '../../themes/spacing'
+import styled from 'styled-components'
 
-const checkIcon = <FontAwesome5 name='check' size={30} color={Colors.green} />
-const starIcon = <FontAwesome name='star' size={30} color={Colors.yellow} />
+const checkIcon = <FontAwesome5 name='check' size={30} color={Colors.green}/>
+const starIcon = <FontAwesome name='star' size={30} color={Colors.yellow}/>
 const trophyIcon = (
-  <Ionicons name='md-trophy' size={30} color={Colors.bloodOrange} />
+  <Ionicons name='md-trophy' size={30} color={Colors.bloodOrange}/>
 )
 const thLarge = (
-  <FontAwesome name='th-large' size={30} color={Colors.lightRed} />
+  <FontAwesome name='th-large' size={30} color={Colors.lightRed}/>
 )
 const infoCircle = (
-  <FontAwesome5 name='info-circle' size={30} color={Colors.blue} />
+  <FontAwesome5 name='info-circle' size={30} color={Colors.blue}/>
 )
 
 const MIN_PULLDOWN_DISTANCE = -140
+
+const StyledRow = styled(Row)`
+   flex-direction: row;
+   padding: ${spacing[2]}px ${spacing[5]}px; 
+   background: ${Colors.white};
+`
 
 export interface ILifeLogDetail {
   totalDone: number
@@ -78,7 +75,8 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       perfectDates: 0,
       streaks: 0,
     },
-    handleRefresh: () => {},
+    handleRefresh: () => {
+    },
   }
 
   state = {
@@ -191,54 +189,43 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
     ])
 
     return (
-      <AppBackground>
+      <AppBackground noImage>
         <AppHeader
-          leftIcon={Images.iconLeftArrow}
-          title={I18n.t(strings.titleLifeLog)}
-          isLinear
+          leftIcon={'back'}
+          headerTx={strings.titleLifeLog}
+          type={'transparent'}
+          hasDivider
         />
         <Modal isVisible={this.state.isModalVisible}>
           {this.renderModal()}
         </Modal>
 
         <PullToRefreshListView onRefresh={this.onRefresh} isRefreshing={fetching}>
-            <CalendarsHabit
-              someDoneDates={someDoneDates}
-              perfectDates={perfectDates}
-              isLifeLog
-              handleRefresh={this.props.handleRefresh}
-              minDate={this.props.minDate}
-              isCalendarLife
-              ref={(ref) => (this.calendarRef = ref)}
-            />
-            <View style={{ flex: 1 }}>
-              <LineLog
-                icon={checkIcon}
-                content={I18n.t(strings.totalPerfectDays)}
-                value={totalPerfectDays}
-              />
-              <LineLog
-                icon={starIcon}
-                content={I18n.t(strings.yourCurrentSteak)}
-                value={currentStreak}
-              />
-              <LineLog
-                icon={trophyIcon}
-                content={I18n.t(strings.yourBestSteak)}
-                value={bestStreak}
-              />
-              <LineLog
-                icon={checkIcon}
-                content={I18n.t(strings.totalHabitDone)}
-                value={totalDone}
-              />
-              <TouchableOpacity onPress={this._toggleModal}>
-                <LineLog
-                  icon={infoCircle}
-                  content={I18n.t(strings.howLifeLogWorks)}
-                />
-              </TouchableOpacity>
-            </View>
+
+          <StyledRow>
+            <BorderCard style={{ alignItems: 'center', flex: 1 }}>
+              <Text tx={'lifeLog.currentStreaks'} preset={'cardTitle'}/>
+              <SizedBox height={2}/>
+              <Text text={'3'} preset={'bigContent'}/>
+            </BorderCard>
+
+            <SizedBox width={4}/>
+            <BorderCard style={{ alignItems: 'center', flex: 1 }}>
+              <Text text={'3/7'} preset={'bigContent'}/>
+              <SizedBox height={2}/>
+              <Text tx={'lifeLog.inThisWeeks'} preset={'cardTitle'}/>
+            </BorderCard>
+          </StyledRow>
+
+          <CalendarsHabit
+            someDoneDates={someDoneDates}
+            perfectDates={perfectDates}
+            isLifeLog
+            handleRefresh={this.props.handleRefresh}
+            minDate={this.props.minDate}
+            isCalendarLife
+            ref={(ref) => (this.calendarRef = ref)}
+          />
         </PullToRefreshListView>
       </AppBackground>
     )

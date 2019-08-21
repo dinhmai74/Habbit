@@ -39,7 +39,7 @@ const colors = {
   fire: '#e73536',
   drawer: 'rgba(30, 30, 29, 0.95)',
   eggplant: '#251a34',
-  border: '#483F53',
+  border: palette.offWhite,
   banner: '#5F3E63',
   inActiveText: '#c3c3c3',
 
@@ -49,8 +49,8 @@ const colors = {
   lightGreen: '#7CFC00',
   green: '#2FE57C',
   redButton: '#BC464C',
-  red: '#CD373F',
-  white: '#FFFFFF',
+  red: palette.red,
+  white: palette.white,
   yellow: '#f1c40f',
   black: '#000000',
   darkGray: '#3F4040',
@@ -61,7 +61,7 @@ const colors = {
   btnMarkedDisabled: '#808080',
   inActive: '#808080',
   line: '#dddddd',
-  divider: '#cccccc',
+  divider: palette.lighterGrey,
   lightRed: '#e74c3c',
   blue: '#0fbcf9',
 

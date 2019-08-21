@@ -3,7 +3,7 @@ export const palette = {
   white: '#ffffff',
   darkWhite: '#eeeeee',
   dimWhite: 'rgba(242,244,253,1)',
-  offWhite: '#e6e6e6',
+  offWhite: '#e0e0e0',
   orange: '#FBA928',
   orangeDarker: '#EB9918',
   grey: '#f1f1f1',

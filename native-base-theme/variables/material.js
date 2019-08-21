@@ -3,7 +3,7 @@
 import color from 'color'
 
 import { Platform, Dimensions, PixelRatio } from 'react-native'
-import { Fonts, Colors, Metrics } from '../../app/themes'
+import { Fonts, Colors, Metrics, palette } from '../../app/themes'
 
 const deviceHeight = Dimensions.get('window').height
 const deviceWidth = Dimensions.get('window').width
@@ -89,7 +89,7 @@ export default {
 
   // Card
   cardDefaultBg: '#fff',
-  cardBorderColor: '#ccc',
+  cardBorderColor: palette.offWhite,
   cardBorderRadius: 2,
   cardItemPadding: platform === 'ios' ? 10 : 12,
 
@@ -202,8 +202,8 @@ export default {
 
   // List
   listBg: 'transparent',
-  listBorderColor: '#c9c9c9',
-  listDividerBg: '#f4f4f4',
+  listBorderColor: palette.offWhite,
+  listDividerBg: Colors.divider,
   listBtnUnderlayColor: '#DDD',
   listItemPadding: 12,
   listNoteColor: '#808080',

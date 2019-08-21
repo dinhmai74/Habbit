@@ -225,6 +225,7 @@ export default class HomeRender extends Component<Props, State> {
         <AppHeader
           onLayout={this.onHeaderLayout}
           leftIcon={'history'}
+          leftIconFontSize={25}
           onLeftPress={this.props.leftIconOnClick}
           headerTx={strings.titleHomeScreen}
           rightIcon={'setting'}

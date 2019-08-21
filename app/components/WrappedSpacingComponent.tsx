@@ -32,6 +32,8 @@ export interface IMargin {
   marginRight?: Spacing
   marginBottom?: Spacing
   marginTop?: Spacing
+  marginHorizontal?: Spacing
+  marginVertical?: Spacing
 }
 
 export interface IPadding {
@@ -40,9 +42,12 @@ export interface IPadding {
   paddingLeft?: Spacing
   paddingTop?: Spacing
   paddingBottom?: Spacing
+  paddingHorizontal?: Spacing
+  paddingVertical?: Spacing
 }
 
-interface IWithSpacing extends IMargin, IPadding {}
+interface IWithSpacing extends IMargin, IPadding {
+}
 
 export const withSpacing = <P extends object>(
   Component: React.ComponentType<P>,
@@ -55,11 +60,15 @@ export const withSpacing = <P extends object>(
         paddingTop,
         paddingBottom,
         paddingLeft,
+        paddingVertical,
+        paddingHorizontal,
         marginAll,
         marginLeft,
         marginRight,
         marginBottom,
-        marginTop
+        marginTop,
+        marginVertical,
+        marginHorizontal
 
       const {
         margin: m,
@@ -67,6 +76,8 @@ export const withSpacing = <P extends object>(
         marginLeft: ml,
         marginRight: mr,
         marginTop: mt,
+        marginHorizontal: mh,
+        marginVertical: mv,
       } = this.props
       // @ts-ignore
       marginAll = spacing[m]
@@ -78,6 +89,10 @@ export const withSpacing = <P extends object>(
       marginRight = spacing[mr]
       // @ts-ignore
       marginBottom = spacing[mb]
+      // @ts-ignore
+      marginHorizontal = spacing[mh]
+      // @ts-ignore
+      marginVertical = spacing[mv]
 
       const {
         padding: p,
@@ -85,6 +100,8 @@ export const withSpacing = <P extends object>(
         paddingLeft: pl,
         paddingRight: pr,
         paddingTop: pt,
+        paddingVertical: pv,
+        paddingHorizontal: ph,
       } = this.props
 
       // @ts-ignore
@@ -98,16 +115,25 @@ export const withSpacing = <P extends object>(
       // @ts-ignore
       paddingBottom = spacing[pb]
       // @ts-ignore
+      paddingVertical = spacing[pv]
+      // @ts-ignore
+      paddingHorizontal = spacing[ph]
+
+      // @ts-ignore
       const { children, style: styleOverride, ...rest } = this.props
       const style = mergeAll(
         flatten([
           {
             padding: paddingAll,
+            paddingVertical,
+            paddingHorizontal,
             paddingRight,
             paddingTop,
             paddingBottom,
             paddingLeft,
             margin: marginAll,
+            marginHorizontal,
+            marginVertical,
             marginLeft,
             marginRight,
             marginBottom,

@@ -94,7 +94,8 @@
   },
   "title": {
     "login": "Login",
-    "signUp": "Sign Up"
+    "signUp": "Sign Up",
+    "hobbies": "Hobbies"
   },
   "auth": {
     "email": "Email",
@@ -114,5 +115,9 @@
   },
   "message": {
     "loginSuccess": "Login success, we'll navigate soon!"
+  },
+  "lifeLog": {
+    "currentStreaks": "Current Streaks",
+    "inThisWeeks" : "In this week"
   }
 }

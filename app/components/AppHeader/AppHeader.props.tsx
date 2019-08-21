@@ -1,7 +1,7 @@
-import { TextStyle, ViewStyle } from "react-native"
-import { IconType } from "react-native-elements"
-import { NavigationInjectedProps } from "react-navigation"
-import { IconTypes } from "../icon"
+import { TextStyle, ViewStyle } from 'react-native'
+import { IconType } from 'react-native-elements'
+import { NavigationInjectedProps } from 'react-navigation'
+import { IconTypes } from '../icon'
 
 export interface IHeaderProps extends NavigationInjectedProps {
   /**
@@ -18,7 +18,7 @@ export interface IHeaderProps extends NavigationInjectedProps {
    */
   headerTextComponent?: JSX.Element
 
-  leftIcon?: IconTypes | JSX.Element | "close"
+  leftIcon?: IconTypes | JSX.Element | 'close'
 
   leftIconFontFamily?: IconType
 
@@ -45,7 +45,7 @@ export interface IHeaderProps extends NavigationInjectedProps {
    *
    * your header type : transparent or red background
    */
-  type: "normal" | "transparent"
+  type: 'normal' | 'transparent'
 
   /**
    * middle text: the middle text appear in normal header, under title and right icon
@@ -65,6 +65,13 @@ export interface IHeaderProps extends NavigationInjectedProps {
    * the bottom border radius
    */
   bottomBorderRadius?: number
+
+  /*
+  color for the content
+   */
+  color?: string
+
+  hasDivider?: boolean
 
   /**
    * What happens when you press the right icon

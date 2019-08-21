@@ -1,5 +1,6 @@
 import { Dimensions, Platform } from 'react-native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
+import { spacing } from './spacing'
 
 const { width, height } = Dimensions.get('window')
 const statusBarHeight = getStatusBarHeight()
@@ -17,16 +18,16 @@ const metrics = {
     normal: 200,
   },
   screen,
-  marginHorizontal: 10,
-  marginVertical: 10,
-  section: 25,
-  baseMargin: 10,
-  doubleBaseMargin: 20,
-  tripleBaseMargin: 30,
-  sidesPadding: 20,
-  smallMargin: 5,
-  tinyMargin: 3,
-  doubleSection: 50,
+  marginHorizontal: spacing[2],
+  marginVertical: spacing[2],
+  section: spacing[5],
+  baseMargin: spacing[2],
+  doubleBaseMargin: spacing[2] * 2,
+  tripleBaseMargin: spacing[2] * 3,
+  sidesPadding: spacing[5],
+  smallMargin: spacing[1],
+  tinyMargin: spacing[1] / 2,
+  doubleSection: spacing[8],
   horizontalLineHeight: 1,
   screenWidth: width < height ? width : height,
   screenHeight: width < height ? height : width,
