@@ -9,7 +9,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     backgroundColor: Colors.lightGray,
     margin: metrics.sidesPadding,
-    marginBottom: spacing[8]
+    padding: spacing[5]
   },
   text: {
     textAlign: 'center',

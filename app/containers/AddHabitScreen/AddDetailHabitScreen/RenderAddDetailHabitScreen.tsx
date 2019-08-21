@@ -6,7 +6,8 @@ import { Icon } from 'react-native-elements'
 import {
   AppBackground,
   AppHeader,
-  InlineDecorationText, Text,
+  InlineDecorationText,
+  Text,
 } from '../../../components'
 import I18n from '../../../localization'
 
@@ -50,8 +51,7 @@ class RenderAddDetailHabitScreen extends Component<IProps, IState> {
     }
   }
 
-  componentWillUpdate() {
-  }
+  componentWillUpdate() {}
 
   onChangeInput = (text: string, type: string): void => {
     this.setState({
@@ -136,7 +136,10 @@ class RenderAddDetailHabitScreen extends Component<IProps, IState> {
 
     return (
       <TouchableOpacity onPress={this.rightTitleOnClick}>
-        <Text style={{ color: Colors.white, textTransform: "capitalize" }} tx={strings.textNext}/>
+        <Text
+          style={{ color: Colors.white, textTransform: 'capitalize' }}
+          tx={strings.textNext}
+        />
       </TouchableOpacity>
     )
   }
@@ -152,9 +155,11 @@ class RenderAddDetailHabitScreen extends Component<IProps, IState> {
           leftIcon={'back'}
           title={I18n.t(strings.titleAddDetailHabit)}
           rightIcon={rightIcon}
+          color={Colors.white}
           style={{ paddingBottom: 5 }}
         />
-        <Content style={styles.contentContainer}>
+        <Content >
+          <View style={styles.contentContainer}>
           <HabitInput
             style={{ paddingLeft: 25, marginTop: 10 }}
             onChangeText={(text) => this.onChangeInput(text, 'textHabit')}
@@ -185,8 +190,9 @@ class RenderAddDetailHabitScreen extends Component<IProps, IState> {
             keyExtractor={(item, index) => index.toString()}
             numColumns={4}
           />
+          </View>
         </Content>
-        <View style={{ paddingBottom: 10, marginBottom: 25 }}/>
+        <View style={{ paddingBottom: 10, marginBottom: 25 }} />
       </AppBackground>
     )
   }
