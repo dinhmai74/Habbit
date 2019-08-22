@@ -167,8 +167,7 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
           loading={isSubmitting}
           disabledStyle={{ backgroundColor: colors.white }}
           preset='authTrans'
-          marginLeft={buttonSidePadding}
-          marginRight={buttonSidePadding}
+          buttonStyle={{marginHorizontal: buttonSidePadding}}
           loadingProps={{ size: 'small', color: colors.primary}}
         />
         <SizedBox height={4}/>
@@ -179,8 +178,8 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
           onPress={() => NavigateService.navigate('signUp')}
           disabled={isSubmitting}
           linear
-          marginLeft={buttonSidePadding}
-          marginRight={buttonSidePadding}
+          buttonStyle ={{marginHorizontal: buttonSidePadding}}
+          style={{marginHorizontal: buttonSidePadding}}
         />
       </Form>
     )

@@ -11,18 +11,19 @@ import { textPresets, viewPresets } from './button.presets'
 import { ButtonProps } from './button.props'
 
 function CButton({
-  preset = 'primary',
-  tx,
-  text,
-  style: styleOverride,
-  textStyle: textStyleOverride,
-  children,
-  txOptions,
-  linear,
-  full,
-  rounded,
-  ...rest
-}: ButtonProps) {
+                   preset = 'primary',
+                   tx,
+                   text,
+                   style: styleOverride,
+                   textStyle: textStyleOverride,
+                   children,
+                   txOptions,
+                   linear,
+                   full,
+                   rounded,
+                   buttonStyle,
+                   ...rest
+                 }: ButtonProps) {
   // grab the props
 
   // @ts-ignore
@@ -31,7 +32,7 @@ function CButton({
   const roundedStyle: ViewStyle = rounded ? { borderRadius: 30 } : null
 
   const viewStyle = mergeAll(
-    flatten([viewPresets[preset], roundedStyle, styleOverride]),
+    flatten([viewPresets[preset], roundedStyle, styleOverride, buttonStyle]),
   )
   const textStyle = mergeAll(flatten([textPresets[preset], textStyleOverride]))
 
@@ -57,10 +58,11 @@ function CButton({
     />
   )
 }
+
 /**
  * For your text displaying needs.
  *
  * This component is a HOC over the built-in React Native one.
  */
 
-export default withSpacing(CButton)
+export default (CButton)
