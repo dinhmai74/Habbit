@@ -21,6 +21,7 @@ import {
   strings,
 } from '../../../themes'
 import { capitalize } from '../../../tools'
+import { getTokenString } from '../../../api/firebase'
 
 const SubIconEnum = {
   close: 'close',
@@ -96,7 +97,7 @@ class HabitCard extends Component<IProps> {
           if (this.refSwipeable) {
             this.refSwipeable.recenter()
           }
-        },
+        }
       )
     }, this.props.releaseTime)
   }
@@ -115,7 +116,7 @@ class HabitCard extends Component<IProps> {
           if (this.refSwipeable) {
             this.refSwipeable.recenter()
           }
-        },
+        }
       )
     }, this.props.releaseTime)
   }
@@ -144,7 +145,7 @@ class HabitCard extends Component<IProps> {
         if (token) {
           this.props.editTaskStatus(taskId, 'spending', date, token)
         }
-      },
+      }
     )
   }
 
@@ -343,6 +344,6 @@ const styles = StyleSheet.create({
 
 export default connect(
   null,
-  { editTaskStatus },
+  { editTaskStatus }
   // @ts-ignore
 )(HabitCard)

@@ -3,7 +3,7 @@
 import Firebase from 'react-native-firebase'
 import firebase from 'react-native-firebase'
 import { v4 as generateUid } from 'uuid'
-import { BASE_URL } from '../../api/firebase'
+import { BASE_URL, getTokenString } from '../../api/firebase'
 import { IHabitRawItem, ResponseFirebase } from '../../model'
 import { fillTask, fillTaskDaily } from '../../tools'
 import { offlineActionCreator } from '../ActionCreator'
@@ -46,14 +46,14 @@ export const createTaskOffline = (task: IHabitRawItem, token: string = '') => {
       body: JSON.stringify({ task }),
       headers: {
         'content-type': 'application/json',
-        "token": token,
+        "Authorization": getTokenString(token),
       },
-    },
+    }
   )
 }
 
 export const createTaskSuccess = (
-  data: ResponseFirebase,
+  data: ResponseFirebase
 ): ICreateTaskSuccessAction => {
   return {
     type: CREATE_TASK_SUCCESS,
@@ -62,7 +62,7 @@ export const createTaskSuccess = (
 }
 
 export const createTaskFailed = (
-  error: ResponseFirebase,
+  error: ResponseFirebase
 ): ICreateTaskFailAction => {
   return {
     type: CREATE_TASK_FAILED,

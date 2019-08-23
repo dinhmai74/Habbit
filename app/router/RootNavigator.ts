@@ -3,7 +3,7 @@ import React from 'react'
 import { createSwitchNavigator } from 'react-navigation'
 import MainNavigator, { MainRouteName } from './MainNavigator'
 import AuthorizationNavigator, { AuthRouteName } from './AuthorizationNavigator'
-import { CreateHabitRouteName } from './CreateHabitNavigator';
+import { CreateHabitRouteName } from './CreateHabitNavigator'
 
 const RouteConfigs = {
   auth: AuthorizationNavigator,

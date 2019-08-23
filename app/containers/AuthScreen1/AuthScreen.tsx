@@ -3,12 +3,19 @@ import React, { Component } from 'react'
 import firebase from 'react-native-firebase'
 import { NavigationInjectedProps } from 'react-navigation'
 import styled from 'styled-components'
-import { AppButton, Icon, SizedBox, ToastService, withSpacing } from '../../components'
+import {
+  AppButton,
+  Icon,
+  SizedBox,
+  ToastService,
+  withSpacing,
+} from '../../components'
 import AppBackground from '../../components/app-background/AppBackground'
 import { Metrics as metrics } from '../../themes'
 import { Colors as color, palette } from '../../themes'
 import { screen } from '../../themes/Metrics'
 import NavigateService from '../../tools/NavigateService'
+import { ApiFactory, getTokenString } from '../../api/firebase'
 
 export interface IAuthScreenProps extends NavigationInjectedProps {}
 interface State {
@@ -36,6 +43,14 @@ export class AuthScreen extends Component<IAuthScreenProps, State> {
   componentDidMount() {
     this.unsubscriber = firebase.auth().onAuthStateChanged((user) => {
       this.setState({ user })
+      if (user) {
+        user.getIdToken().then((token) => {
+          ApiFactory.getInstance().setHeader(
+            'Authorization',
+            getTokenString(token)
+          )
+        })
+      }
     })
   }
 

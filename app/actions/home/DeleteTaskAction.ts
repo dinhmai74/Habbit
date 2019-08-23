@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { BASE_URL } from '../../api/firebase'
+import { BASE_URL, getTokenString } from '../../api/firebase'
 import { offlineActionCreator } from '../ActionCreator'
 import { getRequestString } from '../ActionTypes'
 import {
@@ -27,14 +27,14 @@ export const deleteTaskOfflineRequest = (taskId: string, token: string) => {
       body: JSON.stringify({ id: taskId }),
       headers: {
         'content-type': 'application/json',
-        'token': token,
+        "Authorization": getTokenString(token),
       },
     },
     {
       taskId,
     },
     {},
-    true,
+    true
   )
 }
 

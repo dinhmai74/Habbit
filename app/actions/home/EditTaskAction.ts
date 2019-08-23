@@ -1,6 +1,6 @@
 // @flow
 // @ts-nocheck
-import { BASE_URL } from '../../api/firebase'
+import { BASE_URL, getTokenString } from '../../api/firebase'
 import { IIconHabit, ISchedule, TArchivedStatus } from '../../model'
 import { offlineActionCreator } from '../ActionCreator'
 import {
@@ -16,7 +16,7 @@ export const editTaskStatus = (
   taskId: string,
   status: TArchivedStatus,
   date: string,
-  token: string,
+  token: string
 ): Action =>
   offlineActionCreator(
     `${BASE_URL}/editTaskStatus`,
@@ -36,16 +36,16 @@ export const editTaskStatus = (
       }),
       headers: {
         'content-type': 'application/json',
-        "token": token,
+        "Authorization": getTokenString(token),
       },
-    },
+    }
   )
 
 export const editTaskIconAndName = (
   taskId: string,
   quest: string,
   icon: IIconHabit,
-  token: string,
+  token: string
 ): Action =>
   offlineActionCreator(
     `${BASE_URL}/editIconAndName`,
@@ -61,15 +61,15 @@ export const editTaskIconAndName = (
       }),
       headers: {
         'content-type': 'application/json',
-        "token": token,
+        "Authorization": getTokenString(token),
       },
-    },
+    }
   )
 
 export const editSchedule = (
   taskId: string,
   schedule: ISchedule,
-  token: string,
+  token: string
 ): Action =>
   offlineActionCreator(
     `${BASE_URL}/editSchedule`,
@@ -84,7 +84,7 @@ export const editSchedule = (
       }),
       headers: {
         'content-type': 'application/json',
-        "token": token,
+        "Authorization": getTokenString(token),
       },
-    },
+    }
   )

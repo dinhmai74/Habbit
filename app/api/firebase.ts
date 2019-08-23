@@ -1,4 +1,4 @@
-import apisauce from 'apisauce'
+import apisauce, { ApisauceInstance } from 'apisauce'
 import _ from 'lodash'
 import { AsyncStorage } from 'react-native'
 import firebase, { Firebase } from 'react-native-firebase'
@@ -11,7 +11,33 @@ import I18n from '../localization'
 import moment from 'moment'
 
 export const BASE_URL = 'https://us-central1-habit-74198.cloudfunctions.net'
-// export const BASE_URL = 'http://localhost:5000/habit-74198/us-central1'
+// export const BASE_URL = 'http://localhost:5001/habit-74198/us-central1'
+
+export const getTokenString = (token: string): string => `Bearer ${token}`
+
+export let ApiFactory = (function() {
+  let instance
+
+  function createInstance() {
+    const object = apisauce.create({
+      baseURL: BASE_URL,
+      headers: {
+        'Cache-Control': 'no-cache',
+      },
+      timeout: 5000,
+    })
+    return object
+  }
+
+  return {
+    getInstance(): ApisauceInstance {
+      if (!instance) {
+        instance = createInstance()
+      }
+      return instance
+    },
+  }
+})()
 
 const api = apisauce.create({
   baseURL: BASE_URL,
@@ -142,6 +168,7 @@ export const FirebaseWorker = {
       const uid = await AsyncStorage.getItem(strings.uid)
       // @ts-ignore
       date = formatDate(date)
+      console.log('uid', uid)
 
       const updates = {}
       updates[`/tasks/uid=${uid}/${taskId}/archived/${date}`] = {
@@ -231,32 +258,26 @@ export const FirebaseWorker = {
   },
   getTasks: async () => {
     try {
-      const uid = await AsyncStorage.getItem(strings.uid)
-      const user = await firebase.auth().currentUser
-      if (user) {
-        const token = await user.getIdToken()
-        api.setHeader('token', token)
-        const result = await api.get('/getTasks')
-        // const result = await firebase.database().ref(`/tasks/uid=${uid}`)
-        if (result.data) {
+      const result = await ApiFactory.getInstance().get('/getTasks')
+      // const result = await firebase.database().ref(`/tasks/uid=${uid}`)
+      if (result.data) {
+        // @ts-ignore
+        if (result.data.data) {
           // @ts-ignore
-          if (result.data.data) {
-            // @ts-ignore
-            const { data } = result.data
-            data.forEach(e => {
-              const { archived, createdDate, id, schedule } = e
-              if (schedule) {
-                const { type } = schedule
-                e.archived = fillTask(
-                  type,
-                  archived,
-                  schedule.times,
-                  createdDate,
-                  id
-                )
-              }
-            })
-          }
+          const { data } = result.data
+          data.forEach((e) => {
+            const { archived, createdDate, id, schedule } = e
+            if (schedule) {
+              const { type } = schedule
+              e.archived = fillTask(
+                type,
+                archived,
+                schedule.times,
+                createdDate,
+                id
+              )
+            }
+          })
         }
         return result.data
       }
@@ -266,12 +287,10 @@ export const FirebaseWorker = {
   },
   createTask: async (task: ITask) => {
     try {
-      const user = await firebase.auth().currentUser
-      if (user) {
-        const token = await user.getIdToken()
-        const result = await api.post(`/createTask`, { task })
-        return result.data
-      }
+      const result = await ApiFactory.getInstance().post(`/createTask`, {
+        task,
+      })
+      return result.data
     } catch (err) {
       return err
     }
@@ -284,7 +303,7 @@ export const FirebaseWorker = {
         .database()
         .ref(`/tasks/uid=${uid}/${taskId}`)
         .once('value')
-        .then(snapshot => {
+        .then((snapshot) => {
           data = snapshot.val()
         })
 
@@ -296,7 +315,10 @@ export const FirebaseWorker = {
   deleteTask: async (taskId: string) => {
     try {
       const uid = await AsyncStorage.getItem(strings.uid)
-      const result = await api.post(`/deleteTask?uid=${uid}`, { id: taskId })
+      const result = await ApiFactory.getInstance().post(
+        `/deleteTask?uid=${uid}`,
+        { id: taskId }
+      )
 
       return result.data
     } catch (err) {
@@ -308,7 +330,6 @@ export const FirebaseWorker = {
       const uid = await AsyncStorage.getItem(strings.uid)
       const user = await firebase.auth().currentUser
       if (user) {
-        const token = await user.getIdToken()
         const formatedMonth = moment(month)
           .format('YYYY-MM')
           .toString()
@@ -317,12 +338,14 @@ export const FirebaseWorker = {
           // @ts-ignore
           const { data } = getTaskResult
           let archives = {}
-          _.forEach(data, e => {
+          // get list objects archives from task data
+          _.forEach(data, (e) => {
             archives[e.id] = e.archived
           })
 
+          // map create archive id
           archives = _.map(archives, (archive, key) => {
-            _.map(archive, e => {
+            _.map(archive, (e) => {
               // @ts-ignore
               e.taskId = key
               return e
@@ -333,14 +356,15 @@ export const FirebaseWorker = {
           const result = {}
           result[formatedMonth] = {}
 
+          // create the result lifelog with key = month
           const days = moment(month).daysInMonth()
           for (let i = 0; i < days; i += 1) {
             const date = moment(month)
               .add(i, 'days')
               .format('YYYY-MM-DD')
               .toString()
-            _.forEach(archives, archive => {
-              _.forEach(archive, e => {
+            _.forEach(archives, (archive) => {
+              _.forEach(archive, (e) => {
                 // @ts-ignore
                 if (e.date === date) {
                   const lifeLogMonth = result
@@ -369,6 +393,7 @@ export const FirebaseWorker = {
             month: formatedMonth,
             lifelog: result,
           })
+          console.tron.log(postResult)
           return postResult
         }
       }
@@ -387,9 +412,14 @@ export const FirebaseWorker = {
     try {
       await FirebaseWorker.updateLifelog(month)
       const uid = await AsyncStorage.getItem(strings.uid)
-      const result = await api.post(`/getLifeLogStat?uid=${uid}`, {
-        month: moment(month).format('YYYY-MM'),
-      })
+      const result = await ApiFactory.getInstance().post(
+        `/getLifeLogStat?uid=${uid}`,
+        {
+          month: moment(month).format('YYYY-MM'),
+        }
+      )
+
+      console.tlog('result', result)
 
       return result
     } catch (error) {
@@ -510,11 +540,12 @@ export const FirebaseWorker = {
       }
     } catch (e) {
       logReactotron('loginByFacebook - error: ', e.message)
-      if (e.code === CANCELED)
+      if (e.code === CANCELED) {
         return {
           error: true,
           message: '',
         }
+      }
       return {
         error: true,
         message: I18n.t(strings.errGoogleLogin),
