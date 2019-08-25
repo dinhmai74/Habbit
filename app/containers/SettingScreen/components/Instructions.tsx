@@ -51,9 +51,9 @@ const styles = StyleSheet.create({
 })
 interface IProps {
   // eslint-disable-next-line react/require-default-props
-  buttonOnPress: () => void,
-  onBackdropPress?: () => void,
-  onBackButtonPress?: () => void,
+  buttonOnPress: () => void
+  onBackdropPress?: () => void
+  onBackButtonPress?: () => void
   isVisible?: boolean
 }
 
@@ -61,7 +61,7 @@ export default class Instructions extends PureComponent<IProps> {
   static defaultProps = {
     buttonOnPress: () => {},
     onBackdropPress: () => {},
-    onBackButtonPress: () => {}
+    onBackButtonPress: () => {},
   }
 
   render() {
@@ -154,7 +154,7 @@ export default class Instructions extends PureComponent<IProps> {
   }
 }
 
-const Header = styled(NativeHeader)`
+const Header = styled(View)`
   background: ${Colors.authButtonColor};
   align-items: center;
   padding: 25px 15px;
