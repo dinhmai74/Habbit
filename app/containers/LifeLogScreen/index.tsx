@@ -10,11 +10,14 @@ import { AppLoading } from '../../components'
 import RenderWaitingScreen from '../../components/RenderWaitingScreen'
 import { currentMonth, formatDate } from '../../tools'
 import RenderLifeLogScreen from './renderLifeLog'
+import { Alert } from 'react-native'
+import { Images } from '../../themes'
+import colors from '../../themes/Colors'
 
 interface IProps extends NavigationScreenProps {
-  fetchLifeLog: typeof fetchLifeLog,
-  data: any,
-  fetching: boolean,
+  fetchLifeLog: typeof fetchLifeLog
+  data: any
+  fetching: boolean
   minDate: string
 }
 
@@ -33,10 +36,19 @@ class LifeLogScreen extends Component<IProps> {
 
   render() {
     const { data, fetching, minDate } = this.props
+    console.log('data', data)
 
     return (
       <View style={{ flex: 1 }}>
+        {fetching ? (
+          <AppLoading
+            loadingSrc={Images.loadingPreloader}
+            backgroundColor={colors.backdrop}
+          />
+        ) : null}
         <RenderLifeLogScreen
+          navigation={this.props.navigation}
+          lifeLog={data}
           handleRefresh={this.handleRefresh}
           fetching={fetching}
           minDate={minDate}
@@ -54,6 +66,8 @@ const mapStateToProps = (state) => {
     }
   })
 
+  console.log(`%c state`, `color: blue; font-weight: 600`, state)
+
   const moments = createdDates.map((d) => moment(d))
   // @ts-ignore
   const minDate = formatDate(moment.min(moments))
@@ -68,6 +82,6 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { fetchLifeLog },
+  { fetchLifeLog }
   // @ts-ignore
 )(LifeLogScreen)

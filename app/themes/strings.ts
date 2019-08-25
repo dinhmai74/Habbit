@@ -134,6 +134,10 @@ const strings = {
   // google login error
   errGoogleLogin: 'errGoogleLogin',
   errGoogleLoginByPlayService: 'errGoogleLoginByPlayService',
+
+  format: {
+    month: 'YYYY-MM',
+  },
 }
 
 export default strings

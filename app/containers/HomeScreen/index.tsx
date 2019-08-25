@@ -21,7 +21,7 @@ import strings from '../../themes/strings'
 import { today } from '../../tools'
 import HomeRender from './renderHomeScreen'
 
-import { NetInfo } from 'react-native'
+import { NetInfo, Alert } from 'react-native'
 import firebase from 'react-native-firebase'
 import { ToastService } from '../../components'
 import { IHabitItem, IHabitRawItem, TArchivedStatus } from '../../model'
@@ -69,15 +69,15 @@ class HomeScreen extends Component<IProps, IState> {
   componentDidMount() {
     this.handleRefresh()
     const { navigation } = this.props
-    // this.willFocusListener = navigation.addListener('willFocus', () => {
-    //   if (this.props.fetching) {
-    //     this.handleRefresh()
-    //   }
-    // })
+    this.willFocusListener = navigation.addListener('willFocus', () => {
+      if (this.props.fetching) {
+        this.handleRefresh()
+      }
+    })
   }
 
   componentWillUnmount() {
-    // this.willFocusListener.remove()
+    this.willFocusListener.remove()
   }
 
   /**
@@ -110,7 +110,7 @@ class HomeScreen extends Component<IProps, IState> {
   updateTaskStatus = async (
     taskId: string,
     status: TArchivedStatus,
-    date: string,
+    date: string
   ) => {
     const user = await firebase.auth().currentUser
     if (user) {
@@ -225,10 +225,10 @@ class HomeScreen extends Component<IProps, IState> {
               this.props.navigation.navigate(strings.routeMainAuth)
             },
             'top',
-            1000,
+            1000
           )
         }
-      },
+      }
     )
   }
 
@@ -290,5 +290,5 @@ export default connect(
     refetchTasks,
     offlineCreateTask: createTaskOffline,
     fetchTasksAll,
-  },
+  }
 )(HomeScreen)

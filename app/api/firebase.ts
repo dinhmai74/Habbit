@@ -4,14 +4,20 @@ import { AsyncStorage } from 'react-native'
 import firebase, { Firebase } from 'react-native-firebase'
 import { IIconHabit, ISchedule, ResponseFirebase, ITask } from '../model'
 import { strings } from '../themes'
-import { fillTask, formatDate, today, logReactotron } from '../tools'
+import {
+  fillTask,
+  formatDate,
+  today,
+  logReactotron,
+  formatStringMonth,
+} from '../tools'
 import { GoogleSignin, statusCodes } from 'react-native-google-signin'
 import { AccessToken, LoginManager } from 'react-native-fbsdk'
 import I18n from '../localization'
 import moment from 'moment'
 
-export const BASE_URL = 'https://us-central1-habit-74198.cloudfunctions.net'
-// export const BASE_URL = 'http://localhost:5001/habit-74198/us-central1'
+// export const BASE_URL = 'https://us-central1-habit-74198.cloudfunctions.net'
+export const BASE_URL = 'http://localhost:5000/habit-74198/us-central1'
 
 export const getTokenString = (token: string): string => `Bearer ${token}`
 
@@ -258,27 +264,24 @@ export const FirebaseWorker = {
   },
   getTasks: async () => {
     try {
-      const result = await ApiFactory.getInstance().get('/getTasks')
+      const result: any = await ApiFactory.getInstance().get('/getTasks')
       // const result = await firebase.database().ref(`/tasks/uid=${uid}`)
-      if (result.data) {
+      if (result.data && result.data.data) {
         // @ts-ignore
-        if (result.data.data) {
-          // @ts-ignore
-          const { data } = result.data
-          data.forEach((e) => {
-            const { archived, createdDate, id, schedule } = e
-            if (schedule) {
-              const { type } = schedule
-              e.archived = fillTask(
-                type,
-                archived,
-                schedule.times,
-                createdDate,
-                id
-              )
-            }
-          })
-        }
+        const { data } = result.data
+        data.forEach((e) => {
+          const { archived, createdDate, id, schedule } = e
+          if (schedule) {
+            const { type } = schedule
+            e.archived = fillTask(
+              type,
+              archived,
+              schedule.times,
+              createdDate,
+              id
+            )
+          }
+        })
         return result.data
       }
     } catch (err) {
@@ -327,81 +330,17 @@ export const FirebaseWorker = {
   },
   updateLifelog: async (month: string = today) => {
     try {
-      const uid = await AsyncStorage.getItem(strings.uid)
-      const user = await firebase.auth().currentUser
-      if (user) {
-        const formatedMonth = moment(month)
-          .format('YYYY-MM')
-          .toString()
-        const getTaskResult = await FirebaseWorker.getTasks()
-        if (!getTaskResult.error) {
-          // @ts-ignore
-          const { data } = getTaskResult
-          let archives = {}
-          // get list objects archives from task data
-          _.forEach(data, (e) => {
-            archives[e.id] = e.archived
-          })
-
-          // map create archive id
-          archives = _.map(archives, (archive, key) => {
-            _.map(archive, (e) => {
-              // @ts-ignore
-              e.taskId = key
-              return e
-            })
-            return archive
-          })
-
-          const result = {}
-          result[formatedMonth] = {}
-
-          // create the result lifelog with key = month
-          const days = moment(month).daysInMonth()
-          for (let i = 0; i < days; i += 1) {
-            const date = moment(month)
-              .add(i, 'days')
-              .format('YYYY-MM-DD')
-              .toString()
-            _.forEach(archives, (archive) => {
-              _.forEach(archive, (e) => {
-                // @ts-ignore
-                if (e.date === date) {
-                  const lifeLogMonth = result
-                  if (!lifeLogMonth[date]) {
-                    const detail = {}
-                    // @ts-ignore
-                    detail[e.taskId] = e
-                    lifeLogMonth[date] = detail
-                  } else {
-                    let detail = lifeLogMonth[date]
-                    if (detail) {
-                      // @ts-ignore
-                      detail[e.taskId] = e
-                    } else {
-                      const object = {}
-                      // @ts-ignore
-                      object[e.taskId] = e
-                      detail = object
-                    }
-                  }
-                }
-              })
-            })
-          }
-          const postResult = await api.post(`/updateLifeLog?uid=${uid}`, {
-            month: formatedMonth,
-            lifelog: result,
-          })
-          console.tron.log(postResult)
-          return postResult
-        }
-      }
-
-      return {
-        error: true,
-        message: 'undefined',
-      }
+      const formatedMonth = moment(month).format(strings.format.month)
+      console.log(`%c month`, `color: blue; font-weight: 600`, formatedMonth)
+      const postResult = await ApiFactory.getInstance().post(`/updateLifeLog`, {
+        month: formatedMonth,
+      })
+      console.log(
+        `%c update life log result`,
+        `color: blue; font-weight: 600`,
+        postResult
+      )
+      return postResult
     } catch (error) {
       console.warn('error update lifelog', error)
       return error
@@ -411,15 +350,11 @@ export const FirebaseWorker = {
   getLifeLogStat: async (month: string = today) => {
     try {
       await FirebaseWorker.updateLifelog(month)
-      const uid = await AsyncStorage.getItem(strings.uid)
-      const result = await ApiFactory.getInstance().post(
-        `/getLifeLogStat?uid=${uid}`,
-        {
-          month: moment(month).format('YYYY-MM'),
-        }
-      )
+      const result = await ApiFactory.getInstance().post(`/getLifeLogStat`, {
+        month: moment(month).format('YYYY-MM'),
+      })
 
-      console.tlog('result', result)
+      console.log('result', result)
 
       return result
     } catch (error) {

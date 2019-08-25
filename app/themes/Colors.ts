@@ -138,6 +138,7 @@ const colors = {
   /**
    * Error messages and icons.
    */
+  backdrop: 'rgba(0,0,0,0.6)',
 
   /**
    * Storybook background for Text stories, or any stories where

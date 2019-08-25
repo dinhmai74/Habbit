@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { takeLatest, put, call, fork, takeEvery, } from "redux-saga/effects"
-import firebase, { Firebase, } from "react-native-firebase"
+import { takeLatest, put, call, fork, takeEvery } from 'redux-saga/effects'
+import firebase, { Firebase } from 'react-native-firebase'
 
-import { FETCH_LIFE_LOG, Action, REFETCH_TASK, } from "../../actions/ActionTypes"
+import { FETCH_LIFE_LOG, Action, REFETCH_TASK } from '../../actions/ActionTypes'
 // eslint-disable-next-line import/named
-import { fetchLifeLogSuccess, fetchLifeLogFail, } from "../../actions"
-import FirebaseWorker from "../../api/firebase"
+import { fetchLifeLogSuccess, fetchLifeLogFail } from '../../actions'
+import FirebaseWorker from '../../api/firebase'
 
 function* fetchLifeLogFromFirebase(action: Action) {
   try {
@@ -28,5 +28,5 @@ function* fetchLifeLogFromFirebase(action: Action) {
 
 // eslint-disable-next-line import/prefer-default-export
 export function* watchFetchLifeLogData() {
-  yield takeLatest (FETCH_LIFE_LOG, fetchLifeLogFromFirebase)
+  yield takeLatest(FETCH_LIFE_LOG, fetchLifeLogFromFirebase)
 }

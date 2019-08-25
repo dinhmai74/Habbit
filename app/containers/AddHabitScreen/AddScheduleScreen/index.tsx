@@ -31,7 +31,7 @@ type Props = NavigationScreenProps & {
   fetching: boolean
   createTaskOffline: typeof createTaskOffline
   createTask: typeof createTask
-  editSchedule: typeof editSchedule,
+  editSchedule: typeof editSchedule
 }
 
 interface IState {
@@ -125,9 +125,7 @@ class AddScheduleScreen extends Component<Props, IState> {
         ToastService.showToast(
           I18n.t(strings.textEditScheduleSuccess),
           'success',
-          () => {
-            this.props.navigation.navigate(strings.routeHome)
-          },
+          () => {}
         )
       }
       // const result = await FirebaseWorker.updateSchedule(
@@ -231,5 +229,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { createTask, fetchTasks, refetchTasks, createTaskOffline, editSchedule },
+  { createTask, fetchTasks, refetchTasks, createTaskOffline, editSchedule }
 )(AddScheduleScreen)

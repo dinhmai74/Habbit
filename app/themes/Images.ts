@@ -24,7 +24,9 @@ const images = {
   loadingWithWave: require('../images/loading-wave.json'),
   motorLoading: require('../images/29-motorcycle.json'),
   arrowDown: require('../images/2810-arrow-down.json'),
-  loadingHome: require('../images/5087-ganesha.json')
+  loadingHome: require('../images/5087-ganesha.json'),
+  loadingDog: require('../images/dog-wagging.json'),
+  loadingPreloader: require('../images/51-preloader.json'),
   // loadingLine: require('../images/loading-line.json')
 }
 

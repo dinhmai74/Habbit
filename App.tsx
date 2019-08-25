@@ -21,6 +21,8 @@ YellowBox.ignoreWarnings([
   'componentWillMount is deprecated',
   'componentWillReceiveProps is deprecated',
   'Cannot update during an existing state',
+  'Overriding previous layout animation with new one before the first began',
+  'Required dispatch',
 ])
 
 class App extends Component {

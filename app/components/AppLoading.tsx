@@ -3,12 +3,14 @@ import React, { Component } from 'react'
 import { RefreshControl, ScrollView, StyleSheet, ViewStyle } from 'react-native'
 import { View } from 'react-native-animatable'
 import { Colors, Images } from '../themes'
+import colors from '../themes/Colors'
 
 interface IProps {
   handleRefresh: () => void
   fetching: boolean
   loadingSrc: string
   style: any
+  backgroundColor: string
 }
 
 export default class AppLoading extends Component<IProps> {
@@ -26,9 +28,10 @@ export default class AppLoading extends Component<IProps> {
   }
 
   render() {
-    const { loadingSrc, style } = this.props
+    const { loadingSrc, style, backgroundColor: bg } = this.props
+    const backgroundColor = bg && { backgroundColor: bg }
     return (
-      <View style={[styles.container, style]}>
+      <View style={[styles.container, style, backgroundColor]}>
         <LottieView
           ref={(animation) => {
             this.animation = animation

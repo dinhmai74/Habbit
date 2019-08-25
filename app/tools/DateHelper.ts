@@ -1,4 +1,7 @@
-import moment from 'moment'
+import moment, { Moment } from 'moment'
+import { strings } from '../themes'
+
+export const formatStringMonth = strings.format.month
 
 export const today = moment(new Date())
   .format('YYYY-MM-DD')
@@ -8,8 +11,11 @@ export const formatDate = (date: Date): string =>
     .format('YYYY-MM-DD')
     .toString()
 export const currentMonth = moment(new Date())
-  .format('YYYY-MM')
+  .format(formatStringMonth)
   .toString()
+
+export const formatMonth = (month: Date | Moment | string): string =>
+  moment(month).format(formatStringMonth)
 
 export const getPreviousDateFromNow = (numberOfDays: number = 0) =>
   moment()
@@ -26,7 +32,7 @@ export const getFirstCharacterOfDate = (date: Date): string =>
 export function getDaysBetweenTwoDate(
   container: [string],
   startDate: string | any,
-  endDate: string | any,
+  endDate: string | any
 ) {
   endDate = moment(endDate)
   startDate = moment(startDate)

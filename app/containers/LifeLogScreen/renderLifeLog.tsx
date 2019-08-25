@@ -1,12 +1,13 @@
 import LottieView from 'lottie-react-native'
-import { Card as NBCard, CardItem, Row, Spinner, Text as NativebaseText } from 'native-base'
-import React, { Component } from 'react'
 import {
-  Animated,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+  Card as NBCard,
+  CardItem,
+  Row,
+  Spinner,
+  Text as NativebaseText,
+} from 'native-base'
+import React, { Component } from 'react'
+import { Animated, StyleSheet, TouchableOpacity, View } from 'react-native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -14,7 +15,15 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 import moment from 'moment'
 import Modal from 'react-native-modal'
-import { AppLoading, AppBackground, Text, withSpacing, AppHeader, BorderCard, SizedBox } from '../../components'
+import {
+  AppLoading,
+  AppBackground,
+  Text,
+  withSpacing,
+  AppHeader,
+  BorderCard,
+  SizedBox,
+} from '../../components'
 import CalendarsHabit from '../../components/Calendar/CalendarHabit'
 import LineLog from '../../components/LineLog/LineLog'
 // @ts-ignore
@@ -23,25 +32,26 @@ import I18n from '../../localization'
 import { Colors, Fonts, Images, Metrics, strings } from '../../themes'
 import { spacing } from '../../themes/spacing'
 import styled from 'styled-components'
+import { NavigationInjectedProps } from 'react-navigation'
 
-const checkIcon = <FontAwesome5 name='check' size={30} color={Colors.green}/>
-const starIcon = <FontAwesome name='star' size={30} color={Colors.yellow}/>
+const checkIcon = <FontAwesome5 name='check' size={30} color={Colors.green} />
+const starIcon = <FontAwesome name='star' size={30} color={Colors.yellow} />
 const trophyIcon = (
-  <Ionicons name='md-trophy' size={30} color={Colors.bloodOrange}/>
+  <Ionicons name='md-trophy' size={30} color={Colors.bloodOrange} />
 )
 const thLarge = (
-  <FontAwesome name='th-large' size={30} color={Colors.lightRed}/>
+  <FontAwesome name='th-large' size={30} color={Colors.lightRed} />
 )
 const infoCircle = (
-  <FontAwesome5 name='info-circle' size={30} color={Colors.blue}/>
+  <FontAwesome5 name='info-circle' size={30} color={Colors.blue} />
 )
 
 const MIN_PULLDOWN_DISTANCE = -140
 
 const StyledRow = styled(Row)`
-   flex-direction: row;
-   padding: ${spacing[2]}px ${spacing[5]}px; 
-   background: ${Colors.white};
+  flex-direction: row;
+  padding: ${spacing[2]}px ${spacing[5]}px;
+  background: ${Colors.white};
 `
 
 export interface ILifeLogDetail {
@@ -51,7 +61,7 @@ export interface ILifeLogDetail {
   streaks: number
 }
 
-interface IProps {
+interface IProps extends NavigationInjectedProps {
   lifeLog: ILifeLogDetail
   fetching: boolean
   handleRefresh: (...params: any) => void
@@ -75,8 +85,8 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       perfectDates: 0,
       streaks: 0,
     },
-    handleRefresh: () => {
-    },
+    fetching: true,
+    handleRefresh: () => {},
   }
 
   state = {
@@ -126,12 +136,13 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
   }
 
   onRefresh: () => void = () => {
-    // alert('123')
-    const date = moment()
-    let month = Number(date.month) < 10 ? `0${date.month}` : date.month
+    let month: any = new Date()
     if (this.calendarRef) {
       month = this.calendarRef.getWatchingMonth()
     }
+
+    month = moment(month).format(strings.format.month)
+
     this.props.handleRefresh(month)
   }
 
@@ -159,13 +170,18 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
   )
 
   render() {
-    const {
-      totalDone,
-      someDoneDates,
-      perfectDates,
-      streaks,
-    } = this.props.lifeLog
-    const { fetching } = this.props
+    const { fetching, lifeLog } = this.props
+    // tslint:disable-next-line: one-variable-per-declaration
+    let totalDone = 0,
+      someDoneDates = 0,
+      perfectDates = 0,
+      streaks = 0
+    if (lifeLog) {
+      totalDone = lifeLog.totalDone
+      someDoneDates = lifeLog.someDoneDates
+      perfectDates = lifeLog.perfectDates
+      streaks = lifeLog.streaks
+    }
 
     const { isRefresh, scrollViewPositionY } = this.state
 
@@ -200,20 +216,19 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
           {this.renderModal()}
         </Modal>
 
-        <PullToRefreshListView onRefresh={this.onRefresh} isRefreshing={fetching}>
-
+        <PullToRefreshListView onRefresh={this.onRefresh} isRefreshing={false}>
           <StyledRow>
             <BorderCard style={{ alignItems: 'center', flex: 1 }}>
-              <Text tx={'lifeLog.currentStreaks'} preset={'cardTitle'}/>
-              <SizedBox height={2}/>
-              <Text text={'3'} preset={'bigContent'}/>
+              <Text tx={'lifeLog.currentStreaks'} preset={'cardTitle'} />
+              <SizedBox height={2} />
+              <Text text={'3'} preset={'bigContent'} />
             </BorderCard>
 
-            <SizedBox width={4}/>
+            <SizedBox width={4} />
             <BorderCard style={{ alignItems: 'center', flex: 1 }}>
-              <Text text={'3/7'} preset={'bigContent'}/>
-              <SizedBox height={2}/>
-              <Text tx={'lifeLog.inThisWeeks'} preset={'cardTitle'}/>
+              <Text text={'3/7'} preset={'bigContent'} />
+              <SizedBox height={2} />
+              <Text tx={'lifeLog.inThisWeeks'} preset={'cardTitle'} />
             </BorderCard>
           </StyledRow>
 

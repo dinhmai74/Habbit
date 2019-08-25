@@ -1,28 +1,27 @@
-import React, { Component, } from "react"
-import { Text, StyleSheet, ScrollView, View, } from "react-native"
-import _ from "lodash"
-import moment from "moment"
-import { Calendar, } from "../react-native-calendars"
-import { Colors, } from "../../themes"
-import { currentMonth, getPlatformElevation, } from "../../tools"
+import React, { Component } from 'react'
+import { Text, StyleSheet, ScrollView, View } from 'react-native'
+import _ from 'lodash'
+import moment from 'moment'
+import { Calendar } from '../react-native-calendars'
+import { Colors } from '../../themes'
+import { currentMonth, getPlatformElevation } from '../../tools'
 
 export default class CalendarsHabit extends Component {
   state = {
     hideArrowLeft: false,
     hideArrowRight: true,
-    watchingMonth: new Date().getMonth()
+    watchingMonth: new Date(),
   }
 
-  getWatchingMonth=()=>this.state.watchingMonth
+  getWatchingMonth = () => this.state.watchingMonth
 
   refreshData = date => {
-    const { minDate, } = this.props
-    const minMonth = moment(minDate).format("YYYY-MM")
+    const { minDate } = this.props
+    const minMonth = moment(minDate).format('YYYY-MM')
 
-    const month = date.month < 10 ? `0${date.month}` : date.month
-    const watchingMonth = `${date.year}-${month}`
+    const watchingMonth = date.dateString
     this.setState({
-      watchingMonth
+      watchingMonth,
     })
 
     // TODO: limit month
@@ -73,7 +72,7 @@ export default class CalendarsHabit extends Component {
       stylesMarkedDate.perfect
     )
 
-    const lifeLogDates = { ...someDoneDates, ...perfectDates, }
+    const lifeLogDates = { ...someDoneDates, ...perfectDates }
 
     return (
       <View style={styles.calendar}>
@@ -84,7 +83,7 @@ export default class CalendarsHabit extends Component {
           onMonthChange={
             this.props.isCalendarLife ? date => this.refreshData(date) : null
           }
-          markingType='custom'
+          markingType="custom"
           firstDay={1}
           markedDates={this.props.isLifeLog ? lifeLogDates : doneDates}
           theme={{
@@ -110,10 +109,10 @@ const styles = StyleSheet.create({
     ...getPlatformElevation(),
   },
   text: {
-    textAlign: "center",
-    borderColor: "#bbb",
+    textAlign: 'center',
+    borderColor: '#bbb',
     padding: 10,
-    backgroundColor: "#eee",
+    backgroundColor: '#eee',
   },
   container: {
     // flex: 1,
@@ -124,7 +123,7 @@ const stylesMarkedDate = {
   someDone: {
     customStyles: {
       container: {
-        backgroundColor: "transparent",
+        backgroundColor: 'transparent',
         elevation: 5,
         borderColor: Colors.linearEnd,
         borderWidth: 2,

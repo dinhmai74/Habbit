@@ -171,9 +171,13 @@ class DetailTaskScreen extends Component<IProps, IState> {
     const bestStreak = Math.max(...streak)
 
     return (
-      <AppBackground>
+      <AppBackground noImage>
         <Content>
-          <AppHeader type={"transparent"} leftIcon={"back"} title={title} />
+          <AppHeader
+            type={'transparent'}
+            leftIcon={'back'}
+            headerText={title}
+          />
           <Modal isVisible={this.state.isModalVisible}>
             {this.renderModal(currentStreak, bestStreak)}
           </Modal>
@@ -231,7 +235,7 @@ class DetailTaskScreen extends Component<IProps, IState> {
 
 export default connect(
   null,
-  { refetchTasks },
+  { refetchTasks }
 )(DetailTaskScreen)
 
 const styles = StyleSheet.create({
