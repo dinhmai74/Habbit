@@ -13,7 +13,7 @@ import { Action, DELETE_TASK } from '../../actions/ActionTypes'
 function* deleteTask(action: Action) {
   const user = yield firebase.auth().currentUser
   const token = yield user.getIdToken()
-  console.log(`%c action`,'color: blue; font-weight: 600',action)
+  console.log(`%c action`, 'color: blue; font-weight: 600', action)
   try {
     yield put(deleteTaskOfflineRequest(action.payload, token))
   } catch (e) {

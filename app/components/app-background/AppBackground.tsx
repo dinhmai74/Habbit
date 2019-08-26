@@ -1,17 +1,17 @@
 import flatten from 'ramda/es/flatten'
 import mergeAll from 'ramda/es/mergeAll'
 import React, { Component, ReactNode } from 'react'
-import { SafeAreaView, ViewStyle, StatusBar } from 'react-native'
+import { SafeAreaView, ViewStyle, StatusBar , Image} from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
-import { Container, NativeBase, View } from 'native-base'
+import { Container, NativeBase, View, } from 'native-base'
 import styled from 'styled-components'
-import { Colors } from '../../themes'
+import { Colors, Images } from '../../themes'
 import { screen } from '../../themes/Metrics'
-import { Icon } from '../../components'
 import { withNavigation, NavigationInjectedProps } from 'react-navigation'
 import { RootRouteName } from '../../router/RootNavigator'
 import contains from 'ramda/es/contains'
+import { icons, Icon } from 'app/components/icon';
 
 export const ABBackground = styled(Container)`
   background: ${Colors.background};
@@ -81,7 +81,7 @@ export class AppBackground extends Component<IAppBackground, {}> {
     const { noImage, navigation } = this.props
     const name = navigation.state.routeName
     let bg = Colors.transparent
-    const gotBgHeader: RootRouteName[] = ['home',]
+    const gotBgHeader: RootRouteName[] = ['home', ]
     if (contains(name, gotBgHeader)) {
       bg = Colors.header.bg.linear.start
     }

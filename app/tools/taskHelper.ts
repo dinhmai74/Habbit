@@ -17,7 +17,6 @@ export const fillTaskDaily = (
   const startDate =
     moment(createdDate) > aWeekAgo ? moment(createdDate) : aWeekAgo
 
-
   const endDate = moment(today)
   const daysBetween = endDate.diff(startDate, 'days') + 1
 

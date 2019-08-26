@@ -75,11 +75,11 @@ export default class SettingScreen extends Component<Props, IState> {
       }
     }
     await Promise.all([firebase.auth().signOut(), signOutPromises])
-      .then(_ => {
+      .then((_) => {
         AsyncStorage.clear()
         this.props.navigation.navigate(strings.routeAuth)
       })
-      .catch(error => {
+      .catch((error) => {
         ToastService.showToast(error.message)
       })
   }

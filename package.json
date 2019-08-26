@@ -6,7 +6,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "tsc": "tsc",
-    "lint": "tslint 'app/**/*.{ts,tsx}'",
+    "compile": "tsc --noEmit -p . --pretty",
+    "lint": "tslint --project tsconfig.json --fix --config tslint.json",
     "storybook": "storybook start"
   },
   "dependencies": {
@@ -78,7 +79,7 @@
     "@types/yup": "^0.26.23",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "24.1.0",
-    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-runtime": "^6.26.0",
     "jest": "24.1.0",

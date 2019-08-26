@@ -10,7 +10,6 @@ import {
   slideInFromRight,
   slideInFromLeft,
   slideInFromTop,
-  slideOutToRight,
   transitionSpec,
   scaleWithOpacity,
   getOpacity,

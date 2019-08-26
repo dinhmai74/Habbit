@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 import {
   AlertStatus,
-  AppBackGround,
+  AppBackground,
   AuthButton,
   Heading,
   Input,
@@ -184,7 +184,7 @@ export default class RenderSignUpScreen extends Component<IProps> {
     const { animation, error } = this.state
     const { fetching } = this.props
     return (
-      <AppBackGround isLinear>
+      <AppBackground isLinear>
         <KeyboardAwareScrollView
           resetScrollToCoords={{ x: 0, y: 0 }}
           contentContainerStyle={styles.container}
@@ -296,7 +296,7 @@ export default class RenderSignUpScreen extends Component<IProps> {
           textAction={capitalize(I18n.t(strings.textLogin))}
           onPressAction={this.handleLogin}
         />
-      </AppBackGround>
+      </AppBackground>
     )
   }
 }

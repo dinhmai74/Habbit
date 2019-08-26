@@ -11,7 +11,6 @@ import {
 
 import Animation from 'lottie-react-native'
 
-
 /**
  * @description custom pull to refresh animation android version
  *
@@ -275,7 +274,6 @@ class PullToRefreshView extends React.Component<IProps, IState> {
       animateHeight,
     )
 
-
     const animationStyle = {
       position: 'absolute',
       top: 0,
@@ -293,7 +291,6 @@ class PullToRefreshView extends React.Component<IProps, IState> {
       onRefreshAnimationSrc,
       style,
     } = this.props
-
 
     return (
       <View

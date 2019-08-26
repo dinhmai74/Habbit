@@ -1,1 +1,1 @@
-export * from "./FetchLifeLogAction"
+export * from './FetchLifeLogAction'

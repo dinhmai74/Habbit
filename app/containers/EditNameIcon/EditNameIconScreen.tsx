@@ -4,7 +4,7 @@ import { FlatList, Text, View } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { connect } from 'react-redux'
 import {
-  AppBackGround,
+  AppBackground,
   AppHeader,
   InlineDecorationText,
   ToastService,
@@ -212,7 +212,7 @@ class EditNameIconScreen extends Component<IProps, IState> {
     const quest = navigation.getParam('title')
 
     return (
-      <AppBackGround isLinear>
+      <AppBackground isLinear>
         <AppHeader
           leftIcon={images.iconLeftArrow}
           title='Edit habit'
@@ -254,7 +254,7 @@ class EditNameIconScreen extends Component<IProps, IState> {
           />
         </Content>
         <View style={{ paddingBottom: 25 }} />
-      </AppBackGround>
+      </AppBackground>
     )
   }
 }

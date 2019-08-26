@@ -17,7 +17,7 @@ export const getPlatformElevation = (elevation: number = 1) => {
     shadowOpacity: 0.1,
     shadowRadius: elevation / 2,
     shadowOffset: {
-      height:1, 
+      height: 1,
       width: 0,
     },
     // we need to have zIndex on iOS, otherwise the shadow is under components that

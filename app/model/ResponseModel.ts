@@ -1,5 +1,5 @@
 // @ts-nocheck
-export type ResponseFirebase = {
+export interface ResponseFirebase {
   error: boolean,
   message: string,
 }

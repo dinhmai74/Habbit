@@ -202,7 +202,7 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
         <AppButton
           tx='title.login'
           // @ts-ignore
-          onPress={() => NavigateService.navigate("login")}
+          onPress={() => NavigateService.navigate('login')}
           disabled={isSubmitting}
           loading={isSubmitting}
           linear

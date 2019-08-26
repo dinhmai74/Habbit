@@ -31,7 +31,7 @@ class LoginScreen extends Component<IProps & NavigationScreenProps> {
   }
 
   handlePressSignIn = (userInfo: any) => {
-    if (this.isSignIn()) return
+    if (this.isSignIn()) { return }
     const isValidInfo = this.validate(userInfo)
     this.setState({
       error: !isValidInfo,
@@ -105,27 +105,27 @@ class LoginScreen extends Component<IProps & NavigationScreenProps> {
   }
 
   handlePressGoogleSignIn = () => {
-    if (this.isSignIn()) return
+    if (this.isSignIn()) { return }
     const { googleLogin } = this.props
     googleLogin(
-      status => {
+      (status) => {
         console.log('handlePressGoogleSignIn: ', JSON.stringify(status))
         this.props.navigation.navigate(strings.routeMain)
       },
-      error => {
+      (error) => {
         error.message && ToastService.showToast(error.message)
       }
     )
   }
 
   handlePressFacebookSignIn = () => {
-    if (this.isSignIn()) return
+    if (this.isSignIn()) { return }
     const { facebookLogin } = this.props
     facebookLogin(
-      status => {
+      (status) => {
         this.props.navigation.navigate(strings.routeMain)
       },
-      error => {
+      (error) => {
         error.message && ToastService.showToast(error.message)
       }
     )

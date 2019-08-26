@@ -46,7 +46,7 @@ export const createTaskOffline = (task: IHabitRawItem, token: string = '') => {
       body: JSON.stringify({ task }),
       headers: {
         'content-type': 'application/json',
-        "Authorization": getTokenString(token),
+        'Authorization': getTokenString(token),
       },
     }
   )

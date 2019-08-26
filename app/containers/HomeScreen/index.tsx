@@ -14,17 +14,16 @@ import {
   fetchTasks,
   fetchTasksAll,
   refetchTasks,
-} from '../../actions'
-import RenderWaitingScreen from '../../components/RenderWaitingScreen'
-import I18n from '../../localization'
-import strings from '../../themes/strings'
-import { today } from '../../tools'
+} from 'actions'
+import I18n from 'localization'
+import { today } from 'app/tools'
 import HomeRender from './renderHomeScreen'
 
 import { NetInfo, Alert } from 'react-native'
 import firebase from 'react-native-firebase'
-import { ToastService } from '../../components'
-import { IHabitItem, IHabitRawItem, TArchivedStatus } from '../../model'
+import { ToastService, RenderWaitingScreen } from 'components'
+import { IHabitItem, IHabitRawItem, TArchivedStatus } from 'model'
+import { strings } from 'app/themes'
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>

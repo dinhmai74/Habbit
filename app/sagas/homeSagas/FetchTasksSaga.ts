@@ -38,7 +38,6 @@ function* fetchTasksFromFirebase(action: Action) {
   }
 }
 
-
 // eslint-disable-next-line import/prefer-default-export
 export function* watchFetchTasksData() {
   yield takeLatest(FETCH_TASKS, fetchTasksFromFirebase)

@@ -185,11 +185,8 @@ const AppHeaderContainer = styled(View)`
 `
 
 const Overlay = styled(View)`
-  background-color: rgba(172,172,172, 0.45)";
-  ${
-    // @ts-ignore
-    { ...StyleSheet.absoluteFill }
-  };
+  background-color: rgba(172,172,172, 0.45);
+  ${StyleSheet.absoluteFill };
 `
 
 const styles = StyleSheet.create({

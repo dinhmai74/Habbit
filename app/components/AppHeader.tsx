@@ -47,8 +47,7 @@ class AppHeader extends Component<Props> {
 
   leftTitleOnClick = () => {
     const { leftTitleOnClick } = this.props
-    if (leftTitleOnClick) { leftTitleOnClick() }
-    else { this.handleBackPress() }
+    if (leftTitleOnClick) { leftTitleOnClick() } else { this.handleBackPress() }
   }
 
   renderLeftOptions = () => {
@@ -176,13 +175,13 @@ AppHeader.defaultProps = {
 export default withNavigation(AppHeader)
 
 export const AppHeaderContainer = styled(View)`
-  flexDirection:row
-  width: 100%
+  flexDirection:row;
+  width: 100%;
   padding:${Metrics.statusBarHeight + Metrics.doubleBaseMargin}px ${
   Metrics.doubleBaseMargin
-}px
-  align-items: center
-  justify-content: space-between
+}px;
+  align-items: center;
+  justify-content: space-between;
 `
 
 const styles = StyleSheet.create({

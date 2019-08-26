@@ -12,7 +12,24 @@
     "skipDefaultLibCheck": true,
     "noImplicitAny": false,
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./app",
+    "paths": {
+      "app/*": ["*"],
+      "actions/*": ["/actions/*"],
+      "api/*": ["/api/*"],
+      "components/*": ["/components/*"],
+      "containers/*": ["/containers/*"],
+      "images/*": ["/images/*"],
+      "localization/*": ["/localization/*"],
+      "model/*": ["/model/*"],
+      "sagas/*":["/sagas/*"],
+      "reducers/*": ["/reducers/*"],
+      "route/*": ["/route/*"],
+      "store/*": ["/store/*"],
+      "themes/*": ["/themes/*"],
+      "@tools/*": ["/tools/*"]
+    }
   },
-  "exclude": ["node_modules","babel.config.js"]
+  "exclude": ["node_modules"]
 }

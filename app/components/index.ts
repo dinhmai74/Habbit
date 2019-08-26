@@ -4,6 +4,7 @@ import CardContainer from './CardContainer'
 import Partials, { AlertStatus } from './partials'
 import RowView from './RowView'
 import ToastService from './ToastService'
+import RenderWaitingScreen from 'app/components/RenderWaitingScreen'
 
 export * from './Button'
 export * from './AppButton'
@@ -24,6 +25,7 @@ export {
   AppLoading,
   AppImageHeader,
   ToastService,
+  RenderWaitingScreen
 }
 
 export default {
@@ -34,4 +36,5 @@ export default {
   AppLoading,
   AppImageHeader,
   ToastService,
+  RenderWaitingScreen
 }

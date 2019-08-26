@@ -10,7 +10,7 @@ interface IProps {
   fetching: boolean
   loadingSrc: string
   style: any
-  backgroundColor: string
+  backgroundColor?: string
 }
 
 export default class AppLoading extends Component<IProps> {

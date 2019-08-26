@@ -106,7 +106,7 @@ export default class RenderHabitScreen extends Component<IProps> {
 
   renderLeftIcon = () => (
     <TouchableOpacity onPress={this.props.goBack}>
-      <AppIcon icon={"close"} color={Colors.white} />
+      <AppIcon icon={'close'} color={Colors.white} />
     </TouchableOpacity>
   )
 

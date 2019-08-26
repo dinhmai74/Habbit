@@ -10,7 +10,7 @@ I18n.translations = {
   en: require('./languages/english.json')
 };
 
-let languageCode = I18n.locale.substr(0, 2)
+const languageCode = I18n.locale.substr(0, 2)
 
 // All other translations for the app goes to the respective language file:
 switch (languageCode) {
@@ -48,7 +48,7 @@ switch (languageCode) {
     I18n.translations.et = require('./languages/et.json')
     break
   case 'fi':
-    let addCode = I18n.locale.substr(0, 3)
+    const addCode = I18n.locale.substr(0, 3)
     if (addCode === 'fil') {
       I18n.translations.fil = require('./languages/fil.json')
     } else {
