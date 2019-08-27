@@ -1,30 +1,29 @@
 import { StyleSheet, } from "react-native"
 import Fonts from "../../themes/Fonts"
-import { Colors, } from "../../themes"
+import { Colors, spacing } from '../../themes'
 
 export default StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingBottom: 20,
-    margin: 10,
+    padding: spacing[3],
   },
   textWithIcon: {
     flexDirection: "row",
   },
   leftIcon: {
-    marginLeft: 20,
+    marginLeft: spacing[3],
     alignSelf: "center",
-    width: 40,
+    width: 30,
   },
   rightText: {
     alignSelf: "center",
-    paddingLeft: 20,
+    paddingLeft: spacing[3],
     fontFamily: Fonts.type.bold,
   },
   value: {
-    marginRight: 20,
+    marginRight: spacing[3],
     color: Colors.green,
   },
 })

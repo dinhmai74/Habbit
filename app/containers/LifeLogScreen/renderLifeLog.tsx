@@ -1,3 +1,4 @@
+import metrics from 'app/themes/Metrics'
 import LottieView from 'lottie-react-native'
 import {
   Card as NBCard,
@@ -11,6 +12,7 @@ import { Animated, StyleSheet, TouchableOpacity, View } from 'react-native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import Entypo from 'react-native-vector-icons/Entypo'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 import moment from 'moment'
@@ -23,34 +25,33 @@ import {
   AppHeader,
   BorderCard,
   SizedBox,
-} from '../../components'
-import CalendarsHabit from '../../components/Calendar/CalendarHabit'
-import LineLog from '../../components/LineLog/LineLog'
+} from 'components'
+import CalendarsHabit from 'app/components/Calendar/CalendarHabit'
+import LineLog from 'app/components/LineLog/LineLog'
 // @ts-ignore
-import PullToRefreshListView from '../../components/PullToRefreshView'
-import I18n from '../../localization'
-import { Colors, Fonts, Images, Metrics, strings } from '../../themes'
-import { spacing } from '../../themes/spacing'
+import PullToRefreshListView from 'components/PullToRefreshView'
+import I18n from 'localization'
+import { Colors, Fonts, Images, Metrics, strings, spacing } from 'themes'
 import styled from 'styled-components'
 import { NavigationInjectedProps } from 'react-navigation'
 
-const checkIcon = <FontAwesome5 name='check' size={30} color={Colors.green} />
-const starIcon = <FontAwesome name='star' size={30} color={Colors.yellow} />
+const checkIcon = <Ionicons name='md-checkmark' size={metrics.icon.normal} color={Colors.green}/>
+const starIcon = <Entypo name='star' size={metrics.icon.normal} color={Colors.yellow}/>
 const trophyIcon = (
-  <Ionicons name='md-trophy' size={30} color={Colors.bloodOrange} />
+  <Entypo name='trophy' size={metrics.icon.normal} color={Colors.bloodOrange}/>
 )
 const thLarge = (
-  <FontAwesome name='th-large' size={30} color={Colors.lightRed} />
+  <Ionicons name='th-large' size={metrics.icon.normal} color={Colors.lightRed}/>
 )
 const infoCircle = (
-  <FontAwesome5 name='info-circle' size={30} color={Colors.blue} />
+  <FontAwesome5 name='info-circle' size={metrics.icon.normal} color={Colors.blue}/>
 )
 
 const MIN_PULLDOWN_DISTANCE = -140
 
 const StyledRow = styled(Row)`
   flex-direction: row;
-  padding: ${spacing[2]}px ${spacing[5]}px;
+  padding: ${spacing[2]}px ${spacing[0]}px;
   background: ${Colors.white};
 `
 
@@ -86,7 +87,8 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       streaks: 0,
     },
     fetching: true,
-    handleRefresh: () => {},
+    handleRefresh: () => {
+    },
   }
 
   state = {
@@ -185,10 +187,6 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
 
     const { isRefresh, scrollViewPositionY } = this.state
 
-    const currentStreak = this.getCurrentStreak(streaks)
-    const bestStreak = this.getBestStreak(streaks)
-    const totalPerfectDays = this.getTotalPerfectDays(perfectDates)
-
     const interpolatedRotateClockwise = this.state.scrollY.interpolate({
       inputRange: [-200, 0],
       outputRange: ['0deg', '360deg'],
@@ -216,21 +214,25 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
           {this.renderModal()}
         </Modal>
 
-        <PullToRefreshListView onRefresh={this.onRefresh} isRefreshing={false}>
+        <PullToRefreshListView onRefresh={this.onRefresh} isRefreshing={fetching}
+                               scrollViewProps={{ showsVerticalScrollIndicator: false}}
+                               style={{ paddingHorizontal: spacing[5] }}>
           <StyledRow>
             <BorderCard style={{ alignItems: 'center', flex: 1 }}>
-              <Text tx={'lifeLog.currentStreaks'} preset={'cardTitle'} />
-              <SizedBox height={2} />
-              <Text text={'3'} preset={'bigContent'} />
+              <Text tx={'lifeLog.currentStreaks'} preset={'cardTitle'}/>
+              <SizedBox height={2}/>
+              <Text text={'3'} preset={'bigContent'}/>
             </BorderCard>
 
-            <SizedBox width={4} />
+            <SizedBox width={4}/>
             <BorderCard style={{ alignItems: 'center', flex: 1 }}>
-              <Text text={'3/7'} preset={'bigContent'} />
-              <SizedBox height={2} />
-              <Text tx={'lifeLog.inThisWeeks'} preset={'cardTitle'} />
+              <Text text={'3/7'} preset={'bigContent'}/>
+              <SizedBox height={2}/>
+              <Text tx={'lifeLog.inThisWeeks'} preset={'cardTitle'}/>
             </BorderCard>
           </StyledRow>
+
+          <SizedBox height={4}/>
 
           <CalendarsHabit
             someDoneDates={someDoneDates}
@@ -241,8 +243,55 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
             isCalendarLife
             ref={(ref) => (this.calendarRef = ref)}
           />
+
+          <SizedBox height={4}/>
+
+          {this.renderDetailLifeLogStat()}
         </PullToRefreshListView>
       </AppBackground>
+    )
+  }
+
+  private renderDetailLifeLogStat = () => {
+    const { lifeLog } = this.props
+    // tslint:disable-next-line:one-variable-per-declaration
+    let totalDone = 0,
+      someDoneDates = 0,
+      perfectDates = 0,
+      streaks = 0
+    if (lifeLog) {
+      totalDone = lifeLog.totalDone
+      someDoneDates = lifeLog.someDoneDates
+      perfectDates = lifeLog.perfectDates
+      streaks = lifeLog.streaks
+    }
+
+    const currentStreak = this.getCurrentStreak(streaks)
+    const bestStreak = this.getBestStreak(streaks)
+    const totalPerfectDays = this.getTotalPerfectDays(perfectDates)
+
+    return (<View style={{ flex: 1 }}>
+        <LineLog
+          icon={checkIcon}
+          content={I18n.t(strings.totalPerfectDays)}
+          value={totalPerfectDays}
+        />
+        <LineLog
+          icon={starIcon}
+          content={I18n.t(strings.yourCurrentSteak)}
+          value={currentStreak}
+        />
+        <LineLog
+          icon={trophyIcon}
+          content={I18n.t(strings.yourBestSteak)}
+          value={bestStreak}
+        />
+        <LineLog
+          icon={infoCircle}
+          content={I18n.t(strings.totalHabitDone)}
+          value={totalDone}
+        />
+      </View>
     )
   }
 }

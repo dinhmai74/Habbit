@@ -18,8 +18,6 @@ interface IState {
 
 const StyledCard = styled(View)`
   border: 1px ${Colors.border};
-  justify-content: flex-start;
-  align-self: flex-start;
   padding: ${spacing[3]}px ${spacing[1]}px;
   background: ${Colors.white};
 `

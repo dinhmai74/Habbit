@@ -22,7 +22,8 @@
     "no-console": false,
     "trailing-comma": true,
     "ordered-imports": false,
-    "no-unused-expression": false
+    "no-unused-expression": false,
+    "only-arrow-functions": false
   },
   "rulesDirectory": []
 }

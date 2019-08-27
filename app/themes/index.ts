@@ -5,5 +5,6 @@ import Images from './Images'
 import Metrics from './Metrics'
 import strings from './strings'
 export * from './palette'
+export * from './spacing'
 
-export { Colors, Fonts, Images, Metrics, ApplicationStyles, strings }
+export { Colors, Fonts, Images, Metrics, ApplicationStyles, strings, }

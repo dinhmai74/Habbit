@@ -1,17 +1,17 @@
 import flatten from 'ramda/es/flatten'
 import mergeAll from 'ramda/es/mergeAll'
 import React, { Component, ReactNode } from 'react'
-import { SafeAreaView, ViewStyle, StatusBar , Image} from 'react-native'
+import { SafeAreaView, ViewStyle, StatusBar, Image, StatusBarStyle } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
-import { Container, NativeBase, View, } from 'native-base'
+import { Container, NativeBase, View } from 'native-base'
 import styled from 'styled-components'
 import { Colors, Images } from '../../themes'
 import { screen } from '../../themes/Metrics'
 import { withNavigation, NavigationInjectedProps } from 'react-navigation'
 import { RootRouteName } from '../../router/RootNavigator'
 import contains from 'ramda/es/contains'
-import { icons, Icon } from 'app/components/icon';
+import { icons, Icon } from 'app/components/icon'
 
 export const ABBackground = styled(Container)`
   background: ${Colors.background};
@@ -60,7 +60,7 @@ export class AppBackground extends Component<IAppBackground, {}> {
   render() {
     const { style: styleOverride, bg, ...rest } = this.props
     const dfViewStyle = mergeAll(
-      flatten([styleOverride, { backgroundColor: bg }])
+      flatten([styleOverride, { backgroundColor: bg }]),
     )
 
     // @ts-ignore
@@ -81,19 +81,22 @@ export class AppBackground extends Component<IAppBackground, {}> {
     const { noImage, navigation } = this.props
     const name = navigation.state.routeName
     let bg = Colors.transparent
-    const gotBgHeader: RootRouteName[] = ['home', ]
+    let statusBarStyle: StatusBarStyle = 'dark-content'
+    const gotBgHeader: RootRouteName[] = ['home']
     if (contains(name, gotBgHeader)) {
       bg = Colors.header.bg.linear.start
+      statusBarStyle = 'light-content'
     }
+
     return (
       <ABBackground style={viewStyle} {...rest}>
-        <SafeAreaView style={{ flex: 0, backgroundColor: bg }} />
+        <SafeAreaView style={{ flex: 0, backgroundColor: bg }}/>
         <SafeAreaView style={{ flex: 1 }}>
-          <StatusBar barStyle='light-content' />
+          <StatusBar barStyle={statusBarStyle}/>
           {this.props.children}
           {!noImage && (
             <StyledBottomImageWrapper>
-              <StyledBottomImage icon='bottomColoredImage' />
+              <StyledBottomImage icon='bottomColoredImage'/>
             </StyledBottomImageWrapper>
           )}
         </SafeAreaView>
@@ -103,7 +106,7 @@ export class AppBackground extends Component<IAppBackground, {}> {
 
   renderLinearBg(styleOverride: ViewStyle, rest): React.ReactNode {
     const viewStyle = mergeAll(
-      flatten([styleOverride, { backgroundColor: Colors.transparent }])
+      flatten([styleOverride, { backgroundColor: Colors.transparent }]),
     )
     const { noImage } = this.props
 
@@ -120,7 +123,7 @@ export class AppBackground extends Component<IAppBackground, {}> {
             {this.props.children}
             {!noImage && (
               <StyledBottomImageWrapper>
-                <StyledBottomImage icon='bottomImage' />
+                <StyledBottomImage icon='bottomImage'/>
               </StyledBottomImageWrapper>
             )}
           </StyledSafeAreaView>

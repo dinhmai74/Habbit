@@ -26,6 +26,8 @@ class LifeLogScreen extends Component<IProps> {
     navigation: null,
   }
 
+  hadLoadingFirstTime: boolean = false
+
   async componentDidMount() {
     this.handleRefresh(currentMonth)
   }
@@ -34,18 +36,24 @@ class LifeLogScreen extends Component<IProps> {
     this.props.fetchLifeLog(month)
   }
 
+  renderFirstTimeLoading = () => {
+    if (this.props.fetching && !this.hadLoadingFirstTime) {
+      this.hadLoadingFirstTime = true
+      return <AppLoading
+        loadingSrc={Images.loadingPreloader}
+        backgroundColor={colors.backdrop}
+      />
+    }
+    return null
+
+  }
+
   render() {
     const { data, fetching, minDate } = this.props
-    console.log('data', data)
-
     return (
       <View style={{ flex: 1 }}>
-        {fetching ? (
-          <AppLoading
-            loadingSrc={Images.loadingPreloader}
-            backgroundColor={colors.backdrop}
-          />
-        ) : null}
+        {this.renderFirstTimeLoading()}
+
         <RenderLifeLogScreen
           navigation={this.props.navigation}
           lifeLog={data}
@@ -56,6 +64,7 @@ class LifeLogScreen extends Component<IProps> {
       </View>
     )
   }
+
 }
 
 const mapStateToProps = (state) => {
@@ -82,6 +91,6 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { fetchLifeLog }
+  { fetchLifeLog },
   // @ts-ignore
 )(LifeLogScreen)

@@ -3,6 +3,7 @@ import {
   Animated,
   ScrollResponderEvent,
   ScrollView,
+  ScrollViewProps,
   View,
   ViewStyle,
 } from 'react-native'
@@ -68,6 +69,7 @@ interface IProps {
    */
   children: JSX.Element
   endAnimDuration: number
+  scrollViewProps: ScrollViewProps
 }
 
 interface IState {
@@ -223,6 +225,7 @@ class PullToRefreshView extends Component<IProps, IState> {
           }}
           style={{ flex: 1 }}
           ref='PTRListView'
+          {...this.props.scrollViewProps}
         >
           <Animated.View>{this.props.children}</Animated.View>
         </ScrollView>

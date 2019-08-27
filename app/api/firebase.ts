@@ -1,38 +1,31 @@
 import apisauce, { ApisauceInstance } from 'apisauce'
 import _ from 'lodash'
 import { AsyncStorage } from 'react-native'
-import firebase, { Firebase } from 'react-native-firebase'
-import { IIconHabit, ISchedule, ResponseFirebase, ITask } from '../model'
+import firebase from 'react-native-firebase'
+import { IIconHabit, ISchedule, ITask } from '../model'
 import { strings } from '../themes'
-import {
-  fillTask,
-  formatDate,
-  today,
-  logReactotron,
-  formatStringMonth,
-} from '../tools'
+import { fillTask, formatDate, logReactotron, today } from '../tools'
 import { GoogleSignin, statusCodes } from 'react-native-google-signin'
 import { AccessToken, LoginManager } from 'react-native-fbsdk'
 import I18n from '../localization'
 import moment from 'moment'
 
-// export const BASE_URL = 'https://us-central1-habit-74198.cloudfunctions.net'
-export const BASE_URL = 'http://localhost:5000/habit-74198/us-central1'
+export const BASE_URL = 'https://us-central1-habit-74198.cloudfunctions.net'
+// export const BASE_URL = 'http://localhost:5000/habit-74198/us-central1'
 
 export const getTokenString = (token: string): string => `Bearer ${token}`
 
-export let ApiFactory = (function() {
+export let ApiFactory = (() => {
   let instance
 
   function createInstance() {
-    const object = apisauce.create({
+    return apisauce.create({
       baseURL: BASE_URL,
       headers: {
         'Cache-Control': 'no-cache',
       },
       timeout: 5000,
     })
-    return object
   }
 
   return {

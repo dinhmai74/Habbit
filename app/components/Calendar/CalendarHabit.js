@@ -3,8 +3,7 @@ import { Text, StyleSheet, ScrollView, View } from 'react-native'
 import _ from 'lodash'
 import moment from 'moment'
 import { Calendar } from '../react-native-calendars'
-import { Colors } from '../../themes'
-import { currentMonth, getPlatformElevation } from '../../tools'
+import { Colors, spacing } from 'app/themes'
 
 export default class CalendarsHabit extends Component {
   state = {
@@ -64,22 +63,23 @@ export default class CalendarsHabit extends Component {
 
     const someDoneDates = this.convertToMarkedDates(
       this.props.someDoneDates,
-      stylesMarkedDate.someDone
+      stylesMarkedDate.someDone,
     )
 
     const perfectDates = this.convertToMarkedDates(
       this.props.perfectDates,
-      stylesMarkedDate.perfect
+      stylesMarkedDate.perfect,
     )
 
     const lifeLogDates = { ...someDoneDates, ...perfectDates }
 
     return (
-      <View style={styles.calendar}>
+      <View style={styles.container}>
         <Calendar
           ref={c => {
             this.refCalendar = c
           }}
+          style={styles.calendar}
           onMonthChange={
             this.props.isCalendarLife ? date => this.refreshData(date) : null
           }
@@ -102,11 +102,6 @@ const styles = StyleSheet.create({
   calendar: {
     // borderTopWidth: 1,
     // paddingTop: 5,
-    // borderBottomWidth: 1,
-    // borderColor: "#eee",
-    // height: 350,
-    margin: 10,
-    ...getPlatformElevation(),
   },
   text: {
     textAlign: 'center',
@@ -116,6 +111,8 @@ const styles = StyleSheet.create({
   },
   container: {
     // flex: 1,
+    padding: 1,
+    backgroundColor: Colors.border,
   },
 })
 
