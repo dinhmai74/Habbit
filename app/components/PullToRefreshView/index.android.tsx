@@ -95,7 +95,7 @@ class PullToRefreshView extends React.Component<IProps, IState> {
       scrollY: new Animated.Value(0),
       refreshHeight: new Animated.Value(0),
       currentY: 0,
-      isScrollFree: false,
+      isScrollFree: true,
 
       isRefreshAnimationStarted: false,
       isRefreshAnimationEnded: false,
@@ -351,6 +351,7 @@ class PullToRefreshView extends React.Component<IProps, IState> {
         <ScrollView
           ref='scrollComponentRef'
           scrollEnabled={this.state.isScrollFree}
+          showsVerticalScrollIndicator={false}
           onScroll={onScrollEvent}
           onTouchEnd={() => {
             this.isScrolledToTop()

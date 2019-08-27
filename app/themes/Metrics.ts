@@ -5,6 +5,16 @@ import { spacing } from './spacing'
 const { width, height } = Dimensions.get('window')
 const statusBarHeight = getStatusBarHeight()
 
+// based on iphone 5s's scale
+// Use iPhone8 1x as base size which is 375 x 667
+const baseWidth = 375
+const baseHeight = 667
+
+const scaleWidth = width / baseWidth
+const scaleHeight = height / baseHeight
+const scale = Math.min(scaleWidth, scaleHeight)
+export const scaledSize = (size: number) => Math.ceil(size * scale)
+
 export const screen = { height, width }
 
 const metrics = {

@@ -30,24 +30,24 @@
 				<string>com.googleusercontent.apps.799376880019-obvjegggpmsumaceav9p93oh5imvu7sp</string>
 			</array>
 		</dict>
-    <dict>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>fb265043814427464</string>
-      </array>
-    </dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb265043814427464</string>
+			</array>
+		</dict>
 	</array>
-  <key>FacebookAppID</key>
-  <string>265043814427464</string>
-  <key>FacebookDisplayName</key>
-  <string>Habbit</string>
-  <key>LSApplicationQueriesSchemes</key>
-  <array>
-    <string>fbapi</string>
-    <string>fb-messenger-share-api</string>
-    <string>fbauth2</string>
-    <string>fbshareextension</string>
-  </array>
+	<key>FacebookAppID</key>
+	<string>265043814427464</string>
+	<key>FacebookDisplayName</key>
+	<string>Habbit</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>

@@ -1,4 +1,5 @@
 import { Container, Root, StyleProvider, View } from 'native-base'
+import { ThemeProvider } from 'react-native-elements'
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import Reactotron from 'reactotron-react-native'
@@ -6,6 +7,7 @@ import './app/localization/I18n'
 
 import { AsyncStorage, NativeModules, Platform, YellowBox } from 'react-native'
 import firebase from 'react-native-firebase'
+import { ElementTheme } from './ElementStyle'
 import RootNavigator from './app/router/RootNavigator'
 import store from './app/store'
 import strings from './app/themes/strings'
@@ -33,21 +35,24 @@ class App extends Component {
       console.log('user token:\n ', token)
     }
   }
+
   render() {
     return (
-      <Root>
-        <StyleProvider style={getTheme(material)}>
-          <Container>
-            <Provider store={store}>
-              <RootNavigator
-                ref={(navigatorRef) => {
-                  NavigateService.setTopLevelNavigator(navigatorRef)
-                }}
-              />
-            </Provider>
-          </Container>
-        </StyleProvider>
-      </Root>
+      <ThemeProvider theme={ElementTheme}>
+        <Root>
+          <StyleProvider style={getTheme(material)}>
+            <Container>
+              <Provider store={store}>
+                <RootNavigator
+                  ref={(navigatorRef) => {
+                    NavigateService.setTopLevelNavigator(navigatorRef)
+                  }}
+                />
+              </Provider>
+            </Container>
+          </StyleProvider>
+        </Root>
+      </ThemeProvider>
     )
   }
 }

@@ -1,3 +1,5 @@
+import { presets } from 'app/components/Text/text.presets'
+import { Fonts } from 'app/themes/index'
 import { normalize } from 'react-native-elements'
 
 const type = {
@@ -21,6 +23,8 @@ const type = {
   thinItalic: 'Montserrat-ThinItalic',
 }
 
+export type FontTypes = keyof typeof type
+
 const size = {
   h1: normalize(38),
   h2: normalize(34),
@@ -28,6 +32,13 @@ const size = {
   h4: normalize(26),
   h5: normalize(21),
   h6: normalize(19),
+  s1: normalize(18),
+  s2: normalize(16),
+  c1: normalize(20),
+  c2: normalize(18),
+  label: normalize(20),
+  p1: normalize(17),
+  p2: normalize(17),
   input: normalize(17),
   base: normalize(15),
   regular: normalize(16),
@@ -113,6 +124,8 @@ const style = {
     fontSize: size.small,
   },
 }
+
+export type FontStyles = keyof typeof style
 
 export default {
   type,

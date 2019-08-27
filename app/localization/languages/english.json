@@ -118,6 +118,7 @@
   },
   "lifeLog": {
     "currentStreaks": "Current Streaks",
-    "inThisWeeks" : "In this week"
+    "inThisWeeks" : "In this week",
+    "today": "Today"
   }
 }

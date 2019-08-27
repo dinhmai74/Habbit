@@ -28,11 +28,12 @@ class LifeLogScreen extends Component<IProps> {
 
   hadLoadingFirstTime: boolean = false
 
-  async componentDidMount() {
+  componentDidMount() {
     this.handleRefresh(currentMonth)
   }
 
-  handleRefresh = async (month) => {
+  handleRefresh = (month) => {
+    alert(month)
     this.props.fetchLifeLog(month)
   }
 
@@ -52,7 +53,6 @@ class LifeLogScreen extends Component<IProps> {
     const { data, fetching, minDate } = this.props
     return (
       <View style={{ flex: 1 }}>
-        {this.renderFirstTimeLoading()}
 
         <RenderLifeLogScreen
           navigation={this.props.navigation}

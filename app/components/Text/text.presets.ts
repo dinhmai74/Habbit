@@ -1,6 +1,6 @@
+import style from 'app/components/PullToRefreshView/style'
 import { TextStyle } from 'react-native'
-import { Colors, Fonts } from '../../themes'
-import { Col } from 'native-base'
+import { Colors, Fonts, } from '../../themes'
 
 /**
  * All text will start off looking like this.
@@ -26,7 +26,7 @@ export const presets = {
    * A bold version of the default text.
    * font size 15,black bold text
    */
-  bold: { ...BASE, fontWeight: 'bold', color: Colors.text.black } as TextStyle,
+  bold: { ...BASE, fontWeight: 'bold' } as TextStyle,
 
   /**
    * Large headers.
@@ -60,9 +60,12 @@ export const presets = {
    * font size 9 ,black bold text
    */
   secondary: { ...BASE, fontSize: 9, color: Colors.dim } as TextStyle,
+
+  ...Fonts.style,
 }
 
 /**
  * A list of preset names.
  */
 export type TextPresets = keyof typeof presets
+

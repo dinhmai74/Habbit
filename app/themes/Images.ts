@@ -27,6 +27,7 @@ const images = {
   loadingHome: require('../images/5087-ganesha.json'),
   loadingDog: require('../images/dog-wagging.json'),
   loadingPreloader: require('../images/51-preloader.json'),
+  lifeLogFunny: require('../images/8879-lee.json')
   // loadingLine: require('../images/loading-line.json')
 }
 

@@ -1,47 +1,36 @@
-import metrics from 'app/themes/Metrics'
+import colors from 'app/themes/Colors'
+import metrics, { scaledSize } from 'app/themes/Metrics'
 import LottieView from 'lottie-react-native'
-import {
-  Card as NBCard,
-  CardItem,
-  Row,
-  Spinner,
-  Text as NativebaseText,
-} from 'native-base'
 import React, { Component } from 'react'
-import { Animated, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Row } from 'react-native-easy-grid'
+import { Animated, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-
+import { ProgressCircle } from 'react-native-svg-charts'
 import moment from 'moment'
 import Modal from 'react-native-modal'
 import {
-  AppLoading,
   AppBackground,
   Text,
-  withSpacing,
   AppHeader,
   BorderCard,
-  SizedBox,
+  SizedBox, AppLoading,
 } from 'components'
 import CalendarsHabit from 'app/components/Calendar/CalendarHabit'
 import LineLog from 'app/components/LineLog/LineLog'
 // @ts-ignore
-import PullToRefreshListView from 'components/PullToRefreshView'
 import I18n from 'localization'
 import { Colors, Fonts, Images, Metrics, strings, spacing } from 'themes'
 import styled from 'styled-components'
 import { NavigationInjectedProps } from 'react-navigation'
+import PullToRefresh from 'react-native-pull-refresh'
 
 const checkIcon = <Ionicons name='md-checkmark' size={metrics.icon.normal} color={Colors.green}/>
 const starIcon = <Entypo name='star' size={metrics.icon.normal} color={Colors.yellow}/>
 const trophyIcon = (
   <Entypo name='trophy' size={metrics.icon.normal} color={Colors.bloodOrange}/>
-)
-const thLarge = (
-  <Ionicons name='th-large' size={metrics.icon.normal} color={Colors.lightRed}/>
 )
 const infoCircle = (
   <FontAwesome5 name='info-circle' size={metrics.icon.normal} color={Colors.blue}/>
@@ -102,10 +91,14 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
 
   animation: LottieView | null | undefined
   calendarRef: any
+  refLottieFunny: LottieView | null | undefined
 
   componentDidMount() {
     if (this.animation) {
       this.animation.play()
+    }
+    if (this.refLottieFunny) {
+      this.refLottieFunny.play()
     }
   }
 
@@ -148,7 +141,7 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
     this.props.handleRefresh(month)
   }
 
-  _toggleModal = () =>
+  toggleModal = () =>
     this.setState({ isModalVisible: !this.state.isModalVisible })
 
   renderModal = () => (
@@ -163,10 +156,10 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       <Text style={styles.text}>
         Aim for as many of these perfect days as you can.
       </Text>
-      <TouchableOpacity onPress={this._toggleModal}>
-        <NativebaseText style={styles.subTitleText}>
+      <TouchableOpacity onPress={this.toggleModal}>
+        <Text style={styles.subTitleText}>
           I'll try my best
-        </NativebaseText>
+        </Text>
       </TouchableOpacity>
     </View>
   )
@@ -202,6 +195,8 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       },
     ])
 
+    const content = this.renderContent(someDoneDates, perfectDates)
+
     return (
       <AppBackground noImage>
         <AppHeader
@@ -214,43 +209,89 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
           {this.renderModal()}
         </Modal>
 
-        <PullToRefreshListView onRefresh={this.onRefresh} isRefreshing={fetching}
-                               scrollViewProps={{ showsVerticalScrollIndicator: false}}
-                               style={{ paddingHorizontal: spacing[5] }}>
-          <StyledRow>
-            <BorderCard style={{ alignItems: 'center', flex: 1 }}>
-              <Text tx={'lifeLog.currentStreaks'} preset={'cardTitle'}/>
-              <SizedBox height={2}/>
-              <Text text={'3'} preset={'bigContent'}/>
-            </BorderCard>
+        <PullToRefresh
+          isRefreshing={this.state.isRefresh}
+          onRefresh={this.onRefresh}
+          animationBackgroundColor={Colors.secondary}
+          pullHeight={180}
+          contentView={
+            content
+          }
 
-            <SizedBox width={4}/>
-            <BorderCard style={{ alignItems: 'center', flex: 1 }}>
-              <Text text={'3/7'} preset={'bigContent'}/>
-              <SizedBox height={2}/>
-              <Text tx={'lifeLog.inThisWeeks'} preset={'cardTitle'}/>
-            </BorderCard>
-          </StyledRow>
+          onPullAnimationSrc={Images.umbrella_pull}
+          onStartRefreshAnimationSrc={Images.umbrella_start}
+          onRefreshAnimationSrc={Images.umbrella_repeat}
+          onEndRefreshAnimationSrc={Images.umbrella_end}
+        />
 
-          <SizedBox height={4}/>
-
-          <CalendarsHabit
-            someDoneDates={someDoneDates}
-            perfectDates={perfectDates}
-            isLifeLog
-            handleRefresh={this.props.handleRefresh}
-            minDate={this.props.minDate}
-            isCalendarLife
-            ref={(ref) => (this.calendarRef = ref)}
-          />
-
-          <SizedBox height={4}/>
-
-          {this.renderDetailLifeLogStat()}
-        </PullToRefreshListView>
       </AppBackground>
     )
   }
+
+  private renderContent(someDoneDates: number, perfectDates: number) {
+    const { fetching } = this.props
+    return (<View style={{ padding: spacing[5], backgroundColor: Colors.white }}>
+      {this.renderTodayInfoRow()}
+
+      <SizedBox height={4}/>
+
+      <View>
+        {
+          fetching ? <AppLoading
+            loadingSrc={Images.loadingPreloader}
+          /> : null
+        }
+
+        <CalendarsHabit
+          someDoneDates={someDoneDates}
+          perfectDates={perfectDates}
+          isLifeLog
+          handleRefresh={this.onRefresh}
+          minDate={this.props.minDate}
+          isCalendarLife
+          ref={(ref) => (this.calendarRef = ref)}
+        />
+      </View>
+
+      <SizedBox height={4}/>
+      {this.renderThisWeekInfoRow()}
+
+      <SizedBox height={4}/>
+
+      {this.renderThisMonthInfoRow()}
+
+      <SizedBox height={4}/>
+
+      {this.renderDetailLifeLogStat()}
+    </View>)
+  }
+
+  private renderTodayInfoRow = () =>
+    (<StyledRow>
+      {/*<BorderCard style={{ alignItems: 'center', flex: 1 }}>*/}
+      {/*  <Text tx={'lifeLog.currentStreaks'} preset={'cardTitle'}/>*/}
+      {/*  <SizedBox height={2}/>*/}
+      {/*  <Text text={'3'} preset={'bigContent'}/>*/}
+      {/*</BorderCard>*/}
+
+      {/*<SizedBox width={4}/>*/}
+      {/*<BorderCard style={{ alignItems: 'center', flex: 1 }}>*/}
+      {/*  <Text text={'3/7'} preset={'bigContent'}/>*/}
+      {/*  <SizedBox height={2}/>*/}
+      {/*  <Text tx={'lifeLog.inThisWeeks'} preset={'cardTitle'}/>*/}
+      {/*</BorderCard>*/}
+
+      <SizedBox height={2}/>
+      <BorderCard>
+        <Text text={'0/4'} preset={'bigContent'} style={{ paddingHorizontal: spacing[5] }}/>
+        <SizedBox height={2}/>
+        <Text tx={'lifeLog.today'} preset={'cardTitle'} style={{ paddingHorizontal: spacing[5] }}/>
+      </BorderCard>
+      <View style={{ flex: 1 }}>
+        <LottieView ref={(c) => this.refLottieFunny = c} loop source={Images.lifeLogFunny}/>
+
+      </View>
+    </StyledRow>)
 
   private renderDetailLifeLogStat = () => {
     const { lifeLog } = this.props
@@ -294,6 +335,26 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       </View>
     )
   }
+
+  private renderThisWeekInfoRow = () => {
+    const chartWidth = scaledSize(50)
+    const series = [10, 80]
+    const sliceColor = [Colors.primary, Colors.border]
+
+    return (
+      <BorderCard>
+        <Text h4 text={'this week'}/>
+        <ProgressCircle style={{ height: 200 }} progress={0.7} progressColor={'rgb(134, 65, 244)'}/>
+      </BorderCard>
+    )
+  }
+
+  private renderThisMonthInfoRow = () =>
+    (
+      <BorderCard>
+        <Text h1 text={'this month'}/>
+      </BorderCard>
+    )
 }
 
 const styles = StyleSheet.create({

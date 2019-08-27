@@ -14,13 +14,17 @@ target 'Habbit' do
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
   pod 'lottie-ios', :path => '../node_modules/lottie-ios'
-  pod 'React', :path => '../node_modules/react-native'
+  pod 'React', :path => '../node_modules/react-native',  :subspecs => [
+                                                                'RCTImage',
+                                                            ]
 pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
 pod 'GoogleSignIn', '~> 4.4.0'
   pod 'RNGoogleSignin', :path => '../node_modules/react-native-google-signin'
 pod 'FBSDKLoginKit'
 pod 'FBSDKCoreKit'
   pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
   target 'HabbitTests' do
     inherit! :search_paths

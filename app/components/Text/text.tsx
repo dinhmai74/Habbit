@@ -1,7 +1,9 @@
 import { flatten, mergeAll } from 'ramda'
 import * as React from 'react'
-import { Text as EText } from 'react-native-elements'
+import { normalize, Text as ElementText } from 'react-native-elements'
+import { Text as NBText } from 'native-base'
 import I18n from '../../localization'
+import { Fonts } from 'themes'
 import { presets } from './text.presets'
 import { TextProps } from './text.props'
 
@@ -18,7 +20,23 @@ export function Text(props: TextProps) {
     txOptions,
     text,
     children,
+    color,
     style: styleOverride,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    s1,
+    s2,
+    c1,
+    c2,
+    label,
+    p1,
+    p2,
+    bold,
+    fontType,
     ...rest
   } = props
 
@@ -27,12 +45,29 @@ export function Text(props: TextProps) {
   const content = i18nText || text || children
 
   const style = mergeAll(
-    flatten([presets[preset] || presets.default, styleOverride]),
+    flatten([presets[preset] || presets.default,
+      h1 && { fontSize: Fonts.size.h1 },
+      h2 && { fontSize: Fonts.size.h2 },
+      h3 && { fontSize: Fonts.size.h3 },
+      h4 && { fontSize: Fonts.size.h4 },
+      h5 && { fontSize: Fonts.size.h5 },
+      h6 && { fontSize: Fonts.size.h6 },
+      s1 && { fontSize: Fonts.size.s1 },
+      s2 && { fontSize: Fonts.size.s2 },
+      c1 && { fontSize: Fonts.size.c1 },
+      c2 && { fontSize: Fonts.size.c2 },
+      label && { fontSize: Fonts.size.label },
+      p1 && { fontSize: Fonts.size.p1 },
+      p2 && { fontSize: Fonts.size.p2 },
+      bold && presets.bold,
+      fontType && { fontFamily: Fonts.type[fontType] },
+      styleOverride,
+    ]),
   )
 
   return (
-    <EText {...rest} style={style}>
+    <NBText {...rest} style={style}>
       {content}
-    </EText>
+    </NBText>
   )
 }
