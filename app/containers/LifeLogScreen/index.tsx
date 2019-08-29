@@ -33,7 +33,6 @@ class LifeLogScreen extends Component<IProps> {
   }
 
   handleRefresh = (month) => {
-    alert(month)
     this.props.fetchLifeLog(month)
   }
 

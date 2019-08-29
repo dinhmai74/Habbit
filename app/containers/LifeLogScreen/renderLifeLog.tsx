@@ -130,10 +130,10 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
     })
   }
 
-  onRefresh: () => void = () => {
+  onRefresh = (date) => {
     let month: any = new Date()
-    if (this.calendarRef) {
-      month = this.calendarRef.getWatchingMonth()
+    if (date) {
+      month = date
     }
 
     month = moment(month).format(strings.format.month)
@@ -235,23 +235,11 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
 
       <SizedBox height={4}/>
 
-      <View>
-        {
-          fetching ? <AppLoading
-            loadingSrc={Images.loadingPreloader}
-          /> : null
-        }
-
-        <CalendarsHabit
-          someDoneDates={someDoneDates}
-          perfectDates={perfectDates}
-          isLifeLog
-          handleRefresh={this.onRefresh}
-          minDate={this.props.minDate}
-          isCalendarLife
-          ref={(ref) => (this.calendarRef = ref)}
-        />
-      </View>
+      {
+        fetching ? <AppLoading
+          loadingSrc={Images.loadingPreloader}
+        /> : null
+      }
 
       <SizedBox height={4}/>
       {this.renderThisWeekInfoRow()}
@@ -261,6 +249,16 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       {this.renderThisMonthInfoRow()}
 
       <SizedBox height={4}/>
+
+      <CalendarsHabit
+        someDoneDates={someDoneDates}
+        perfectDates={perfectDates}
+        isLifeLog
+        handleRefresh={this.onRefresh}
+        minDate={this.props.minDate}
+        isCalendarLife
+        ref={(ref) => (this.calendarRef = ref)}
+      />
 
       {this.renderDetailLifeLogStat()}
     </View>)
