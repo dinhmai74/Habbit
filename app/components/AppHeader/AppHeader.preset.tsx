@@ -2,9 +2,9 @@ import { TextStyle, View, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import styled from "styled-components";
 import { Icon } from "../icon";
-import { spacing } from "../../themes/spacing";
-import { Colors as color } from "../../themes";
-import { screen } from "../../themes/Metrics";
+import { spacing } from "app/themes/spacing";
+import { Colors as color } from "app/themes";
+import { screen } from "app/themes/Metrics";
 import { presets } from "../Text/text.presets";
 
 // static styles

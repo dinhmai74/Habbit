@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { StyleSheet } from "react-native";
-import { Colors, Fonts } from "../../themes";
+import { Colors, Fonts } from "app/themes";
 import { AppText } from "../Text";
 import Button from "./Button";
 

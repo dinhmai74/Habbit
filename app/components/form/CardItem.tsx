@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { StyleSheet, View } from "react-native";
-import { ApplicationStyles } from "../../themes";
-import { getPlatformElevation } from "../../tools";
+import { ApplicationStyles } from "app/themes";
+import { getPlatformElevation } from "app/tools";
 
 export default class CardItem extends PureComponent {
   render() {

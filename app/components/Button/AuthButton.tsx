@@ -4,8 +4,8 @@ import React, { PureComponent } from "react";
 import { StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
 import LinearGradient from "react-native-linear-gradient";
-import { ApplicationStyles, Colors, Fonts } from "../../themes";
-import { getPlatformElevation } from "../../tools";
+import { ApplicationStyles, Colors, Fonts } from "app/themes";
+import { getPlatformElevation } from "app/tools";
 
 interface IProps {
   flex?: number;

@@ -8,7 +8,7 @@ import { Icon } from "react-native-elements";
 import firebase from "react-native-firebase";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
-import { editTaskStatus } from "../../../actions";
+import { editTaskStatus } from "app/appRedux/actions";
 import { AppText, CardItem, RowView } from "../../../components";
 import ModalTask from "../../../components/Modal";
 import I18n from "../../../localization";
@@ -21,7 +21,7 @@ import {
   strings,
 } from "../../../themes";
 import { capitalize } from "../../../tools";
-import { getTokenString } from "../../../api/firebase";
+import { getTokenString } from "app/api/firebase";
 
 const SubIconEnum = {
   close: "close",

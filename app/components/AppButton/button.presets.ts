@@ -1,7 +1,7 @@
 import { TextStyle, ViewStyle } from "react-native";
-import { Colors } from "../../themes";
-import { palette } from "../../themes/palette";
-import { spacing } from "../../themes/spacing";
+import { Colors } from "app/themes";
+import { palette } from "app/themes/palette";
+import { spacing } from "app/themes/spacing";
 import { presets } from "../Text/text.presets";
 
 /**

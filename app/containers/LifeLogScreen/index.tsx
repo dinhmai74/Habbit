@@ -1,4 +1,4 @@
-import { RemainTasksActions } from "reducers";
+import { RemainTasksActions } from "app/appRedux/reducers";
 import _ from "lodash";
 import { View } from "native-base";
 import React, { Component } from "react";
@@ -6,7 +6,7 @@ import { NavigationScreenProps } from "react-navigation";
 import { connect } from "react-redux";
 
 import moment from "moment";
-import { fetchLifeLog } from "actions";
+import { fetchLifeLog } from "app/appRedux/actions";
 import { AppLoading } from "../../components";
 import RenderWaitingScreen from "../../components/RenderWaitingScreen";
 import { currentMonth, formatDate } from "../../tools";
@@ -90,10 +90,11 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ fetchLifeLog, ...RemainTasksActions }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ fetchLifeLog, ...RemainTasksActions }, dispatch);
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
   // @ts-ignore
 )(LifeLogScreen);

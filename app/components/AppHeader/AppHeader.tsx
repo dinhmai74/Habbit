@@ -18,8 +18,8 @@ import {
   TRANSPARENT_TEXT,
 } from "./AppHeader.preset";
 import { IHeaderProps } from "./AppHeader.props";
-import AppI18n from "../../localization";
-import { Colors, palette } from "../../themes";
+import AppI18n from "app/localization";
+import { Colors, palette } from "app/themes";
 import { Text } from "../Text";
 import { Icon, IconTypes } from "../icon";
 import styled from "styled-components";

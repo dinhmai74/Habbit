@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
-import { Colors } from "../../themes";
+import { Colors } from "app/themes";
 
 const ImageButton = ({ icon, style, size, tintColor, pressed = () => {} }) => (
   <TouchableOpacity

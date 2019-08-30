@@ -11,8 +11,8 @@ import {
   editSchedule,
   fetchTasks,
   refetchTasks,
-} from "../../../actions";
-import FirebaseWorker from "../../../api/firebase";
+} from "app/appRedux/actions";
+import FirebaseWorker from "app/api/firebase";
 import { ToastService } from "../../../components";
 import I18n from "../../../localization";
 import {

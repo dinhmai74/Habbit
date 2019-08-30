@@ -10,14 +10,14 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { NavigationScreenProps } from "react-navigation";
 import { connect } from "react-redux";
 
-import { refetchTasks } from "../../actions";
-import { AppHeader, AppBackground } from "../../components";
-import CalendarsHabit from "../../components/Calendar/CalendarHabit";
-import EditTaskLine from "../../components/EditTaskLine";
-import I18n from "../../localization";
-import { IArchived } from "../../model";
-import { Colors, Fonts, Images, strings } from "../../themes";
-import { getPlatformElevation } from "../../tools";
+import { refetchTasks } from "app/appRedux/actions";
+import { AppHeader, AppBackground } from "components";
+import CalendarsHabit from "app/components/Calendar/CalendarHabit";
+import EditTaskLine from "app/components/EditTaskLine";
+import I18n from "app/localization";
+import { IArchived } from "app/model";
+import { Colors, Fonts, Images, strings } from "app/themes";
+import { getPlatformElevation } from "app/tools";
 
 const rightArrowIcon = (
   <FontAwesome name="chevron-right" size={30} color={Colors.buttonColor} />

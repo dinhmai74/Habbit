@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { Colors, Metrics } from "../../themes";
+import { Colors, Metrics } from "app/themes";
 
 const styles = StyleSheet.create({
   wideButton: {

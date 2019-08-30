@@ -12,10 +12,10 @@ import LinearGradient from "react-native-linear-gradient";
 
 import { Container, NativeBase, View } from "native-base";
 import styled from "styled-components";
-import { Colors, Images } from "../../themes";
-import { screen } from "../../themes/Metrics";
+import { Colors, Images } from "app/themes";
+import { screen } from "app/themes/Metrics";
 import { withNavigation, NavigationInjectedProps } from "react-navigation";
-import { RootRouteName } from "../../router/RootNavigator";
+import { RootRouteName } from "app/router/RootNavigator";
 import contains from "ramda/es/contains";
 import { icons, Icon } from "app/components/icon";
 
