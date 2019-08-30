@@ -1,34 +1,34 @@
 // @flow
 // @ts-nocheck
-export type TimeShift = "morning" | "afternoon" | "evening";
+export type TimeShiftType = "morning" | "afternoon" | "evening";
 export type TypeSchedule = "daily" | "weekly" | "monthly";
-export type TArchivedStatus = "done" | "overdue" | "spending";
+export type ArchivedTaskModel = "done" | "overdue" | "spending";
 export interface IArchived {
   date: string;
-  status: TArchivedStatus;
+  status: ArchivedTaskModel;
 }
 
-export interface ISchedule {
-  shift: TimeShift;
+export interface ScheduleTaskModel {
+  shift: TimeShiftType;
   times: number[];
   type: TypeSchedule;
 }
 
-export interface IIconHabit {
+export interface IconDisplayModel {
   color: string;
   name: string;
 }
 
-export interface ITask {
+export interface TaskDisplayModel {
   date: string;
-  icon: IIconHabit;
+  icon: IconDisplayModel;
   quest: string;
   status: "complete" | "spending" | "skipped";
-  schedule: ISchedule;
+  schedule: ScheduleTaskModel;
   taskDuringTime: number;
 }
 
-export interface IHabitRawItem {
+export interface TaskRawModel {
   quest: string;
   icon: {
     color: string;
@@ -39,17 +39,17 @@ export interface IHabitRawItem {
   taskDuringTime: number;
   createdDate: string;
   uid: string;
-  schedule: ISchedule;
+  schedule: ScheduleTaskModel;
 }
 
-export interface IHabitItem {
+export interface TaskFormattedModel {
   quest: string;
   icon: {
     color: string;
     name: string;
   };
   date: string;
-  status: TArchivedStatus;
+  status: ArchivedTaskModel;
   taskDuringTime: number;
   id: string;
   archived: IArchived[];

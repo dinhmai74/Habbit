@@ -15,6 +15,7 @@
     "skipLibCheck": true,
     "baseUrl": "./app",
     "paths": {
+      "*": ["node_modules/*", "*"],
       "app/*": ["*"],
       "actions/*": ["/actions/*"],
       "api/*": ["/api/*"],

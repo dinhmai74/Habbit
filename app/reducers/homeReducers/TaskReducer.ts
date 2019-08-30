@@ -22,7 +22,7 @@ import { NetInfo } from "react-native";
 import { DELETE_TASK } from "../../actions/ActionTypes/DeleteTask";
 import { FirebaseWorker } from "../../api/firebase";
 // import { TypeHabitRawItem } from 'app/model';
-import { IHabitRawItem, TArchivedStatus } from "../../model";
+import { TaskRawModel, ArchivedTaskModel } from "../../model";
 
 const INITIAL_STATE = {
   data: null,
@@ -31,15 +31,15 @@ const INITIAL_STATE = {
 };
 
 interface State {
-  data: IHabitRawItem[] | null;
+  data: TaskRawModel[] | null;
   error: object | null;
   fetching: boolean;
 }
 
 const editTask = (
-  oldTasks: IHabitRawItem[],
-  taskEdit: { taskId: string; date: string; status: TArchivedStatus }
-): IHabitRawItem[] => {
+  oldTasks: TaskRawModel[],
+  taskEdit: { taskId: string; date: string; status: ArchivedTaskModel }
+): TaskRawModel[] => {
   FirebaseWorker.updateArchived(
     taskEdit.taskId,
     taskEdit.status,
@@ -55,7 +55,7 @@ const editTask = (
   return oldTasks;
 };
 
-const editIconAndName = (oldTasks: IHabitRawItem[], newTask) => {
+const editIconAndName = (oldTasks: TaskRawModel[], newTask) => {
   const cloneOldTask = { ...oldTasks };
   const taskNeedEdit: any = _.filter(cloneOldTask, (value: any) => {
     return value.id === newTask.taskId;
@@ -80,13 +80,13 @@ const deleteTask = (oldTasks: any, taskId: string) => {
 };
 
 const createTask = (
-  oldTask: IHabitRawItem[],
-  newTask: IHabitRawItem
-): IHabitRawItem[] => {
+  oldTask: TaskRawModel[],
+  newTask: TaskRawModel
+): TaskRawModel[] => {
   return [...oldTask, newTask];
 };
 
-const editSchedule = (oldTasks: IHabitRawItem[], newTask: any) => {
+const editSchedule = (oldTasks: TaskRawModel[], newTask: any) => {
   const cloneOldTask = { ...oldTasks };
   const taskNeedEdit: any = _.filter(cloneOldTask, (value: any) => {
     return value.id === newTask.taskId;
@@ -99,7 +99,7 @@ const editSchedule = (oldTasks: IHabitRawItem[], newTask: any) => {
   return cloneOldTask;
 };
 
-const editTaskStatus = (oldTasks: IHabitRawItem[], newTask: any) => {
+const editTaskStatus = (oldTasks: TaskRawModel[], newTask: any) => {
   const cloneOldTask = { ...oldTasks };
   const taskNeedEdit: any = _.filter(cloneOldTask, (value: any) => {
     return value.id === newTask.taskId;

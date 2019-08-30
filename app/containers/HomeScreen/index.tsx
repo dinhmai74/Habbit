@@ -22,7 +22,7 @@ import HomeRender from "./renderHomeScreen";
 import { NetInfo, Alert } from "react-native";
 import firebase from "react-native-firebase";
 import { ToastService, RenderWaitingScreen } from "components";
-import { IHabitItem, IHabitRawItem, TArchivedStatus } from "model";
+import { TaskFormattedModel, TaskRawModel, ArchivedTaskModel } from "model";
 import { strings } from "app/themes";
 
 interface IProps {
@@ -39,7 +39,7 @@ interface IProps {
 
 interface IState {
   watchingDate: string;
-  tasksConvert: IHabitItem[] | null | undefined;
+  tasksConvert: TaskFormattedModel[] | null | undefined;
 }
 
 export interface IDateItem {
@@ -108,7 +108,7 @@ class HomeScreen extends Component<IProps, IState> {
 
   updateTaskStatus = async (
     taskId: string,
-    status: TArchivedStatus,
+    status: ArchivedTaskModel,
     date: string
   ) => {
     const user = await firebase.auth().currentUser;
@@ -122,7 +122,7 @@ class HomeScreen extends Component<IProps, IState> {
     this.props.deleteTask(taskId, () => this.handleRefresh(), () => {});
   };
 
-  onCardPress = (item: IHabitItem) => {
+  onCardPress = (item: TaskFormattedModel) => {
     // tslint:disable-next-line: no-shadowed-variable
     const deleteTask = this.deleteTask;
     this.props.navigation.navigate(strings.routeDetailTask, {
@@ -136,7 +136,7 @@ class HomeScreen extends Component<IProps, IState> {
    * private methods
    */
 
-  getStatusFromTask = (task: IHabitRawItem, date: string): string => {
+  getStatusFromTask = (task: TaskRawModel, date: string): string => {
     let status = "spending";
     const final = _.filter(task.archived, (value: any) => {
       if (value.date === date) {
@@ -164,7 +164,7 @@ class HomeScreen extends Component<IProps, IState> {
     return status;
   };
 
-  convertData = (data: IHabitRawItem[], date: string = today): IHabitItem[] => {
+  convertData = (data: TaskRawModel[], date: string = today): TaskFormattedModel[] => {
     // @ts-ignore
     data = _.filter(data, (e: any) => {
       const status = this.getStatusFromTask(e, date);

@@ -16,9 +16,9 @@ import FirebaseWorker from "../../../api/firebase";
 import { ToastService } from "../../../components";
 import I18n from "../../../localization";
 import {
-  IHabitItem,
-  IHabitRawItem,
-  TimeShift,
+  TaskFormattedModel,
+  TaskRawModel,
+  TimeShiftType,
   TypeSchedule,
 } from "../../../model";
 import { strings } from "../../../themes";
@@ -41,11 +41,11 @@ interface IState {
   selectedTypeDefault: number[] | null;
 }
 
-const typeButtons: TypeSchedule[] = ["daily", "weekly", "monthly"];
+const typeButtons: ScheduleType[] = ["daily", "weekly", "monthly"];
 const onTheseDaysDaily = ["M", "T", "W", "T", "F", "S", "S"];
 const onTheseDaysWeekly = [1, 2, 3, 4, 5, 6];
 const onTheseDaysMonthly = [1, 2, 3];
-const shiftButtons: TimeShift[] = ["morning", "afternoon", "evening"];
+const shiftButtons: TimeShiftType[] = ["morning", "afternoon", "evening"];
 
 export enum ScheduleType {
   DAILY = 0,

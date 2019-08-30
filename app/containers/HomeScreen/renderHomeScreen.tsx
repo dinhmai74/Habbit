@@ -39,7 +39,7 @@ import { formatDate, today } from "../../tools/DateHelper";
 
 import { IDateItem } from ".";
 import RenderWaitingScreen from "../../components/RenderWaitingScreen";
-import { IHabitItem } from "../../model";
+import { TaskFormattedModel } from "../../model";
 import { spacing } from "../../themes/spacing";
 
 // @ts-ignore
@@ -72,7 +72,7 @@ type Props = NavigationScreenProps & {
   watchingDate: string;
   refresh: () => void;
   deleteTask: (taskId: string) => void;
-  onCardPress: (item: IHabitItem) => void;
+  onCardPress: (item: TaskFormattedModel) => void;
 };
 
 interface State {
@@ -165,7 +165,7 @@ export default class HomeRender extends Component<Props, State> {
     this.props.updateTaskStatus(tasksId, status, dateWatching);
   };
 
-  onCardPress = (item: IHabitItem) => {
+  onCardPress = (item: TaskFormattedModel) => {
     if (this.props.onCardPress) {
       this.props.onCardPress(item);
     }
@@ -179,7 +179,7 @@ export default class HomeRender extends Component<Props, State> {
     item,
     index,
   }: {
-    item: IHabitItem;
+    item: TaskFormattedModel;
     // eslint-disable-next-line react/no-unused-prop-types
     index: number;
   }) => {

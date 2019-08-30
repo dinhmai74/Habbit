@@ -1,5 +1,5 @@
 // @flow
-import { ITask } from "../../model";
+import { TaskDisplayModel } from "../../model";
 
 export const REFETCH_TASK: "REFETCH_TASK" = "REFETCH_TASK";
 export const FETCH_TASKS: "FETCH_TASKS" = "FETCH_TASKS";
@@ -23,7 +23,7 @@ export interface IFetchTaskFailAction {
 
 export interface IFetchTaskSuccessAction {
   type: typeof FETCH_TASKS_SUCCESS;
-  payload: ITask[];
+  payload: TaskDisplayModel[];
 }
 
 export interface IRefetchTaskRequestAction {

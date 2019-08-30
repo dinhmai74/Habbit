@@ -19,7 +19,7 @@ import {
   refetchTasks,
 } from "../../actions";
 import FirebaseWorker from "../../api/firebase";
-import { IIconHabit } from "../../model";
+import { IconDisplayModel } from "../../model";
 import dataIcon from "../../model/icon.json";
 import { Colors, strings } from "../../themes";
 import images from "../../themes/Images";
@@ -79,7 +79,7 @@ class EditNameIconScreen extends Component<IProps, IState> {
 
   rightTitleOnClick = async () => {
     const { textHabit: quest, colorIcon, iconName } = this.state;
-    const icon: IIconHabit = {
+    const icon: IconDisplayModel = {
       name: iconName,
       color: colorIcon,
     };

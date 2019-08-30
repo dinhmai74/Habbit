@@ -28,7 +28,8 @@
       true,
       "./.prettierrc"
     ],
-    "semicolon": [true, "always", "ignore-bound-class-methods"]
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
+    "arrow-parens": false
   },
   "rulesDirectory": []
 }

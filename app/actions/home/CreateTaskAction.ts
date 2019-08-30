@@ -4,7 +4,7 @@ import Firebase from "react-native-firebase";
 import firebase from "react-native-firebase";
 import { v4 as generateUid } from "uuid";
 import { BASE_URL, getTokenString } from "../../api/firebase";
-import { IHabitRawItem, ResponseFirebase } from "../../model";
+import { TaskRawModel, ResponseFirebase } from "../../model";
 import { fillTask, fillTaskDaily } from "../../tools";
 import { offlineActionCreator } from "../ActionCreator";
 import {
@@ -19,14 +19,14 @@ import {
 } from "../ActionTypes";
 
 // eslint-disable-next-line import/prefer-default-export
-export const createTask = (task: IHabitRawItem): Action => {
+export const createTask = (task: TaskRawModel): Action => {
   return {
     type: CREATE_TASK,
     payload: task,
   };
 };
 
-export const createTaskOffline = (task: IHabitRawItem, token: string = "") => {
+export const createTaskOffline = (task: TaskRawModel, token: string = "") => {
   const { archived, createdDate, schedule } = task;
 
   if (schedule) {

@@ -2,7 +2,7 @@ import apisauce, { ApisauceInstance } from "apisauce";
 import _ from "lodash";
 import { AsyncStorage } from "react-native";
 import firebase from "react-native-firebase";
-import { IIconHabit, ISchedule, ITask } from "../model";
+import { IconDisplayModel, ScheduleTaskModel, TaskDisplayModel } from "../model";
 import { strings } from "../themes";
 import { fillTask, formatDate, logReactotron, today } from "../tools";
 import { GoogleSignin, statusCodes } from "react-native-google-signin";
@@ -86,7 +86,7 @@ export const FirebaseWorker = {
   },
   updateIconAndQuest: async (
     taskId: string,
-    icon: IIconHabit,
+    icon: IconDisplayModel,
     name: string
   ) => {
     try {
@@ -124,7 +124,7 @@ export const FirebaseWorker = {
     }
   },
 
-  updateSchedule: async (taskId: string, schedule: ISchedule) => {
+  updateSchedule: async (taskId: string, schedule: ScheduleTaskModel) => {
     try {
       if (!taskId) {
         // eslint-disable-next-line no-throw-literal
@@ -281,7 +281,7 @@ export const FirebaseWorker = {
       return err;
     }
   },
-  createTask: async (task: ITask) => {
+  createTask: async (task: TaskDisplayModel) => {
     try {
       const result = await ApiFactory.getInstance().post(`/createTask`, {
         task,

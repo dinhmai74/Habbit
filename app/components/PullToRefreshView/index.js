@@ -10,7 +10,7 @@ import {
 
 import Animation from "lottie-react-native";
 
-export class Index extends React.Component {
+export class PullToRefreshView extends React.Component {
   static defaultProps = {
     pullHeight: 180,
     animationBackgroundColor: "white",
@@ -262,4 +262,4 @@ export class Index extends React.Component {
   }
 }
 
-export default Index;
+export default PullToRefreshView;

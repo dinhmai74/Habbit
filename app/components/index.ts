@@ -17,6 +17,8 @@ export * from "./WrappedSpacingComponent";
 export * from "./app-background";
 export * from "./AppHeader/index";
 export { default as BorderCard } from "./BorderCard";
+export * from "./Calendar";
+export * from "./LineLog";
 
 export {
   Partials,

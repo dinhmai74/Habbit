@@ -12,7 +12,7 @@ import { editTaskStatus } from "../../../actions";
 import { AppText, CardItem, RowView } from "../../../components";
 import ModalTask from "../../../components/Modal";
 import I18n from "../../../localization";
-import { IArchived, IHabitItem } from "../../../model";
+import { IArchived, TaskFormattedModel } from "../../../model";
 import {
   ApplicationStyles,
   Colors,
@@ -34,12 +34,12 @@ interface IProps {
   style?: object;
   leftText?: string;
   rightText?: string;
-  onCardPress: (detailCardInfo: IHabitItem, ...rest: any) => void;
+  onCardPress: (detailCardInfo: TaskFormattedModel, ...rest: any) => void;
   leftButtonOnClick?: () => void;
   rightButtonOnClick?: () => void;
   releaseTime?: number;
   navigation: NavigationScreenProp<any, any>;
-  cardInfo: IHabitItem;
+  cardInfo: TaskFormattedModel;
   editTaskStatus: typeof editTaskStatus;
   taskDate: string;
   deleteTask: Function;

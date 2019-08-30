@@ -12,7 +12,7 @@ import {
 } from "../../../components";
 import AppLoading from "../../../components/AppLoading";
 import I18n from "../../../localization";
-import { TimeShift, TypeSchedule } from "../../../model";
+import { TimeShiftType, TypeSchedule } from "../../../model";
 import { ApplicationStyles, Colors, Images, strings } from "../../../themes";
 import { capitalize } from "../../../tools";
 import ScheduleSelection from "./components/ScheduleSelection";
@@ -31,7 +31,7 @@ interface Props {
   timesSelected: number[] | null;
   shiftSelected: number[] | null;
   selectedType: number | null;
-  shiftButtons: TimeShift[];
+  shiftButtons: TimeShiftType[];
   fetching: boolean;
   edit: boolean;
 }

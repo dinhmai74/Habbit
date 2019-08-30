@@ -1,27 +1,30 @@
+import { fetchLifeLog } from "app/actions";
 import AppDivider from "app/components/Divider";
+import { TaskDisplayModel, TaskRawModel } from "app/model";
 import { LifeLogTaskInfoModel } from "app/model/LifeLogModel";
-import colors from "app/themes/Colors";
 import metrics, { scaledSize } from "app/themes/Metrics";
+import _ from "lodash";
 import LottieView from "lottie-react-native";
-import { CardItem, Content, Body, Left, Right } from "native-base";
 import React, { Component } from "react";
 import { Row, Grid, Col } from "react-native-easy-grid";
 import {
   Animated,
   FlatList,
   ScrollView,
-  StyleSheet,
   TouchableOpacity,
   View,
 } from "react-native";
-import { Divider, Icon } from "react-native-elements";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { Icon } from "react-native-elements";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Entypo from "react-native-vector-icons/Entypo";
 import { ProgressCircle } from "react-native-svg-charts";
 import moment from "moment";
 import Modal from "react-native-modal";
+import I18n from "localization";
+import { connect } from "react-redux";
+import { NavigationInjectedProps, withNavigation } from "react-navigation";
+
 import {
   AppBackground,
   Text,
@@ -29,15 +32,16 @@ import {
   BorderCard,
   SizedBox,
   AppLoading,
+  CalendarHabit,
+  LineLog,
 } from "components";
-import CalendarsHabit from "app/components/Calendar/CalendarHabit";
-import LineLog from "app/components/LineLog/LineLog";
-// @ts-ignore
-import I18n from "localization";
-import { Colors, Fonts, Images, Metrics, strings, spacing } from "themes";
-import styled from "styled-components";
-import { NavigationInjectedProps } from "react-navigation";
-import PullToRefresh from "react-native-pull-refresh";
+import { Colors, Fonts, Images, strings, spacing } from "themes";
+import {
+  styles,
+  CenterContentRow,
+  StyledBorderCard,
+  StyledRow,
+} from "./renderLifeLog.presets";
 
 const checkIcon = (
   <Ionicons
@@ -72,6 +76,7 @@ interface IProps extends NavigationInjectedProps {
   fetching: boolean;
   handleRefresh: (...params: any) => void;
   minDate: string;
+  tasks: TaskRawModel[];
 }
 
 interface IState {
@@ -83,7 +88,7 @@ interface IState {
   readyToRefresh: boolean;
 }
 
-export default class RenderLifeLogScreen extends Component<IProps, IState> {
+class RenderLifeLogScreen extends Component<IProps, IState> {
   static defaultProps = {
     lifeLog: {
       totalDone: 0,
@@ -92,7 +97,8 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       streaks: 0,
     },
     fetching: true,
-    handleRefresh: () => {},
+    handleRefresh: () => {
+    },
   };
 
   state = {
@@ -108,6 +114,10 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
   calendarRef: any;
   refLottieFunny: LottieView | null | undefined;
 
+  /***
+   * events methods
+   * */
+
   componentDidMount() {
     if (this.animation) {
       this.animation.play();
@@ -115,35 +125,9 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
     if (this.refLottieFunny) {
       this.refLottieFunny.play();
     }
+
+    this.calculateTheTasksRemain();
   }
-
-  getCurrentStreak = streaks => {
-    if (streaks !== undefined && streaks.length > 0) {
-      return streaks[streaks.length - 1];
-    }
-    return 0;
-  };
-
-  getBestStreak = streaks => {
-    if (streaks !== undefined && streaks.length > 0) {
-      return Math.max(...streaks);
-    }
-    return 0;
-  };
-
-  getTotalPerfectDays = perfectDates => {
-    if (perfectDates !== undefined && perfectDates.length > 0) {
-      return perfectDates.length;
-    }
-    return 0;
-  };
-
-  onScrollViewLayout = e => {
-    this.setState({
-      scrollViewPositionY: e.nativeEvent.layout.y,
-      headerHeight: e.nativeEvent.layout.height,
-    });
-  };
 
   onRefresh = date => {
     let month: any = new Date();
@@ -159,7 +143,44 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
   toggleModal = () =>
     this.setState({ isModalVisible: !this.state.isModalVisible });
 
-  renderModal = () => (
+  /***
+   * render methods
+   **/
+
+  render() {
+    const { lifeLog } = this.props;
+    // tslint:disable-next-line: one-variable-per-declaration
+    let someDoneDates = 0,
+      perfectDates = 0;
+    if (lifeLog) {
+      someDoneDates = lifeLog.someDoneDates;
+      perfectDates = lifeLog.perfectDates;
+    }
+    this.state.scrollY.interpolate({
+      inputRange: [-200, 0],
+      outputRange: ["0deg", "360deg"],
+    });
+
+    const content = this.renderContent(someDoneDates, perfectDates);
+
+    return (
+      <AppBackground noImage>
+        <AppHeader
+          leftIcon={"back"}
+          headerTx={strings.titleLifeLog}
+          type={"transparent"}
+          hasDivider
+        />
+        <Modal isVisible={this.state.isModalVisible}>
+          {this.renderModal()}
+        </Modal>
+
+        {content}
+      </AppBackground>
+    );
+  }
+
+  private renderModal = () => (
     <View style={styles.modalContent}>
       <Text style={styles.title}>How life log works</Text>
       <Text style={styles.text}>
@@ -176,67 +197,6 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       </TouchableOpacity>
     </View>
   );
-
-  render() {
-    const { fetching, lifeLog } = this.props;
-    // tslint:disable-next-line: one-variable-per-declaration
-    let totalDone = 0,
-      someDoneDates = 0,
-      perfectDates = 0,
-      streaks = 0;
-    if (lifeLog) {
-      totalDone = lifeLog.totalDone;
-      someDoneDates = lifeLog.someDoneDates;
-      perfectDates = lifeLog.perfectDates;
-      streaks = lifeLog.streaks;
-    }
-
-    const { isRefresh, scrollViewPositionY } = this.state;
-
-    const interpolatedRotateClockwise = this.state.scrollY.interpolate({
-      inputRange: [-200, 0],
-      outputRange: ["0deg", "360deg"],
-    });
-
-    const event = Animated.event([
-      {
-        nativeEvent: {
-          contentOffset: {
-            y: this.state.scrollY,
-          },
-        },
-      },
-    ]);
-
-    const content = this.renderContent(someDoneDates, perfectDates);
-
-    return (
-      <AppBackground noImage>
-        <AppHeader
-          leftIcon={"back"}
-          headerTx={strings.titleLifeLog}
-          type={"transparent"}
-          hasDivider
-        />
-        <Modal isVisible={this.state.isModalVisible}>
-          {this.renderModal()}
-        </Modal>
-        <View style={{ flex: 1 }}>
-          <PullToRefresh
-            isRefreshing={this.state.isRefresh}
-            onRefresh={this.onRefresh}
-            animationBackgroundColor={Colors.secondary}
-            pullHeight={180}
-            contentView={content}
-            onPullAnimationSrc={Images.umbrella_pull}
-            onStartRefreshAnimationSrc={Images.umbrella_start}
-            onRefreshAnimationSrc={Images.umbrella_repeat}
-            onEndRefreshAnimationSrc={Images.umbrella_end}
-          />
-        </View>
-      </AppBackground>
-    );
-  }
 
   private renderContent(someDoneDates: number, perfectDates: number) {
     const { fetching } = this.props;
@@ -261,7 +221,7 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
 
         <SizedBox height={6} />
 
-        <CalendarsHabit
+        <CalendarHabit
           someDoneDates={someDoneDates}
           perfectDates={perfectDates}
           isLifeLog
@@ -396,12 +356,10 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
     const { lifeLog } = this.props;
     // tslint:disable-next-line:one-variable-per-declaration
     let totalDone = 0,
-      someDoneDates = 0,
       perfectDates = 0,
       streaks = 0;
     if (lifeLog) {
       totalDone = lifeLog.totalDone;
-      someDoneDates = lifeLog.someDoneDates;
       perfectDates = lifeLog.perfectDates;
       streaks = lifeLog.streaks;
     }
@@ -435,67 +393,74 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       </View>
     );
   };
+
+  /***
+   * private methods
+   * */
+
+  /// Caclutate tasks
+  private calculateTheTasksRemain() {
+    this.calculateTodayTaskRemain();
+    this.calculateThisWeekTaskRemain();
+    this.calculateThisMonthTaskRemain();
+  }
+
+  private calculateTodayTaskRemain = () => {
+    const { tasks } = this.props;
+    let todayTasks = [...tasks];
+    todayTasks = _.filter(todayTasks, (task: TaskRawModel) => {
+      let result = 0;
+      _.forEach(task.archived, arc => {
+        if (moment(arc.date).isSame(moment(), "day")) {
+          result++;
+        }
+      });
+
+      return result > 0;
+    });
+    todayTasks.sort();
+  };
+
+  private calculateThisMonthTaskRemain() {
+  }
+
+  private calculateThisWeekTaskRemain() {
+  }
+
+  private getCurrentStreak = streaks => {
+    if (streaks !== undefined && streaks.length > 0) {
+      return streaks[streaks.length - 1];
+    }
+    return 0;
+  };
+
+  private getBestStreak = streaks => {
+    if (streaks !== undefined && streaks.length > 0) {
+      return Math.max(...streaks);
+    }
+    return 0;
+  };
+
+  private getTotalPerfectDays = perfectDates => {
+    if (perfectDates !== undefined && perfectDates.length > 0) {
+      return perfectDates.length;
+    }
+    return 0;
+  };
 }
 
-const StyledRow = styled(Row)`
-  flex-direction: row;
-  padding: ${spacing[2]}px ${spacing[0]}px;
-  background: ${Colors.white};
-`;
+const mapStateToProps = store => {
+  if (store.tasks && store.tasks.data) {
+    return {
+      tasks: store.tasks.data,
+    };
+  }
+  return {
+    tasks: [],
+  };
+};
 
-const StyledBorderCard = styled(BorderCard)`
-  padding: ${spacing[0]}px ${spacing[0]}px;
-`;
-
-const CenterContentRow = styled(Row)`
-  align-items: center;
-`;
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    position: "absolute",
-    left: 0,
-    width: "100%",
-    height: 60,
-  },
-  viewModal: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
-    backgroundColor: Colors.lightGray,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 4,
-    borderColor: "rgba(0, 0, 0, 0.1)",
-    marginLeft: 20,
-    marginRight: 20,
-    padding: 20,
-    shadowColor: "#000000",
-    shadowOffset: {
-      height: 1,
-      width: 1,
-    },
-    shadowOpacity: 0.5,
-  },
-  subTitleText: {
-    textDecorationLine: "underline",
-    fontFamily: Fonts.type.base,
-    fontSize: Fonts.size.input,
-    color: Colors.facebook,
-  },
-  title: {
-    color: Colors.facebook,
-    fontFamily: Fonts.type.base,
-    fontSize: Fonts.size.h6,
-    paddingBottom: 20,
-  },
-  text: {
-    fontFamily: Fonts.type.base,
-    fontSize: Fonts.size.input,
-    textAlign: "center",
-    paddingBottom: 20,
-  },
-});
+export default connect(
+  mapStateToProps,
+  null,
+)(withNavigation(RenderLifeLogScreen));

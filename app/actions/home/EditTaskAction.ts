@@ -1,7 +1,7 @@
 // @flow
 // @ts-nocheck
 import { BASE_URL, getTokenString } from "../../api/firebase";
-import { IIconHabit, ISchedule, TArchivedStatus } from "../../model";
+import { IconDisplayModel, ScheduleTaskModel, ArchivedTaskModel } from "../../model";
 import { offlineActionCreator } from "../ActionCreator";
 import {
   Action,
@@ -17,7 +17,7 @@ import {
 
 export const editTaskStatus = (
   taskId: string,
-  status: TArchivedStatus,
+  status: ArchivedTaskModel,
   date: string,
   token: string
 ): Action =>
@@ -47,7 +47,7 @@ export const editTaskStatus = (
 export const editTaskIconAndName = (
   taskId: string,
   quest: string,
-  icon: IIconHabit,
+  icon: IconDisplayModel,
   token: string
 ): Action =>
   offlineActionCreator(
@@ -71,7 +71,7 @@ export const editTaskIconAndName = (
 
 export const editSchedule = (
   taskId: string,
-  schedule: ISchedule,
+  schedule: ScheduleTaskModel,
   token: string
 ): Action =>
   offlineActionCreator(

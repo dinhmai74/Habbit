@@ -1,3 +1,4 @@
+import { RemainTasksActions } from "reducers";
 import _ from "lodash";
 import { View } from "native-base";
 import React, { Component } from "react";
@@ -5,20 +6,22 @@ import { NavigationScreenProps } from "react-navigation";
 import { connect } from "react-redux";
 
 import moment from "moment";
-import { fetchLifeLog } from "../../actions";
+import { fetchLifeLog } from "actions";
 import { AppLoading } from "../../components";
 import RenderWaitingScreen from "../../components/RenderWaitingScreen";
 import { currentMonth, formatDate } from "../../tools";
 import RenderLifeLogScreen from "./renderLifeLog";
 import { Alert } from "react-native";
-import { Images } from "../../themes";
-import colors from "../../themes/Colors";
+import { Images } from "themes";
+import colors from "app/themes/Colors";
+import { bindActionCreators, Dispatch } from "redux";
 
 interface IProps extends NavigationScreenProps {
   fetchLifeLog: typeof fetchLifeLog;
   data: any;
   fetching: boolean;
   minDate: string;
+  updateAllTasksRemain: typeof RemainTasksActions.updateAllTasksRemain;
 }
 
 class LifeLogScreen extends Component<IProps> {
@@ -34,6 +37,7 @@ class LifeLogScreen extends Component<IProps> {
 
   handleRefresh = month => {
     this.props.fetchLifeLog(month);
+    this.props.updateAllTasksRemain();
   };
 
   renderFirstTimeLoading = () => {
@@ -54,7 +58,6 @@ class LifeLogScreen extends Component<IProps> {
     return (
       <View style={{ flex: 1 }}>
         <RenderLifeLogScreen
-          navigation={this.props.navigation}
           lifeLog={data}
           handleRefresh={this.handleRefresh}
           fetching={fetching}
@@ -87,8 +90,10 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = (dispatch) => bindActionCreators({ fetchLifeLog, ...RemainTasksActions }, dispatch);
+
 export default connect(
   mapStateToProps,
-  { fetchLifeLog }
+  mapDispatchToProps,
   // @ts-ignore
 )(LifeLogScreen);

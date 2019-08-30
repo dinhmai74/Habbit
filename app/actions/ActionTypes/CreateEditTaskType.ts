@@ -1,4 +1,4 @@
-import { IHabitRawItem, ResponseFirebase, TArchivedStatus } from "../../model";
+import { TaskRawModel, ResponseFirebase, ArchivedTaskModel } from "../../model";
 
 export const EDIT_STATUS_TASK: "EDIT_STATUS_TASK" = "EDIT_STATUS_TASK";
 export const EDIT_SCHEDULE_TASK: "EDIT_SCHEDULE_TASK" = "EDIT_SCHEDULE_TASK";
@@ -11,7 +11,7 @@ export interface IEditTaskRequestAction {
   type: "EDIT_STATUS_TASK_REQUEST";
   payload: {
     taskId: string;
-    status: TArchivedStatus;
+    status: ArchivedTaskModel;
     date: string;
   };
 }
@@ -20,7 +20,7 @@ export type EditTaskAction = IEditTaskRequestAction;
 
 export interface ICreateTaskRequestAction {
   type: typeof CREATE_TASK;
-  payload: IHabitRawItem;
+  payload: TaskRawModel;
 }
 
 export interface ICreateTaskFailAction {

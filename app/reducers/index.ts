@@ -7,6 +7,8 @@ import HabitReducer from "./homeReducers/NewHabitReducer";
 import GoogleLoginReducer from "./authentication/GoogleLoginReducer";
 import FacebookLoginReducer from "./authentication/FacebookLoginReducer";
 
+export * from "./RemainTasks";
+
 export default combineReducers({
   tasks: TaskReducer,
   habits: HabitReducer,
@@ -15,4 +17,5 @@ export default combineReducers({
   lifeLog: LifeLogReducer,
   googleLoginInfor: GoogleLoginReducer,
   facebookLoginInfor: FacebookLoginReducer,
+  remainTasks: require("./RemainTasks").reducer,
 });

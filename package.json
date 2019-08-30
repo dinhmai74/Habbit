@@ -36,6 +36,7 @@
     "react-native-firebase": "^5.2.2",
     "react-native-google-signin": "^1.2.1",
     "react-native-i18n": "^2.0.15",
+    "react-native-indicators": "^0.13.0",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-linear-gradient": "^2.5.2",
     "react-native-modal": "^7.0.2",
@@ -59,6 +60,8 @@
     "redux-offline": "^2.0.0",
     "redux-promise": "^0.6.0",
     "redux-saga": "^0.16.0",
+    "reduxsauce": "^1.1.0",
+    "seamless-immutable": "^7.1.4",
     "styled-components": "^4.1.2",
     "uuid": "^3.3.2",
     "yup": "^0.27.0"
