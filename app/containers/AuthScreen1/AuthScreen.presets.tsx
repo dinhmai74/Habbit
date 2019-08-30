@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   button: {
@@ -11,11 +11,11 @@ export default StyleSheet.create({
     paddingRight: 15,
   },
   loginContainer: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     flex: 1,
   },
   logo: {
-    alignSelf: 'center',
-    justifyContent: 'center',
+    alignSelf: "center",
+    justifyContent: "center",
   },
-})
+});

@@ -1,38 +1,38 @@
-import { Container, Root, StyleProvider, View } from 'native-base'
-import { ThemeProvider } from 'react-native-elements'
-import React, { Component } from 'react'
-import { Provider } from 'react-redux'
-import Reactotron from 'reactotron-react-native'
-import './app/localization/I18n'
+import { Container, Root, StyleProvider, View } from "native-base";
+import { ThemeProvider } from "react-native-elements";
+import React, { Component } from "react";
+import { Provider } from "react-redux";
+import Reactotron from "reactotron-react-native";
+import "./app/localization/I18n";
 
-import { AsyncStorage, NativeModules, Platform, YellowBox } from 'react-native'
-import firebase from 'react-native-firebase'
-import { ElementTheme } from './ElementStyle'
-import RootNavigator from './app/router/RootNavigator'
-import store from './app/store'
-import strings from './app/themes/strings'
-import getTheme from './native-base-theme/components'
-import material from './native-base-theme/variables/material.js'
-import StorybookUIHMRRoot from './storybook'
-import NavigateService from './app/tools/NavigateService'
+import { AsyncStorage, NativeModules, Platform, YellowBox } from "react-native";
+import firebase from "react-native-firebase";
+import { ElementTheme } from "./ElementStyle";
+import RootNavigator from "./app/router/RootNavigator";
+import store from "./app/store";
+import strings from "./app/themes/strings";
+import getTheme from "./native-base-theme/components";
+import material from "./native-base-theme/variables/material.js";
+import StorybookUIHMRRoot from "./storybook";
+import NavigateService from "./app/tools/NavigateService";
 
 // if (__DEV__) {
 //   NativeModules.DevSettings.setIsDebuggingRemotely(true)
 // }
 YellowBox.ignoreWarnings([
-  'componentWillMount is deprecated',
-  'componentWillReceiveProps is deprecated',
-  'Cannot update during an existing state',
-  'Overriding previous layout animation with new one before the first began',
-  'Required dispatch',
-])
+  "componentWillMount is deprecated",
+  "componentWillReceiveProps is deprecated",
+  "Cannot update during an existing state",
+  "Overriding previous layout animation with new one before the first began",
+  "Required dispatch",
+]);
 
 class App extends Component {
   async componentDidMount() {
-    const user = await firebase.auth().currentUser
+    const user = await firebase.auth().currentUser;
     if (user) {
-      const token = await user.getIdToken()
-      console.log('user token:\n ', token)
+      const token = await user.getIdToken();
+      console.log("user token:\n ", token);
     }
   }
 
@@ -44,8 +44,8 @@ class App extends Component {
             <Container>
               <Provider store={store}>
                 <RootNavigator
-                  ref={(navigatorRef) => {
-                    NavigateService.setTopLevelNavigator(navigatorRef)
+                  ref={navigatorRef => {
+                    NavigateService.setTopLevelNavigator(navigatorRef);
                   }}
                 />
               </Provider>
@@ -53,7 +53,7 @@ class App extends Component {
           </StyleProvider>
         </Root>
       </ThemeProvider>
-    )
+    );
   }
 }
 
@@ -65,4 +65,4 @@ class App extends Component {
 
 // uncomment this line to use story book
 // export default StorybookUIHMRRoot
-export default App
+export default App;

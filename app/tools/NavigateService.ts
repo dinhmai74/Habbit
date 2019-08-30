@@ -1,12 +1,12 @@
-import { NavigationActions } from 'react-navigation'
-import { RootRouteName } from '../router/RootNavigator'
+import { NavigationActions } from "react-navigation";
+import { RootRouteName } from "../router/RootNavigator";
 
 let navigator: {
-  dispatch: (arg0: import('react-navigation').NavigationNavigateAction) => void
-}
+  dispatch: (arg0: import("react-navigation").NavigationNavigateAction) => void;
+};
 
 function setTopLevelNavigator(navigatorRef) {
-  navigator = navigatorRef
+  navigator = navigatorRef;
 }
 
 function navigate(routeName: RootRouteName, params: any = null) {
@@ -15,7 +15,7 @@ function navigate(routeName: RootRouteName, params: any = null) {
       routeName,
       params,
     })
-  )
+  );
 }
 
 // add other navigation functions that you need and export them
@@ -23,4 +23,4 @@ function navigate(routeName: RootRouteName, params: any = null) {
 export default {
   navigate,
   setTopLevelNavigator,
-}
+};

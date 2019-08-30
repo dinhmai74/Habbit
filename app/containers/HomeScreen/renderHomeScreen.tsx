@@ -2,8 +2,8 @@
 /* eslint-disable no-param-reassign */
 // @flow
 // import type { ViewLayoutEvent, } from 'react-native/Libraries/Components/View/ViewPropTypes';
-import _ from 'lodash'
-import React, { Component } from 'react'
+import _ from "lodash";
+import React, { Component } from "react";
 import {
   Dimensions,
   FlatList,
@@ -13,37 +13,37 @@ import {
   ScrollView,
   UIManager,
   View,
-} from 'react-native'
-import * as animatable from 'react-native-animatable'
-import { Icon } from 'react-native-elements'
-import { NavigationScreenProps } from 'react-navigation'
+} from "react-native";
+import * as animatable from "react-native-animatable";
+import { Icon } from "react-native-elements";
+import { NavigationScreenProps } from "react-navigation";
 
-import { Button, ProgressBar, Spinner } from 'native-base'
+import { Button, ProgressBar, Spinner } from "native-base";
 import {
   AppLoading,
   InlineDecorationText,
   AppBackground,
   AppHeader,
-} from '../../components'
+} from "../../components";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import I18n from '../../localization'
-import { Colors, Images, strings } from '../../themes'
-import HabitCardStatic from './components/HabitCard'
-import styles, { Content } from './styles'
+import I18n from "../../localization";
+import { Colors, Images, strings } from "../../themes";
+import HabitCardStatic from "./components/HabitCard";
+import styles, { Content } from "./styles";
 
-import { FirebaseWorker } from '../../api/firebase'
+import { FirebaseWorker } from "../../api/firebase";
 // @ts-ignore
-import DateSelection from '../../components/DateSelection'
-import { capitalize, getPlatformElevation } from '../../tools'
-import { formatDate, today } from '../../tools/DateHelper'
+import DateSelection from "../../components/DateSelection";
+import { capitalize, getPlatformElevation } from "../../tools";
+import { formatDate, today } from "../../tools/DateHelper";
 
-import { IDateItem } from '.'
-import RenderWaitingScreen from '../../components/RenderWaitingScreen'
-import { IHabitItem } from '../../model'
-import { spacing } from '../../themes/spacing'
+import { IDateItem } from ".";
+import RenderWaitingScreen from "../../components/RenderWaitingScreen";
+import { IHabitItem } from "../../model";
+import { spacing } from "../../themes/spacing";
 
 // @ts-ignore
-const HabitCard = animatable.createAnimatableComponent(HabitCardStatic)
+const HabitCard = animatable.createAnimatableComponent(HabitCardStatic);
 
 const CustomLayoutAnimation = {
   duration: 300,
@@ -55,58 +55,58 @@ const CustomLayoutAnimation = {
     type: LayoutAnimation.Types.linear,
     property: LayoutAnimation.Properties.opacity,
   },
-}
+};
 
 type Props = NavigationScreenProps & {
-  rightIconOnClick: () => void
-  leftIconOnClick: () => void
-  addButtonOnPress: () => void
-  taskData: object[]
-  error: boolean
+  rightIconOnClick: () => void;
+  leftIconOnClick: () => void;
+  addButtonOnPress: () => void;
+  taskData: object[];
+  error: boolean;
   updateTaskStatus: (
     tasksId: string,
     status: string,
     dateWatching: string
-  ) => void
-  onChangeDate: (item: IDateItem) => void
-  watchingDate: string
-  refresh: () => void
-  deleteTask: (taskId: string) => void
-  onCardPress: (item: IHabitItem) => void
-}
+  ) => void;
+  onChangeDate: (item: IDateItem) => void;
+  watchingDate: string;
+  refresh: () => void;
+  deleteTask: (taskId: string) => void;
+  onCardPress: (item: IHabitItem) => void;
+};
 
 interface State {
-  headerHeight: number
-  tipHeight: number
-  tipValue: string
-  isPullDownToAdd: boolean
-  isScrollDown: boolean
-  initLoading: boolean
+  headerHeight: number;
+  tipHeight: number;
+  tipValue: string;
+  isPullDownToAdd: boolean;
+  isScrollDown: boolean;
+  initLoading: boolean;
 }
 
 export interface ViewLayout {
-  x: number
-  y: number
-  width: number
-  height: number
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
 export interface ViewLayoutEvent {
   nativeEvent: {
-    layout: ViewLayout
-  }
+    layout: ViewLayout;
+  };
 }
 
-const SWIPE_THRESHOLD = 60
-const HEADER_HEIGHT_PERCENT = 2 / 3
+const SWIPE_THRESHOLD = 60;
+const HEADER_HEIGHT_PERCENT = 2 / 3;
 
 export default class HomeRender extends Component<Props, State> {
   static defaultProps = {
     onChangeDate: () => {},
-  }
+  };
 
   constructor(props: Props) {
-    super(props)
+    super(props);
     this.state = {
       isScrollDown: false,
       headerHeight: 0,
@@ -114,7 +114,7 @@ export default class HomeRender extends Component<Props, State> {
       tipValue: I18n.t(strings.textPullToAdd),
       isPullDownToAdd: false,
       initLoading: true,
-    }
+    };
   }
 
   /**
@@ -125,13 +125,13 @@ export default class HomeRender extends Component<Props, State> {
     setTimeout(() => {
       this.setState({
         initLoading: false,
-      })
-    }, 2000)
+      });
+    }, 2000);
   }
 
   componentWillUpdate() {
     // eslint-disable-next-line no-unused-expressions
-    LayoutAnimation.configureNext(CustomLayoutAnimation)
+    LayoutAnimation.configureNext(CustomLayoutAnimation);
   }
 
   /**
@@ -139,37 +139,37 @@ export default class HomeRender extends Component<Props, State> {
    */
 
   onHeaderLayout = (event: ViewLayoutEvent) => {
-    const { height } = event.nativeEvent.layout
+    const { height } = event.nativeEvent.layout;
     this.setState({
       headerHeight: height,
-    })
-  }
+    });
+  };
 
   pullDown = () => {
-    this.props.addButtonOnPress()
-  }
+    this.props.addButtonOnPress();
+  };
 
   /**
    * private methods
    */
 
   onChangeDate = (item: IDateItem) => {
-    this.props.onChangeDate(item)
-  }
+    this.props.onChangeDate(item);
+  };
 
   updateTaskStatus = (
     tasksId: string,
     status: string,
     dateWatching: string
   ) => {
-    this.props.updateTaskStatus(tasksId, status, dateWatching)
-  }
+    this.props.updateTaskStatus(tasksId, status, dateWatching);
+  };
 
   onCardPress = (item: IHabitItem) => {
     if (this.props.onCardPress) {
-      this.props.onCardPress(item)
+      this.props.onCardPress(item);
     }
-  }
+  };
 
   /**
    * Render
@@ -179,9 +179,9 @@ export default class HomeRender extends Component<Props, State> {
     item,
     index,
   }: {
-    item: IHabitItem
+    item: IHabitItem;
     // eslint-disable-next-line react/no-unused-prop-types
-    index: number
+    index: number;
   }) => {
     if (item.status) {
       return (
@@ -191,10 +191,10 @@ export default class HomeRender extends Component<Props, State> {
           leftText={capitalize(I18n.t(strings.textDone))}
           rightText={capitalize(I18n.t(strings.textSkip))}
           leftButtonOnClick={() =>
-            this.updateTaskStatus(item.id, 'done', item.date)
+            this.updateTaskStatus(item.id, "done", item.date)
           }
           rightButtonOnClick={() => {
-            this.updateTaskStatus(item.id, 'overdue', item.date)
+            this.updateTaskStatus(item.id, "overdue", item.date);
           }}
           iconName={item.icon.name}
           status={item.status}
@@ -211,24 +211,24 @@ export default class HomeRender extends Component<Props, State> {
           updateTaskStatus={this.props.updateTaskStatus}
           onCardPress={this.onCardPress}
         />
-      )
+      );
     }
-    return null
-  }
+    return null;
+  };
 
   render() {
-    const { error, taskData, watchingDate } = this.props
-    const { initLoading } = this.state
+    const { error, taskData, watchingDate } = this.props;
+    const { initLoading } = this.state;
 
     return (
       <AppBackground noImage bg={Colors.dimBg}>
         <AppHeader
           onLayout={this.onHeaderLayout}
-          leftIcon={'history'}
+          leftIcon={"history"}
           leftIconFontSize={25}
           onLeftPress={this.props.leftIconOnClick}
           headerTx={strings.titleHomeScreen}
-          rightIcon={'setting'}
+          rightIcon={"setting"}
           onRightPress={this.props.rightIconOnClick}
           height={200}
           isLinear
@@ -258,7 +258,7 @@ export default class HomeRender extends Component<Props, State> {
                     // @ts-ignore
                     style={[
                       styles.inLineTip,
-                      { marginTop: 200, width: '100%', flex: 1 },
+                      { marginTop: 200, width: "100%", flex: 1 },
                     ]}
                     text={capitalize(
                       watchingDate === today
@@ -273,7 +273,7 @@ export default class HomeRender extends Component<Props, State> {
             </Content>
           )
         ) : (
-          <View style={{ flex: 1, marginTop: '50%' }}>
+          <View style={{ flex: 1, marginTop: "50%" }}>
             <InlineDecorationText
               // @ts-ignore
               style={[styles.inLineTip, { top: this.state.headerHeight }]}
@@ -283,8 +283,8 @@ export default class HomeRender extends Component<Props, State> {
         )}
 
         <Icon
-          name='plus'
-          type='entypo'
+          name="plus"
+          type="entypo"
           color={Colors.green}
           reverse
           containerStyle={styles.button}
@@ -295,6 +295,6 @@ export default class HomeRender extends Component<Props, State> {
           style={styles.bottomDateSelection}
         />
       </AppBackground>
-    )
+    );
   }
 }

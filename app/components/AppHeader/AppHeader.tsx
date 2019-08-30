@@ -1,10 +1,10 @@
-import * as React from 'react'
-import { View, SafeAreaView } from 'react-native'
-import { Divider, Icon as ElementIcon } from 'react-native-elements'
-import { withNavigation } from 'react-navigation'
+import * as React from "react";
+import { View, SafeAreaView } from "react-native";
+import { Divider, Icon as ElementIcon } from "react-native-elements";
+import { withNavigation } from "react-navigation";
 
-import { Body, Button, Left, Right } from 'native-base'
-import { SizedBox } from '../SizeBox'
+import { Body, Button, Left, Right } from "native-base";
+import { SizedBox } from "../SizeBox";
 import {
   NORMAL_ROOT_STYLE,
   NORMAL_TEXT,
@@ -16,41 +16,40 @@ import {
   StyledRow,
   TRANSPARENT_ROOT_STYLE,
   TRANSPARENT_TEXT,
-} from './AppHeader.preset'
-import { IHeaderProps } from './AppHeader.props'
-import AppI18n from '../../localization'
-import { Colors, palette } from '../../themes'
-import { Text } from '../Text'
-import { Icon, IconTypes } from '../icon'
-import styled from 'styled-components'
+} from "./AppHeader.preset";
+import { IHeaderProps } from "./AppHeader.props";
+import AppI18n from "../../localization";
+import { Colors, palette } from "../../themes";
+import { Text } from "../Text";
+import { Icon, IconTypes } from "../icon";
+import styled from "styled-components";
 
 const StylesSafeArea = {
-  position: 'absolute',
+  position: "absolute",
   bottom: 0,
   left: 0,
   right: 0,
   paddingVertical: 5,
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: 'rgba(0,0,0,0.5)',
-}
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: "rgba(0,0,0,0.5)",
+};
 
 /**
  * Header that appears on many screens. Will hold navigation buttons and screen title.
  */
 class AppHeader extends React.PureComponent<IHeaderProps, {}> {
   static defaultProps = {
-    type: 'normal',
+    type: "normal",
     leftIconFontSize: 25,
     rightIconFontSize: 25,
-    onRightPress: () => {
-    },
-  }
+    onRightPress: () => {},
+  };
 
   onLeftPress = () => {
-    const { onLeftPress: onPress } = this.props
-    onPress ? onPress() : this.props.navigation.goBack()
-  }
+    const { onLeftPress: onPress } = this.props;
+    onPress ? onPress() : this.props.navigation.goBack();
+  };
 
   render() {
     const {
@@ -62,27 +61,27 @@ class AppHeader extends React.PureComponent<IHeaderProps, {}> {
       height,
       middleSubtitle,
       middleTitle,
-      hasDivider
-    } = this.props
-    const header = headerText || (headerTx && AppI18n.t(headerTx)) || ''
-    let rootStyle = TRANSPARENT_ROOT_STYLE
-    let titleTextStyle = TRANSPARENT_TEXT
-    let notFloatingStyle = TRANSPARENT_ROOT_STYLE
+      hasDivider,
+    } = this.props;
+    const header = headerText || (headerTx && AppI18n.t(headerTx)) || "";
+    let rootStyle = TRANSPARENT_ROOT_STYLE;
+    let titleTextStyle = TRANSPARENT_TEXT;
+    let notFloatingStyle = TRANSPARENT_ROOT_STYLE;
 
-    if (type === 'normal') {
-      titleTextStyle = NORMAL_TEXT
-      rootStyle = NORMAL_ROOT_STYLE
+    if (type === "normal") {
+      titleTextStyle = NORMAL_TEXT;
+      rootStyle = NORMAL_ROOT_STYLE;
       notFloatingStyle = {
         ...NORMAL_ROOT_STYLE,
-      }
+      };
     }
 
     const bgColors =
-      type === 'normal'
+      type === "normal"
         ? [Colors.header.bg.linear.start, Colors.header.bg.linear.end]
-        : ['transparent', 'transparent']
+        : ["transparent", "transparent"];
 
-    const colorTx = this.props.color && { color: this.props.color }
+    const colorTx = this.props.color && { color: this.props.color };
 
     return (
       <View style={rootStyle}>
@@ -96,6 +95,7 @@ class AppHeader extends React.PureComponent<IHeaderProps, {}> {
             {this.renderLeftIcon()}
             {headerTextComponent || (
               <Text
+                // @ts-ignore
                 style={[titleTextStyle, colorTx, titleStyle]}
                 text={header}
               />
@@ -105,150 +105,157 @@ class AppHeader extends React.PureComponent<IHeaderProps, {}> {
 
           {/* subtitle is under header row (center by itself) */}
           <StyledBody>
-            {middleSubtitle && <Text text={middleSubtitle} preset='subtitle'/>}
-            {middleTitle && <Text text={middleTitle} preset='header'/>}
+            {middleSubtitle && <Text text={middleSubtitle} preset="subtitle" />}
+            {middleTitle && <Text text={middleTitle} preset="header" />}
           </StyledBody>
         </StyledNotFloatingView>
 
-        {type === 'normal' && <StyledBgImg
-          height={height}
-          colors={bgColors}
-          start={{ x: 0.5, y: 0 }}
-          end={{ x: 0.5, y: 1.0 }}
-          locations={[0, 0.8]}
-        >
-          <StyledImage icon='headerMap' height={height}/>
-        </StyledBgImg>
-        }
-        { hasDivider && <Divider style={{ width: '100%' }}/>}
+        {type === "normal" && (
+          <StyledBgImg
+            height={height}
+            colors={bgColors}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1.0 }}
+            locations={[0, 0.8]}
+          >
+            <StyledImage icon="headerMap" height={height} />
+          </StyledBgImg>
+        )}
+        {hasDivider && <Divider style={{ width: "100%" }} />}
       </View>
-    )
+    );
   }
 
   renderRightIcon = () => {
-    const { rightIcon, onRightPress, type, color } = this.props
+    const { rightIcon, onRightPress, type, color } = this.props;
     if (!rightIcon) {
-      return <View style={RIGHT}/>
+      return <View style={RIGHT} />;
     }
 
-    if (typeof rightIcon === 'string') {
-      let iconColor
+    if (typeof rightIcon === "string") {
+      let iconColor;
       if (color) {
-        iconColor = color
+        iconColor = color;
       } else {
-        iconColor =
-          type === 'transparent' ? Colors.text.text : palette.white
+        iconColor = type === "transparent" ? Colors.text.text : palette.white;
       }
 
       return (
         <Button onPress={onRightPress} transparent>
-          <Icon icon={rightIcon} style={{ tintColor: iconColor }}/>
+          <Icon icon={rightIcon} style={{ tintColor: iconColor }} />
         </Button>
-      )
+      );
     }
 
-    return rightIcon
-  }
+    return rightIcon;
+  };
 
   renderCloseIcon() {
-    const { leftIcon, type, color } = this.props
-    let iconColor
+    const { leftIcon, type, color } = this.props;
+    let iconColor;
     if (color) {
-      iconColor = color
+      iconColor = color;
     } else {
-      iconColor =
-        type === 'transparent' ? Colors.text.text : palette.white
+      iconColor = type === "transparent" ? Colors.text.text : palette.white;
     }
-    if (leftIcon === 'close') {
+    if (leftIcon === "close") {
       return (
         <ElementIcon
-          name='close'
-          type='material-community'
+          name="close"
+          type="material-community"
           size={30}
           color={iconColor}
           onPress={this.onLeftPress}
           containerStyle={{
-            alignSelf: 'flex-start',
+            alignSelf: "flex-start",
             margin: 0,
             padding: 0,
           }}
         />
-      )
+      );
     }
 
-    return null
+    return null;
   }
 
   renderLeftIcon = () => {
-    const { leftIcon, type, leftIconFontFamily, leftIconFontSize, color } = this.props
+    const {
+      leftIcon,
+      type,
+      leftIconFontFamily,
+      leftIconFontSize,
+      color,
+    } = this.props;
 
     if (!leftIcon) {
-      return null
+      return null;
     }
-    let iconColor
+    let iconColor;
     if (color) {
-      iconColor = color
+      iconColor = color;
     } else {
-      iconColor =
-        type === 'transparent' ? Colors.text.text : palette.white
+      iconColor = type === "transparent" ? Colors.text.text : palette.white;
     }
 
-    const size = leftIconFontSize || 16
+    const size = leftIconFontSize || 16;
 
     // render back icon
-    if (leftIcon === 'back') {
+    if (leftIcon === "back") {
       return this.renderLeftEIcon(
-        'chevron-thin-left',
-        'entypo',
+        "chevron-thin-left",
+        "entypo",
         size,
-        iconColor,
-      )
+        iconColor
+      );
     }
 
     // not render close icon but still have space
-    if (leftIcon === 'close') {
-      return <SizedBox height={5}/>
+    if (leftIcon === "close") {
+      return <SizedBox height={5} />;
     }
 
     // render left icon base on font
     if (leftIconFontFamily) {
-      return this.renderLeftEIcon(leftIcon, leftIconFontFamily, size, iconColor)
+      return this.renderLeftEIcon(
+        leftIcon,
+        leftIconFontFamily,
+        size,
+        iconColor
+      );
     }
 
     // render icon design by us
-    if (typeof leftIcon === 'string') {
-      return this.renderLeftLocalIcon(leftIcon, iconColor, size)
+    if (typeof leftIcon === "string") {
+      return this.renderLeftLocalIcon(leftIcon, iconColor, size);
     }
 
     // return component if not a icon
-    return <View style={{ alignSelf: 'flex-start' }}>
-      {leftIcon}
-    </View>
-  }
+    return <View style={{ alignSelf: "flex-start" }}>{leftIcon}</View>;
+  };
 
   private renderLeftLocalIcon(
     leftIcon: string,
     iconColor: string,
-    size: number,
+    size: number
   ) {
     return (
       <Button
         transparent
         onPress={this.onLeftPress}
         style={{
-          alignItems: 'center',
+          alignItems: "center",
         }}
       >
-        <Icon icon={leftIcon as IconTypes} size={size} color={iconColor}/>
+        <Icon icon={leftIcon as IconTypes} size={size} color={iconColor} />
       </Button>
-    )
+    );
   }
 
   private renderLeftEIcon(
     leftIcon: string | JSX.Element,
     leftIconFontFamily: string,
     size: number,
-    iconColor: string,
+    iconColor: string
   ) {
     return (
       <ElementIcon
@@ -258,11 +265,11 @@ class AppHeader extends React.PureComponent<IHeaderProps, {}> {
         size={size}
         color={iconColor}
         onPress={this.onLeftPress}
-        containerStyle={{ justifyContent: 'center', margin: 0, padding: 0 }}
+        containerStyle={{ justifyContent: "center", margin: 0, padding: 0 }}
       />
-    )
+    );
   }
 }
 
 // @ts-ignore
-export default withNavigation(AppHeader)
+export default withNavigation(AppHeader);

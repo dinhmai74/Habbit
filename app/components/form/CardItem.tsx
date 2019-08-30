@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { ApplicationStyles } from '../../themes'
-import { getPlatformElevation } from '../../tools'
+import React, { PureComponent } from "react";
+import { StyleSheet, View } from "react-native";
+import { ApplicationStyles } from "../../themes";
+import { getPlatformElevation } from "../../tools";
 
 export default class CardItem extends PureComponent {
   render() {
@@ -14,7 +14,7 @@ export default class CardItem extends PureComponent {
       >
         {this.props.children}
       </View>
-    )
+    );
   }
 }
 
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
     // @ts-ignore
     ...getPlatformElevation(),
   },
-})
+});

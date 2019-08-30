@@ -12,7 +12,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import { Divider, Icon } from "react-native-elements";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -28,7 +28,7 @@ import {
   AppHeader,
   BorderCard,
   SizedBox,
-  AppLoading
+  AppLoading,
 } from "components";
 import CalendarsHabit from "app/components/Calendar/CalendarHabit";
 import LineLog from "app/components/LineLog/LineLog";
@@ -89,10 +89,10 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       totalDone: 0,
       someDoneDates: 0,
       perfectDates: 0,
-      streaks: 0
+      streaks: 0,
     },
     fetching: true,
-    handleRefresh: () => {}
+    handleRefresh: () => {},
   };
 
   state = {
@@ -101,7 +101,7 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
     scrollViewPositionY: 0,
     headerHeight: 0,
     scrollY: new Animated.Value(0),
-    readyToRefresh: false
+    readyToRefresh: false,
   };
 
   animation: LottieView | null | undefined;
@@ -141,7 +141,7 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
   onScrollViewLayout = e => {
     this.setState({
       scrollViewPositionY: e.nativeEvent.layout.y,
-      headerHeight: e.nativeEvent.layout.height
+      headerHeight: e.nativeEvent.layout.height,
     });
   };
 
@@ -195,17 +195,17 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
 
     const interpolatedRotateClockwise = this.state.scrollY.interpolate({
       inputRange: [-200, 0],
-      outputRange: ["0deg", "360deg"]
+      outputRange: ["0deg", "360deg"],
     });
 
     const event = Animated.event([
       {
         nativeEvent: {
           contentOffset: {
-            y: this.state.scrollY
-          }
-        }
-      }
+            y: this.state.scrollY,
+          },
+        },
+      },
     ]);
 
     const content = this.renderContent(someDoneDates, perfectDates);
@@ -321,15 +321,15 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       {
         title: "play game",
         total: 5,
-        done: 3
-      }
+        done: 3,
+      },
     ];
     return this.renderInfoTasks("lifeLog.thisWeek", data);
   };
 
   private renderThisMonthInfoRow = () => {
     const data: LifeLogTaskInfoModel[] = [
-      { total: 7, done: 6, title: "Cook some thing" }
+      { total: 7, done: 6, title: "Cook some thing" },
     ];
     return this.renderInfoTasks("lifeLog.thisWeek", data);
   };
@@ -457,12 +457,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     width: "100%",
-    height: 60
+    height: 60,
   },
   viewModal: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   modalContent: {
     backgroundColor: Colors.lightGray,
@@ -476,26 +476,26 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOffset: {
       height: 1,
-      width: 1
+      width: 1,
     },
-    shadowOpacity: 0.5
+    shadowOpacity: 0.5,
   },
   subTitleText: {
     textDecorationLine: "underline",
     fontFamily: Fonts.type.base,
     fontSize: Fonts.size.input,
-    color: Colors.facebook
+    color: Colors.facebook,
   },
   title: {
     color: Colors.facebook,
     fontFamily: Fonts.type.base,
     fontSize: Fonts.size.h6,
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   text: {
     fontFamily: Fonts.type.base,
     fontSize: Fonts.size.input,
     textAlign: "center",
-    paddingBottom: 20
-  }
+    paddingBottom: 20,
+  },
 });

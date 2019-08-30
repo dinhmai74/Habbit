@@ -1,15 +1,9 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
-import { Image, StyleSheet, TouchableOpacity } from 'react-native'
-import { Colors } from '../../themes'
+import React from "react";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Colors } from "../../themes";
 
-const ImageButton = ({
-  icon,
-  style,
-  size,
-  tintColor,
-  pressed = () => {},
-}) => (
+const ImageButton = ({ icon, style, size, tintColor, pressed = () => {} }) => (
   <TouchableOpacity
     hitSlop={{
       top: 15,
@@ -27,14 +21,14 @@ const ImageButton = ({
       />
     ) : null}
   </TouchableOpacity>
-)
+);
 
 const styles = StyleSheet.create({
   customize: {
-    resizeMode: 'contain',
-    alignSelf: 'center',
+    resizeMode: "contain",
+    alignSelf: "center",
     tintColor: Colors.white,
   },
-})
+});
 
-export default ImageButton
+export default ImageButton;

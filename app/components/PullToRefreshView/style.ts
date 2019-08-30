@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   loadingContainer: {
     flex: 1,
-    position: 'absolute',
-    width: '100%',
+    position: "absolute",
+    width: "100%",
     height: 150,
   },
 
@@ -12,32 +12,32 @@ export default StyleSheet.create({
     flex: 1,
   },
   fillParent: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     flex: 1,
   },
   topBar: {
-    backgroundColor: '#F7F7F8',
+    backgroundColor: "#F7F7F8",
     height: 64,
   },
   row: {
     padding: 10,
     height: 125,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     borderTopWidth: 1,
     marginBottom: -1,
-    borderBottomColor: '#E5EDF5',
-    borderTopColor: '#E5EDF5',
+    borderBottomColor: "#E5EDF5",
+    borderTopColor: "#E5EDF5",
     borderBottomWidth: 1,
   },
   text: {
-    textAlign: 'center',
-    color: '#A4C8D9',
+    textAlign: "center",
+    color: "#A4C8D9",
   },
   navText: {
-    color: '#A4C8D9',
+    color: "#A4C8D9",
     fontSize: 20,
-    fontWeight: '700',
-    textAlign: 'center',
+    fontWeight: "700",
+    textAlign: "center",
     paddingTop: 30,
   },
-})
+});

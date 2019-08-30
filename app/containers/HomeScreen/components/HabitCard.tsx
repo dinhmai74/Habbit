@@ -30,19 +30,19 @@ const SubIconEnum = {
 };
 
 interface IProps {
-  status: string
-  style?: object
-  leftText?: string
-  rightText?: string
-  onCardPress: (detailCardInfo: IHabitItem, ...rest: any) => void
-  leftButtonOnClick?: () => void
-  rightButtonOnClick?: () => void
-  releaseTime?: number
-  navigation: NavigationScreenProp<any, any>
-  cardInfo: IHabitItem
-  editTaskStatus: typeof editTaskStatus
-  taskDate: string
-  deleteTask: Function
+  status: string;
+  style?: object;
+  leftText?: string;
+  rightText?: string;
+  onCardPress: (detailCardInfo: IHabitItem, ...rest: any) => void;
+  leftButtonOnClick?: () => void;
+  rightButtonOnClick?: () => void;
+  releaseTime?: number;
+  navigation: NavigationScreenProp<any, any>;
+  cardInfo: IHabitItem;
+  editTaskStatus: typeof editTaskStatus;
+  taskDate: string;
+  deleteTask: Function;
 }
 
 class HabitCard extends Component<IProps> {
@@ -51,12 +51,9 @@ class HabitCard extends Component<IProps> {
     color: Colors.text.text,
     leftText: capitalize(I18n.t(strings.textDone)),
     rightText: capitalize(I18n.t(strings.textSkip)),
-    onCardPress: () => {
-    },
-    leftButtonOnClick: () => {
-    },
-    rightButtonOnClick: () => {
-    },
+    onCardPress: () => {},
+    leftButtonOnClick: () => {},
+    rightButtonOnClick: () => {},
     releaseTime: 200,
   };
 
@@ -64,7 +61,7 @@ class HabitCard extends Component<IProps> {
     isSwiped: false,
     status: "",
   };
-  refSwipeable: any
+  refSwipeable: any;
   refModalTask: any;
   refRightButton: any;
 
@@ -100,7 +97,7 @@ class HabitCard extends Component<IProps> {
           if (this.refSwipeable) {
             this.refSwipeable.recenter();
           }
-        },
+        }
       );
     }, this.props.releaseTime);
   };
@@ -119,7 +116,7 @@ class HabitCard extends Component<IProps> {
           if (this.refSwipeable) {
             this.refSwipeable.recenter();
           }
-        },
+        }
       );
     }, this.props.releaseTime);
   };
@@ -148,7 +145,7 @@ class HabitCard extends Component<IProps> {
         if (token) {
           this.props.editTaskStatus(taskId, "spending", date, token);
         }
-      },
+      }
     );
   };
 
@@ -235,7 +232,7 @@ class HabitCard extends Component<IProps> {
       // @ts-ignore
       <Container style={style} ref={(c: any) => (this.refRightButton = c)}>
         <ModalTask
-          ref={(c) => {
+          ref={c => {
             this.refModalTask = c;
           }}
           habitCardProp={this.props}
@@ -347,6 +344,6 @@ const styles = StyleSheet.create({
 
 export default connect(
   null,
-  { editTaskStatus },
+  { editTaskStatus }
   // @ts-ignore
 )(HabitCard);

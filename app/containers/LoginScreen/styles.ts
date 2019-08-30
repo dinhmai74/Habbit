@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { Fonts, Colors, Metrics } from '../../themes'
+import { StyleSheet } from "react-native";
+import { Fonts, Colors, Metrics } from "../../themes";
 
 export default StyleSheet.create({
   container: {},
@@ -10,21 +10,21 @@ export default StyleSheet.create({
     paddingLeft: 8,
     borderRadius: 40,
     borderWidth: 1,
-    borderColor: 'rgba(110, 120, 170, 1)',
+    borderColor: "rgba(110, 120, 170, 1)",
     height: 45,
     marginVertical: 10,
   },
   inputStyle: {
     flex: 1,
     marginLeft: 10,
-    color: 'white',
+    color: "white",
     fontFamily: Fonts.type.base,
     fontSize: 16,
   },
   errorInputStyle: {
     marginTop: 0,
-    textAlign: 'center',
-    color: '#F44336',
+    textAlign: "center",
+    color: "#F44336",
   },
   signUpButtonText: {
     fontFamily: Fonts.type.base,
@@ -33,7 +33,7 @@ export default StyleSheet.create({
   signUpButton: {
     marginTop: 40,
     borderRadius: 50,
-    alignSelf: 'center',
+    alignSelf: "center",
     padding: 10,
     paddingRight: 30,
     paddingLeft: 30,
@@ -42,13 +42,13 @@ export default StyleSheet.create({
     marginTop: 30,
     color: Colors.white,
     ...Fonts.style.normalBold,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   socialContainer: {
     flex: 2,
     marginTop: 24,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
   googleButton: {
     height: Metrics.googleLogiButtonHeight,
@@ -66,4 +66,4 @@ export default StyleSheet.create({
     marginRight: 16,
     paddingVertical: 0,
   },
-})
+});

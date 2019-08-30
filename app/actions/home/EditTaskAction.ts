@@ -1,16 +1,19 @@
 // @flow
 // @ts-nocheck
-import { BASE_URL, getTokenString } from '../../api/firebase'
-import { IIconHabit, ISchedule, TArchivedStatus } from '../../model'
-import { offlineActionCreator } from '../ActionCreator'
+import { BASE_URL, getTokenString } from "../../api/firebase";
+import { IIconHabit, ISchedule, TArchivedStatus } from "../../model";
+import { offlineActionCreator } from "../ActionCreator";
 import {
   Action,
   EDIT_ICON_NAME_TASK,
   EDIT_SCHEDULE_TASK,
   EDIT_STATUS_TASK,
   getRequestString,
-} from '../ActionTypes'
-import { IEditTaskRequestAction, IFetchTaskRequestAction } from '../ActionTypes'
+} from "../ActionTypes";
+import {
+  IEditTaskRequestAction,
+  IFetchTaskRequestAction,
+} from "../ActionTypes";
 
 export const editTaskStatus = (
   taskId: string,
@@ -28,18 +31,18 @@ export const editTaskStatus = (
       date,
     },
     {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({
         taskId,
         status,
         date,
       }),
       headers: {
-        'content-type': 'application/json',
-        'Authorization': getTokenString(token),
+        "content-type": "application/json",
+        Authorization: getTokenString(token),
       },
     }
-  )
+  );
 
 export const editTaskIconAndName = (
   taskId: string,
@@ -53,18 +56,18 @@ export const editTaskIconAndName = (
     taskId,
     { taskId, quest, icon },
     {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({
         taskId,
         icon,
         taskQuest: quest,
       }),
       headers: {
-        'content-type': 'application/json',
-        'Authorization': getTokenString(token),
+        "content-type": "application/json",
+        Authorization: getTokenString(token),
       },
     }
-  )
+  );
 
 export const editSchedule = (
   taskId: string,
@@ -77,14 +80,14 @@ export const editSchedule = (
     taskId,
     { taskId, schedule },
     {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({
         taskId,
         schedule,
       }),
       headers: {
-        'content-type': 'application/json',
-        'Authorization': getTokenString(token),
+        "content-type": "application/json",
+        Authorization: getTokenString(token),
       },
     }
-  )
+  );

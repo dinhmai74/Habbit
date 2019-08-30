@@ -6,19 +6,19 @@ import {
   Icon,
   Left,
   Row as NativeRow,
-} from 'native-base'
-import React, { PureComponent } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Button, Overlay } from 'react-native-elements'
-import firebase from 'react-native-firebase'
-import LinearGradient from 'react-native-linear-gradient'
-import styled from 'styled-components'
-import I18n from '../../../localization'
+} from "native-base";
+import React, { PureComponent } from "react";
+import { StyleSheet, View } from "react-native";
+import { Button, Overlay } from "react-native-elements";
+import firebase from "react-native-firebase";
+import LinearGradient from "react-native-linear-gradient";
+import styled from "styled-components";
+import I18n from "../../../localization";
 
-import { ToastService } from '../../../components'
-import { Colors, Metrics, strings } from '../../../themes'
-import { capitalize } from '../../../tools'
-import ProfileInput from './ProfileInput'
+import { ToastService } from "../../../components";
+import { Colors, Metrics, strings } from "../../../themes";
+import { capitalize } from "../../../tools";
+import ProfileInput from "./ProfileInput";
 
 const styles = StyleSheet.create({
   container: {
@@ -33,26 +33,26 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   noBorder: {
-    borderColor: 'transparent',
+    borderColor: "transparent",
   },
   label: {
     margin: 5,
     color: Colors.linearStart,
   },
   text: {
-    borderColor: 'transparent',
+    borderColor: "transparent",
     padding: 10,
   },
   icon: {
     padding: 5,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   swipeRightIcon: {
     backgroundColor: Colors.success,
   },
   swipeLeftIcon: {
     backgroundColor: Colors.buttonColorInColoredBackground,
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   touchIcon: { color: Colors.yellow, padding: 10 },
   instructionText: {
@@ -75,115 +75,115 @@ const styles = StyleSheet.create({
     width: Metrics.screenWidth,
     height: 150,
   },
-})
+});
 interface IProps {
   // eslint-disable-next-line react/require-default-props
-  buttonOnPress: Function
-  onBackButtonPress: Function,
-  onBackdropPress?: Function,
-  loading: boolean,
-  isVisible?: boolean
+  buttonOnPress: Function;
+  onBackButtonPress: Function;
+  onBackdropPress?: Function;
+  loading: boolean;
+  isVisible?: boolean;
 }
 
-type TInput = 'userName' | 'password' | 'passwordRepeated' | 'oldPassword'
+type TInput = "userName" | "password" | "passwordRepeated" | "oldPassword";
 interface IState {
-  email: string
-  userName: string
-  password: string
-  oldPassword: string
-  passwordRepeated: string
-  userNameError: boolean
-  passwordError: boolean
-  oldPasswordError: boolean
+  email: string;
+  userName: string;
+  password: string;
+  oldPassword: string;
+  passwordRepeated: string;
+  userNameError: boolean;
+  passwordError: boolean;
+  oldPasswordError: boolean;
 }
 
 export default class Profile extends PureComponent<IProps, IState> {
   static defaultProps = {
     buttonOnPress: () => {},
     onBackButtonPress: () => {},
-  }
+  };
   state = {
-    email: '',
-    userName: '',
-    password: '',
-    oldPassword: '',
-    passwordRepeated: '',
+    email: "",
+    userName: "",
+    password: "",
+    oldPassword: "",
+    passwordRepeated: "",
     passwordError: false,
     userNameError: false,
     oldPasswordError: false,
-  }
+  };
 
   async componentDidMount() {
-    const user = await firebase.auth().currentUser
+    const user = await firebase.auth().currentUser;
     if (user) {
       // @ts-ignore
       this.setState({
         userName: user.displayName,
         email: user.email,
-      })
+      });
     }
   }
 
   handleChangeInput = (stateName: TInput, text: string) => {
-    let resetError = 'email'
-    if (stateName === 'oldPassword') {
-      resetError = 'oldPasswordError'
-    } else if (stateName === 'password' || stateName === 'passwordRepeated') {
-      resetError = 'passwordError'
-    } else if (stateName === 'userName') {
-      resetError = 'userNameError'
+    let resetError = "email";
+    if (stateName === "oldPassword") {
+      resetError = "oldPasswordError";
+    } else if (stateName === "password" || stateName === "passwordRepeated") {
+      resetError = "passwordError";
+    } else if (stateName === "userName") {
+      resetError = "userNameError";
     }
 
     // @ts-ignore
     this.setState({
       [stateName]: text,
       [resetError]: false,
-    })
-  }
+    });
+  };
 
   buttonOnPress = () => {
-    const { userName, password, oldPassword, email } = this.state
-    const isValidInfo = this.validateInfo()
+    const { userName, password, oldPassword, email } = this.state;
+    const isValidInfo = this.validateInfo();
     if (isValidInfo) {
-      this.props.buttonOnPress(userName, oldPassword, password, email)
+      this.props.buttonOnPress(userName, oldPassword, password, email);
     }
-  }
+  };
 
   validateInfo = () => {
-    const { userName, password, passwordRepeated, oldPassword } = this.state
-    const isValidUserName = this.validateUserName(userName)
-    const isValidPassword = this.validatePassword(password, passwordRepeated)
+    const { userName, password, passwordRepeated, oldPassword } = this.state;
+    const isValidUserName = this.validateUserName(userName);
+    const isValidPassword = this.validatePassword(password, passwordRepeated);
     if (!oldPassword) {
-      ToastService.showToast(I18n.t(strings.errMessYourPasswordIsEmpty))
+      ToastService.showToast(I18n.t(strings.errMessYourPasswordIsEmpty));
     }
     this.setState({
       userNameError: !isValidUserName,
       passwordError: !isValidPassword,
       oldPasswordError: !oldPassword,
-    })
+    });
 
-    return isValidPassword && isValidUserName && oldPassword
-  }
+    return isValidPassword && isValidUserName && oldPassword;
+  };
 
   validateUserName = (userName: string) => {
     if (!userName) {
-      ToastService.showToast(I18n.t(strings.errMessYourUserNameIsEmpty))
-      return false
+      ToastService.showToast(I18n.t(strings.errMessYourUserNameIsEmpty));
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   validatePassword = (password: string, passwordRepeated: string) => {
     if (password !== passwordRepeated) {
-      ToastService.showToast(I18n.t(strings.errMessUnmatchedPassword))
-      return false
+      ToastService.showToast(I18n.t(strings.errMessUnmatchedPassword));
+      return false;
     }
 
-    return true
-  }
+    return true;
+  };
 
   render() {
-    const { loading, ...rest } = this.props
+    const { loading, ...rest } = this.props;
     const {
       email,
       userName,
@@ -193,116 +193,115 @@ export default class Profile extends PureComponent<IProps, IState> {
       userNameError,
       passwordError,
       oldPasswordError,
-    } = this.state
+    } = this.state;
     return (
       // @ts-ignore
       <Overlay
         {...rest}
-        backdropColor='rgba(172,172,172, 0.6)'
+        backdropColor="rgba(172,172,172, 0.6)"
         backdropTransitionOutTiming={230}
         fullScreen
       >
-      <View style={{flex: 1}}>
-        <Header transparent noShadow>
-          <Left>
-            <Icon
-              name='close'
-              style={styles.icon}
-              // @ts-ignore
-              onPress={loading ? () => {} : this.props.onBackButtonPress}
+        <View style={{ flex: 1 }}>
+          <Header transparent noShadow>
+            <Left>
+              <Icon
+                name="close"
+                style={styles.icon}
+                // @ts-ignore
+                onPress={loading ? () => {} : this.props.onBackButtonPress}
+              />
+            </Left>
+            <Body style={styles.noBorder}>
+              <H2 style={[styles.text]}>
+                {capitalize(I18n.t(strings.titleProfile))}
+              </H2>
+            </Body>
+          </Header>
+
+          <Content
+            style={{
+              paddingLeft: Metrics.sidesPadding,
+              paddingRight: Metrics.sidesPadding,
+            }}
+          >
+            <ProfileInput
+              icon="user-o"
+              label={capitalize(I18n.t(strings.textUsername))}
+              placeholder={capitalize(I18n.t(strings.textUsername))}
+              value={userName}
+              error={userNameError}
+              onChangeText={text => this.handleChangeInput("userName", text)}
             />
-          </Left>
-          <Body style={styles.noBorder}>
-            <H2 style={[styles.text]}>
-              {capitalize(I18n.t(strings.titleProfile))}
-            </H2>
-          </Body>
-        </Header>
+            <ProfileInput
+              icon="email-outline"
+              type="MaterialCommunityIcons"
+              label={capitalize(I18n.t(strings.textEmail))}
+              defaultValue={email}
+              value={email}
+              disabled
+              placeholder={capitalize(I18n.t(strings.textEmail))}
+            />
 
-        <Content
-          style={{
-            paddingLeft: Metrics.sidesPadding,
-            paddingRight: Metrics.sidesPadding,
-          }}
-        >
-          <ProfileInput
-            icon='user-o'
-            label={capitalize(I18n.t(strings.textUsername))}
-            placeholder={capitalize(I18n.t(strings.textUsername))}
-            value={userName}
-            error={userNameError}
-            onChangeText={(text) => this.handleChangeInput('userName', text)}
-          />
-          <ProfileInput
-            icon='email-outline'
-            type='MaterialCommunityIcons'
-            label={capitalize(I18n.t(strings.textEmail))}
-            defaultValue={email}
-            value={email}
-            disabled
-            placeholder={capitalize(I18n.t(strings.textEmail))}
-          />
+            <ProfileInput
+              icon="key"
+              type="SimpleLineIcons"
+              label={capitalize(I18n.t(strings.textPassword))}
+              placeholder={capitalize(I18n.t(strings.textPassword))}
+              onChangeText={text => this.handleChangeInput("password", text)}
+              value={password}
+              error={passwordError}
+              secureTextEntry
+            />
+            <ProfileInput
+              icon="key"
+              type="SimpleLineIcons"
+              label={capitalize(I18n.t(strings.textPasswordRepeated))}
+              placeholder={capitalize(I18n.t(strings.textPasswordRepeated))}
+              value={passwordRepeated}
+              onChangeText={text =>
+                this.handleChangeInput("passwordRepeated", text)
+              }
+              error={passwordError}
+              secureTextEntry
+            />
 
-          <ProfileInput
-            icon='key'
-            type='SimpleLineIcons'
-            label={capitalize(I18n.t(strings.textPassword))}
-            placeholder={capitalize(I18n.t(strings.textPassword))}
-            onChangeText={(text) => this.handleChangeInput('password', text)}
-            value={password}
-            error={passwordError}
-            secureTextEntry
+            <ProfileInput
+              icon="key"
+              type="SimpleLineIcons"
+              label={capitalize(I18n.t(strings.textOldPassword))}
+              placeholder={capitalize(I18n.t(strings.textOldPassword))}
+              value={oldPassword}
+              onChangeText={text => this.handleChangeInput("oldPassword", text)}
+              error={oldPasswordError}
+              secureTextEntry
+            />
+          </Content>
+          <Button
+            linearGradientProps={{
+              colors: [Colors.linearStart, Colors.linearEnd],
+              start: { x: 1, y: 0 },
+              end: { x: 0.2, y: 0 },
+            }}
+            containerStyle={{ marginTop: 5 }}
+            ViewComponent={LinearGradient} // Don't forget this!
+            buttonStyle={styles.button}
+            loadingStyle={styles.buttonLoading}
+            onPress={this.buttonOnPress}
+            title={capitalize(I18n.t(strings.textOk))}
+            loading={loading}
+            disabled={loading}
           />
-          <ProfileInput
-            icon='key'
-            type='SimpleLineIcons'
-            label={capitalize(I18n.t(strings.textPasswordRepeated))}
-            placeholder={capitalize(I18n.t(strings.textPasswordRepeated))}
-            value={passwordRepeated}
-            onChangeText={(text) =>
-              this.handleChangeInput('passwordRepeated', text)
-            }
-            error={passwordError}
-            secureTextEntry
-          />
-
-          <ProfileInput
-            icon='key'
-            type='SimpleLineIcons'
-            label={capitalize(I18n.t(strings.textOldPassword))}
-            placeholder={capitalize(I18n.t(strings.textOldPassword))}
-            value={oldPassword}
-            onChangeText={(text) => this.handleChangeInput('oldPassword', text)}
-            error={oldPasswordError}
-            secureTextEntry
-          />
-        </Content>
-        <Button
-          linearGradientProps={{
-            colors: [Colors.linearStart, Colors.linearEnd],
-            start: { x: 1, y: 0 },
-            end: { x: 0.2, y: 0 },
-          }}
-          containerStyle={{ marginTop: 5 }}
-          ViewComponent={LinearGradient} // Don't forget this!
-          buttonStyle={styles.button}
-          loadingStyle={styles.buttonLoading}
-          onPress={this.buttonOnPress}
-          title={capitalize(I18n.t(strings.textOk))}
-          loading={loading}
-          disabled={loading}
-        />
-
-      </View>
+        </View>
       </Overlay>
-    )
+    );
   }
 }
 
 const Header = styled(NativeHeader)`
   width: 100%;
-`
+`;
 const Content = styled(NativeBaseContent)`
   padding: 10px;
   margin: 20px 0px;
-`
+`;

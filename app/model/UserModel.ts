@@ -1,6 +1,6 @@
 // @ts-nocheck
 export interface TypeUser {
-  email: string,
-  username: string,
-  password: string,
+  email: string;
+  username: string;
+  password: string;
 }

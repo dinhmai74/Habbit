@@ -1,21 +1,21 @@
-import { Dimensions, Platform } from 'react-native'
-import { getStatusBarHeight } from 'react-native-status-bar-height'
-import { spacing } from './spacing'
+import { Dimensions, Platform } from "react-native";
+import { getStatusBarHeight } from "react-native-status-bar-height";
+import { spacing } from "./spacing";
 
-const { width, height } = Dimensions.get('window')
-const statusBarHeight = getStatusBarHeight()
+const { width, height } = Dimensions.get("window");
+const statusBarHeight = getStatusBarHeight();
 
 // based on iphone 5s's scale
 // Use iPhone8 1x as base size which is 375 x 667
-const baseWidth = 375
-const baseHeight = 667
+const baseWidth = 375;
+const baseHeight = 667;
 
-const scaleWidth = width / baseWidth
-const scaleHeight = height / baseHeight
-const scale = Math.min(scaleWidth, scaleHeight)
-export const scaledSize = (size: number) => Math.ceil(size * scale)
+const scaleWidth = width / baseWidth;
+const scaleHeight = height / baseHeight;
+const scale = Math.min(scaleWidth, scaleHeight);
+export const scaledSize = (size: number) => Math.ceil(size * scale);
 
-export const screen = { height, width }
+export const screen = { height, width };
 
 const metrics = {
   icon: {
@@ -43,7 +43,7 @@ const metrics = {
   screenHeight: width < height ? height : width,
   buttonPadding: 10,
   statusBarHeight,
-  navBarHeight: Platform.OS === 'ios' ? 64 : 54,
+  navBarHeight: Platform.OS === "ios" ? 64 : 54,
   buttonRadius: 5,
   circleButtonRadius: 30,
   icons: {
@@ -65,6 +65,6 @@ const metrics = {
   text: {},
   googleLogiButtonWidth: 124,
   googleLogiButtonHeight: 44,
-}
+};
 
-export default metrics
+export default metrics;

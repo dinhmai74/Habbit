@@ -1,58 +1,64 @@
-import { Text } from 'native-base'
-import React, { Component } from 'react'
-import { BackHandler, StyleProp, StyleSheet, View } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
-import { withNavigation } from 'react-navigation'
-import styled from 'styled-components'
-import { ApplicationStyles, Colors, Fonts, Metrics } from '../themes'
-import { ImageButton } from './Button'
+import { Text } from "native-base";
+import React, { Component } from "react";
+import { BackHandler, StyleProp, StyleSheet, View } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
+import { withNavigation } from "react-navigation";
+import styled from "styled-components";
+import { ApplicationStyles, Colors, Fonts, Metrics } from "../themes";
+import { ImageButton } from "./Button";
 
 interface Props {
-  title?: string
-  leftIcon?: number
-  leftTitle?: string
-  leftTitleOnClick?: Function
-  leftComponent?: JSX.Element
-  color?: string
+  title?: string;
+  leftIcon?: number;
+  leftTitle?: string;
+  leftTitleOnClick?: () => void;
+  leftComponent?: JSX.Element;
+  color?: string;
 
-  rightTitle?: string
-  rightTitleOnClick?: Function
-  rightIcon?: string
-  rightComponent?: JSX.Element
-  navigation?: any
-  style?: StyleSheet.NamedStyles<any>
-  isLinear?: Boolean
+  rightTitle?: string;
+  rightTitleOnClick?: () => void;
+  rightIcon?: string;
+  rightComponent?: JSX.Element;
+  navigation?: any;
+  style?: StyleSheet.NamedStyles<any>;
+  isLinear?: () => void;
 }
 
 class AppHeader extends Component<Props> {
-  static defaultProps: any
+  static defaultProps: any;
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
   }
 
   handleBackPress = () => {
     if (this.props.navigation.state.params) {
       if (this.props.navigation.state.params.refresh) {
-        this.props.navigation.state.params.refresh()
+        this.props.navigation.state.params.refresh();
       }
     }
-    this.props.navigation.goBack(null) // works best when the goBack is async
-    return true
-  }
+    this.props.navigation.goBack(null); // works best when the goBack is async
+    return true;
+  };
 
   leftTitleOnClick = () => {
-    const { leftTitleOnClick } = this.props
-    if (leftTitleOnClick) { leftTitleOnClick() } else { this.handleBackPress() }
-  }
+    const { leftTitleOnClick } = this.props;
+    if (leftTitleOnClick) {
+      leftTitleOnClick();
+    } else {
+      this.handleBackPress();
+    }
+  };
 
   renderLeftOptions = () => {
-    const { leftComponent, leftTitle, leftIcon, color } = this.props
-    if (leftComponent) { return leftComponent }
+    const { leftComponent, leftTitle, leftIcon, color } = this.props;
+    if (leftComponent) {
+      return leftComponent;
+    }
 
     if (leftIcon) {
       return (
@@ -64,7 +70,7 @@ class AppHeader extends Component<Props> {
           icon={leftIcon}
           size={22}
         />
-      )
+      );
     }
 
     if (leftTitle) {
@@ -80,19 +86,22 @@ class AppHeader extends Component<Props> {
         >
           {leftTitle}
         </Text>
-      )
+      );
     }
 
-    return <View />
-  }
+    return <View />;
+  };
 
   renderRightOptions = () => {
-    const { rightComponent, rightTitle, rightIcon, color } = this.props
-    if (rightComponent) { return rightComponent }
+    const { rightComponent, rightTitle, rightIcon, color } = this.props;
+    if (rightComponent) {
+      return rightComponent;
+    }
 
     if (rightIcon) {
       return (
         <ImageButton
+          style={{}}
           tintColor={color}
           // @ts-ignore
           pressed={this.props.rightTitleOnClick}
@@ -100,7 +109,7 @@ class AppHeader extends Component<Props> {
           icon={rightIcon}
           size={22}
         />
-      )
+      );
     }
 
     if (rightTitle) {
@@ -113,18 +122,18 @@ class AppHeader extends Component<Props> {
         >
           {rightTitle}
         </Text>
-      )
+      );
     }
 
-    return <View />
-  }
+    return <View />;
+  };
 
   render() {
-    const { title, style, isLinear, color } = this.props
+    const { title, style, isLinear, color } = this.props;
 
     const colors = isLinear
       ? [Colors.linearStart, Colors.linearEnd]
-      : ['transparent', 'transparent']
+      : ["transparent", "transparent"];
 
     return (
       <LinearGradient
@@ -151,12 +160,12 @@ class AppHeader extends Component<Props> {
           {this.renderRightOptions()}
         </AppHeaderContainer>
       </LinearGradient>
-    )
+    );
   }
 }
 
 AppHeader.defaultProps = {
-  title: '',
+  title: "",
   color: Colors.white,
   leftIcon: null,
   leftTitle: null,
@@ -169,20 +178,19 @@ AppHeader.defaultProps = {
   navigation: null,
   style: null,
   isLinear: false,
-}
+};
 
 // @ts-ignore
-export default withNavigation(AppHeader)
+export default withNavigation(AppHeader);
 
 export const AppHeaderContainer = styled(View)`
-  flexDirection:row;
+  flexdirection: row;
   width: 100%;
-  padding:${Metrics.statusBarHeight + Metrics.doubleBaseMargin}px ${
-  Metrics.doubleBaseMargin
-}px;
+  padding: ${Metrics.statusBarHeight + Metrics.doubleBaseMargin}px
+    ${Metrics.doubleBaseMargin}px;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
 const styles = StyleSheet.create({
   text: {
@@ -190,22 +198,22 @@ const styles = StyleSheet.create({
     color: Colors.textInBackground,
   },
   subTitleText: {
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
     fontSize: Fonts.size.input,
   },
   leftTitleText: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   rightTitle: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   title: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
+    alignSelf: "center",
+    justifyContent: "center",
+    textAlign: "center",
   },
 
   icon: {
     tintColor: Colors.white,
   },
-})
+});

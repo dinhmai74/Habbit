@@ -1,6 +1,6 @@
-import style from 'app/components/PullToRefreshView/style'
-import { TextStyle } from 'react-native'
-import { Colors, Fonts, } from '../../themes'
+import style from "app/components/PullToRefreshView/style";
+import { TextStyle } from "react-native";
+import { Colors, Fonts } from "../../themes";
 
 /**
  * All text will start off looking like this.
@@ -8,7 +8,7 @@ import { Colors, Fonts, } from '../../themes'
 const BASE: TextStyle = {
   color: Colors.text.text,
   ...Fonts.style.normal,
-}
+};
 
 /**
  * All the variations of text styling within the app.
@@ -26,22 +26,22 @@ export const presets = {
    * A bold version of the default text.
    * font size 15,black bold text
    */
-  bold: { ...BASE, fontWeight: 'bold' } as TextStyle,
+  bold: { ...BASE, fontWeight: "bold" } as TextStyle,
 
   /**
    * Large headers.
    * font size 24, dim color
    */
-  header: { ...BASE, fontSize: 24, fontWeight: 'bold' } as TextStyle,
+  header: { ...BASE, fontSize: 24, fontWeight: "bold" } as TextStyle,
 
   title: {
     ...BASE,
     fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
   } as TextStyle,
 
-  subtitle: { ...BASE, fontSize: 14, textAlign: 'center' } as TextStyle,
+  subtitle: { ...BASE, fontSize: 14, textAlign: "center" } as TextStyle,
 
   cardTitle: { ...BASE, fontSize: 18, color: Colors.dim } as TextStyle,
 
@@ -62,10 +62,9 @@ export const presets = {
   secondary: { ...BASE, fontSize: 9, color: Colors.dim } as TextStyle,
 
   ...Fonts.style,
-}
+};
 
 /**
  * A list of preset names.
  */
-export type TextPresets = keyof typeof presets
-
+export type TextPresets = keyof typeof presets;

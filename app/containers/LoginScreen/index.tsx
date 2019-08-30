@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Button, Text, Toast, View } from 'native-base'
-import { NavigationScreenProps } from 'react-navigation'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Button, Text, Toast, View } from "native-base";
+import { NavigationScreenProps } from "react-navigation";
 
-import { login, googleLogin, facebookLogin } from '../../actions'
-import { ToastService } from '../../components'
-import I18n from '../../localization'
-import { strings } from '../../themes'
-import RenderLoginScreen from './RenderLoginScreen'
+import { login, googleLogin, facebookLogin } from "../../actions";
+import { ToastService } from "../../components";
+import I18n from "../../localization";
+import { strings } from "../../themes";
+import RenderLoginScreen from "./RenderLoginScreen";
 
 // valid email and password
 // {
@@ -17,127 +17,133 @@ import RenderLoginScreen from './RenderLoginScreen'
 // }
 
 interface IProps {
-  login: Function
-  fetching: boolean
-  fetchingGoogle: boolean
-  fetchingFacebook: boolean
-  googleLogin: Function
-  facebookLogin: Function
+  login: Function;
+  fetching: boolean;
+  fetchingGoogle: boolean;
+  fetchingFacebook: boolean;
+  googleLogin: Function;
+  facebookLogin: Function;
 }
 
 class LoginScreen extends Component<IProps & NavigationScreenProps> {
   state = {
     error: false,
-  }
+  };
 
   handlePressSignIn = (userInfo: any) => {
-    if (this.isSignIn()) { return }
-    const isValidInfo = this.validate(userInfo)
+    if (this.isSignIn()) {
+      return;
+    }
+    const isValidInfo = this.validate(userInfo);
     this.setState({
       error: !isValidInfo,
-    })
+    });
     if (isValidInfo) {
       this.props.login(
         userInfo,
         () => {
-          this.props.navigation.navigate(strings.routeMain)
+          this.props.navigation.navigate(strings.routeMain);
         },
         () => {
           this.setState({
             error: true,
-          })
+          });
           ToastService.showToast(
             I18n.t(strings.errMessYourLoginDetailsWereIncorrect)
-          )
+          );
         }
-      )
+      );
     }
-  }
+  };
 
   validate = (userInfo: any) => {
-    const { email, password } = userInfo
-    const isValidEmail = this.validateEmail(email)
+    const { email, password } = userInfo;
+    const isValidEmail = this.validateEmail(email);
     if (!isValidEmail.flag) {
       // @ts-ignore
-      ToastService.showToast(isValidEmail.message)
-      return false
+      ToastService.showToast(isValidEmail.message);
+      return false;
     }
 
-    const isValidPassword = this.validatePassword(password)
+    const isValidPassword = this.validatePassword(password);
 
     if (!isValidPassword) {
       // @ts-ignore
-      ToastService.showToast(isValidPassword.message)
-      return false
+      ToastService.showToast(isValidPassword.message);
+      return false;
     }
 
-    return true
-  }
+    return true;
+  };
 
   validatePassword = (password: string) => {
     if (!password) {
       return {
         flag: false,
         message: I18n.t(strings.errMessYourPasswordIsEmpty),
-      }
+      };
     }
 
-    return { flag: true }
-  }
+    return { flag: true };
+  };
 
   validateEmail = (email: string) => {
     if (!email) {
       return {
         flag: false,
         message: I18n.t(strings.errMessYourEmailIsEmpty),
-      }
+      };
     }
 
-    return { flag: true }
-  }
+    return { flag: true };
+  };
 
   handlePressSignUp = () => {
-    this.props.navigation.navigate(strings.routeSignUp)
-  }
+    this.props.navigation.navigate(strings.routeSignUp);
+  };
 
   onMainAuthScreen = () => {
-    this.props.navigation.navigate(strings.routeMainAuth)
-  }
+    this.props.navigation.navigate(strings.routeMainAuth);
+  };
 
   handlePressGoogleSignIn = () => {
-    if (this.isSignIn()) { return }
-    const { googleLogin } = this.props
+    if (this.isSignIn()) {
+      return;
+    }
+    const { googleLogin } = this.props;
     googleLogin(
-      (status) => {
-        console.log('handlePressGoogleSignIn: ', JSON.stringify(status))
-        this.props.navigation.navigate(strings.routeMain)
+      status => {
+        console.log("handlePressGoogleSignIn: ", JSON.stringify(status));
+        this.props.navigation.navigate(strings.routeMain);
       },
-      (error) => {
-        error.message && ToastService.showToast(error.message)
+      error => {
+        error.message && ToastService.showToast(error.message);
       }
-    )
-  }
+    );
+  };
 
   handlePressFacebookSignIn = () => {
-    if (this.isSignIn()) { return }
-    const { facebookLogin } = this.props
+    if (this.isSignIn()) {
+      return;
+    }
+    const { facebookLogin } = this.props;
     facebookLogin(
-      (status) => {
-        this.props.navigation.navigate(strings.routeMain)
+      status => {
+        this.props.navigation.navigate(strings.routeMain);
       },
-      (error) => {
-        error.message && ToastService.showToast(error.message)
+      error => {
+        error.message && ToastService.showToast(error.message);
       }
-    )
-  }
+    );
+  };
 
   isSignIn = () => {
-    const { fetching, fetchingGoogle, fetchingFacebook } = this.props
-    return fetching || fetchingGoogle || fetchingFacebook
-  }
+    const { fetching, fetchingGoogle, fetchingFacebook } = this.props;
+    return fetching || fetchingGoogle || fetchingFacebook;
+  };
 
   render() {
-    const { fetching, fetchingGoogle, fetchingFacebook } = this.props
+    const { fetching, fetchingGoogle, fetchingFacebook } = this.props;
     return (
       <RenderLoginScreen
         error={this.state.error}
@@ -151,20 +157,20 @@ class LoginScreen extends Component<IProps & NavigationScreenProps> {
         fetchingGoogle={fetchingGoogle}
         fetchingFacebook={fetchingFacebook}
       />
-    )
+    );
   }
 }
 
 const mapStateToProps = (state: any) => {
-  const { loginInfo } = state
+  const { loginInfo } = state;
   return {
     fetching: loginInfo.fetching,
     error: loginInfo.error,
     data: loginInfo.data,
     fetchingGoogle: state.googleLoginInfor.fetching,
     fetchingFacebook: state.facebookLoginInfor.fetching,
-  }
-}
+  };
+};
 
 export default connect(
   mapStateToProps,
@@ -173,4 +179,4 @@ export default connect(
     googleLogin,
     facebookLogin,
   }
-)(LoginScreen)
+)(LoginScreen);

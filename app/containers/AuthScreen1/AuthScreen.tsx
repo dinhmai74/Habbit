@@ -1,103 +1,103 @@
-import { Body, Row } from 'native-base'
-import React, { Component } from 'react'
-import firebase from 'react-native-firebase'
-import { NavigationInjectedProps } from 'react-navigation'
-import styled from 'styled-components'
+import { Body, Row } from "native-base";
+import React, { Component } from "react";
+import firebase from "react-native-firebase";
+import { NavigationInjectedProps } from "react-navigation";
+import styled from "styled-components";
 import {
   AppButton,
   Icon,
   SizedBox,
   ToastService,
   withSpacing,
-} from '../../components'
-import AppBackground from '../../components/app-background/AppBackground'
-import { Metrics as metrics } from '../../themes'
-import { Colors as color, palette } from '../../themes'
-import { screen } from '../../themes/Metrics'
-import NavigateService from '../../tools/NavigateService'
-import { ApiFactory, getTokenString } from '../../api/firebase'
+} from "../../components";
+import AppBackground from "../../components/app-background/AppBackground";
+import { Metrics as metrics } from "../../themes";
+import { Colors as color, palette } from "../../themes";
+import { screen } from "../../themes/Metrics";
+import NavigateService from "../../tools/NavigateService";
+import { ApiFactory, getTokenString } from "../../api/firebase";
 
 export interface IAuthScreenProps extends NavigationInjectedProps {}
 interface State {
-  user: any
+  user: any;
 }
 
-const StyledBody = styled(Body)``
+const StyledBody = styled(Body)``;
 
 const StyledButton = styled(withSpacing(AppButton))`
   background: ${color.transparent};
   border-color: ${palette.white};
-`
+`;
 
 export class AuthScreen extends Component<IAuthScreenProps, State> {
-  unsubscriber: any
+  unsubscriber: any;
 
   constructor(props: IAuthScreenProps) {
-    super(props)
-    this.unsubscriber = null
+    super(props);
+    this.unsubscriber = null;
     this.state = {
       user: null,
-    }
+    };
   }
 
   componentDidMount() {
-    this.unsubscriber = firebase.auth().onAuthStateChanged((user) => {
-      this.setState({ user })
+    this.unsubscriber = firebase.auth().onAuthStateChanged(user => {
+      this.setState({ user });
       if (user) {
-        user.getIdToken().then((token) => {
+        user.getIdToken().then(token => {
           ApiFactory.getInstance().setHeader(
-            'Authorization',
+            "Authorization",
             getTokenString(token)
-          )
-        })
+          );
+        });
       }
-    })
+    });
   }
 
   componentWillUnmount() {
     if (this.unsubscriber) {
-      this.unsubscriber()
+      this.unsubscriber();
     }
   }
 
   render() {
     if (this.state.user) {
       ToastService.showToast(
-        'message.loginSuccess',
-        'success',
+        "message.loginSuccess",
+        "success",
         () => {
-          NavigateService.navigate('main')
+          NavigateService.navigate("main");
         },
-        'bottom',
+        "bottom",
         1000
-      )
+      );
     }
     return (
       <AppBackground isLinear>
         <StyledBody>
           <SizedBox style={{ height: screen.height * 0.25 }} />
-          <Icon icon='logoWithText' size={metrics.logo.normal} />
+          <Icon icon="logoWithText" size={metrics.logo.normal} />
           <SizedBox height={5} />
           <Row>
             <StyledButton
-              tx='title.login'
+              tx="title.login"
               margin={3}
               padding={3}
-              type='outline'
-              onPress={() => NavigateService.navigate('login')}
+              type="outline"
+              onPress={() => NavigateService.navigate("login")}
             />
             <StyledButton
-              tx='title.signUp'
+              tx="title.signUp"
               margin={3}
               padding={3}
-              type='outline'
-              onPress={() => NavigateService.navigate('signUp')}
+              type="outline"
+              onPress={() => NavigateService.navigate("signUp")}
             />
           </Row>
         </StyledBody>
       </AppBackground>
-    )
+    );
   }
 }
 
-export default AuthScreen
+export default AuthScreen;

@@ -4,48 +4,48 @@
     "reactnative.pull-to-refresh-view/style@1.0.0": {
         "files": [
             {
-                "relativePath": "app/components/PullToRefreshView/style.ts",
+                "relativePath": "app/components/Index/style.ts",
                 "test": false,
                 "name": "style.ts"
             }
         ],
-        "mainFile": "app/components/PullToRefreshView/style.ts",
+        "mainFile": "app/components/Index/style.ts",
         "origin": "AUTHORED",
         "exported": true
     },
     "reactnative.pull-to-refresh-view/loading-wave@1.0.0": {
         "files": [
             {
-                "relativePath": "app/components/PullToRefreshView/loading-wave.json",
+                "relativePath": "app/components/Index/loading-wave.json",
                 "test": false,
                 "name": "loading-wave.json"
             }
         ],
-        "mainFile": "app/components/PullToRefreshView/loading-wave.json",
+        "mainFile": "app/components/Index/loading-wave.json",
         "origin": "AUTHORED",
         "exported": true
     },
     "reactnative.pull-to-refresh-view/indexandroid@1.0.3": {
         "files": [
             {
-                "relativePath": "app/components/PullToRefreshView/index.android.tsx",
+                "relativePath": "app/components/Index/index.android.tsx",
                 "test": false,
                 "name": "index.android.tsx"
             }
         ],
-        "mainFile": "app/components/PullToRefreshView/index.android.tsx",
+        "mainFile": "app/components/Index/index.android.tsx",
         "origin": "AUTHORED",
         "exported": true
     },
     "reactnative.pull-to-refresh-view/indexios@1.0.3": {
         "files": [
             {
-                "relativePath": "app/components/PullToRefreshView/index.ios.tsx",
+                "relativePath": "app/components/Index/index.ios.tsx",
                 "test": false,
                 "name": "index.ios.tsx"
             }
         ],
-        "mainFile": "app/components/PullToRefreshView/index.ios.tsx",
+        "mainFile": "app/components/Index/index.ios.tsx",
         "origin": "AUTHORED",
         "exported": true
     },

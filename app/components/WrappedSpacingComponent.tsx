@@ -1,56 +1,55 @@
-import flatten from 'ramda/es/flatten'
-import mergeAll from 'ramda/es/mergeAll'
-import React from 'React'
-import styled from 'styled-components'
-import { spacing, Spacing } from '../themes/spacing'
+import flatten from "ramda/es/flatten";
+import mergeAll from "ramda/es/mergeAll";
+import React from "React";
+import styled from "styled-components";
+import { spacing, Spacing } from "../themes/spacing";
 
 export const wrapComponentWithPadding = (
   component,
-  padding = { top: 2, right: 2, bottom: 2, left: 2 },
+  padding = { top: 2, right: 2, bottom: 2, left: 2 }
 ) => {
-  const { top, right, bottom, left } = padding
+  const { top, right, bottom, left } = padding;
   return styled(component)`
     padding: ${spacing[top]}px ${spacing[right]}px ${spacing[bottom]}px
       ${spacing[left]}px;
-  `
-}
+  `;
+};
 
 export const wrapComponentWithMargin = (
   component,
-  margin = { top: 2, right: 2, bottom: 2, left: 2 },
+  margin = { top: 2, right: 2, bottom: 2, left: 2 }
 ) => {
-  const { top, right, bottom, left } = margin
+  const { top, right, bottom, left } = margin;
   return styled(component)`
     margin: ${spacing[top]}px ${spacing[right]}px ${spacing[bottom]}px
       ${spacing[left]}px;
-  `
-}
+  `;
+};
 
 export interface IMargin {
-  margin?: Spacing
-  marginLeft?: Spacing
-  marginRight?: Spacing
-  marginBottom?: Spacing
-  marginTop?: Spacing
-  marginHorizontal?: Spacing
-  marginVertical?: Spacing
+  margin?: Spacing;
+  marginLeft?: Spacing;
+  marginRight?: Spacing;
+  marginBottom?: Spacing;
+  marginTop?: Spacing;
+  marginHorizontal?: Spacing;
+  marginVertical?: Spacing;
 }
 
 export interface IPadding {
-  padding?: Spacing
-  paddingRight?: Spacing
-  paddingLeft?: Spacing
-  paddingTop?: Spacing
-  paddingBottom?: Spacing
-  paddingHorizontal?: Spacing
-  paddingVertical?: Spacing
+  padding?: Spacing;
+  paddingRight?: Spacing;
+  paddingLeft?: Spacing;
+  paddingTop?: Spacing;
+  paddingBottom?: Spacing;
+  paddingHorizontal?: Spacing;
+  paddingVertical?: Spacing;
 }
 
-interface IWithSpacing extends IMargin, IPadding {
-}
+interface IWithSpacing extends IMargin, IPadding {}
 
 export const withSpacing = <P extends object>(
-  Component: React.ComponentType<P>,
+  Component: React.ComponentType<P>
 ) =>
   class WithLoading extends React.Component<P & IWithSpacing> {
     render() {
@@ -68,7 +67,7 @@ export const withSpacing = <P extends object>(
         marginBottom,
         marginTop,
         marginVertical,
-        marginHorizontal
+        marginHorizontal;
 
       const {
         margin: m,
@@ -78,21 +77,21 @@ export const withSpacing = <P extends object>(
         marginTop: mt,
         marginHorizontal: mh,
         marginVertical: mv,
-      } = this.props
+      } = this.props;
       // @ts-ignore
-      marginAll = spacing[m]
+      marginAll = spacing[m];
       // @ts-ignore
-      marginLeft = spacing[ml]
+      marginLeft = spacing[ml];
       // @ts-ignore
-      marginTop = spacing[mt]
+      marginTop = spacing[mt];
       // @ts-ignore
-      marginRight = spacing[mr]
+      marginRight = spacing[mr];
       // @ts-ignore
-      marginBottom = spacing[mb]
+      marginBottom = spacing[mb];
       // @ts-ignore
-      marginHorizontal = spacing[mh]
+      marginHorizontal = spacing[mh];
       // @ts-ignore
-      marginVertical = spacing[mv]
+      marginVertical = spacing[mv];
 
       const {
         padding: p,
@@ -102,25 +101,25 @@ export const withSpacing = <P extends object>(
         paddingTop: pt,
         paddingVertical: pv,
         paddingHorizontal: ph,
-      } = this.props
+      } = this.props;
 
       // @ts-ignore
-      paddingAll = spacing[p]
+      paddingAll = spacing[p];
       // @ts-ignore
-      paddingLeft = spacing[pl]
+      paddingLeft = spacing[pl];
       // @ts-ignore
-      paddingTop = spacing[pt]
+      paddingTop = spacing[pt];
       // @ts-ignore
-      paddingRight = spacing[pr]
+      paddingRight = spacing[pr];
       // @ts-ignore
-      paddingBottom = spacing[pb]
+      paddingBottom = spacing[pb];
       // @ts-ignore
-      paddingVertical = spacing[pv]
+      paddingVertical = spacing[pv];
       // @ts-ignore
-      paddingHorizontal = spacing[ph]
+      paddingHorizontal = spacing[ph];
 
       // @ts-ignore
-      const { children, style: styleOverride, ...rest } = this.props
+      const { children, style: styleOverride, ...rest } = this.props;
       const style = mergeAll(
         flatten([
           {
@@ -140,12 +139,12 @@ export const withSpacing = <P extends object>(
             marginTop,
           },
           styleOverride,
-        ]),
-      )
+        ])
+      );
       return (
         <Component style={style} {...rest as P}>
           {children}
         </Component>
-      )
+      );
     }
-  }
+  };

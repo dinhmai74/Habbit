@@ -1,16 +1,16 @@
-import React, { PureComponent } from 'react'
-import { StyleSheet } from 'react-native'
-import { Colors, Fonts } from '../../themes'
-import { AppText } from '../Text'
-import Button from './Button'
+import React, { PureComponent } from "react";
+import { StyleSheet } from "react-native";
+import { Colors, Fonts } from "../../themes";
+import { AppText } from "../Text";
+import Button from "./Button";
 
 interface Props {
-  disable?: boolean,
-  style?: object,
-  text: string,
-  textStyle?: object,
-  textColor?: string,
-  onPress?: () => void ,
+  disable?: boolean;
+  style?: object;
+  text: string;
+  textStyle?: object;
+  textColor?: string;
+  onPress?: () => void;
 }
 
 export default class TextButton extends PureComponent<Props> {
@@ -20,10 +20,10 @@ export default class TextButton extends PureComponent<Props> {
     textStyle: null,
     textColor: Colors.textInBackground,
     onPress: () => {},
-  }
+  };
 
   render() {
-    const { disable, style, text, textStyle, textColor } = this.props
+    const { disable, style, text, textStyle, textColor } = this.props;
 
     return (
       <Button
@@ -36,7 +36,7 @@ export default class TextButton extends PureComponent<Props> {
           {text}
         </AppText>
       </Button>
-    )
+    );
   }
 }
 
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   text: {
     fontSize: Fonts.size.input,
   },
-})
+});

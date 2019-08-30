@@ -1,105 +1,105 @@
-import _ from 'lodash'
-import moment from 'moment'
-import { Content, Text as NativebaseText } from 'native-base'
-import React, { Component } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Icon } from 'react-native-elements'
-import Modal from 'react-native-modal'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import { NavigationScreenProps } from 'react-navigation'
-import { connect } from 'react-redux'
+import _ from "lodash";
+import moment from "moment";
+import { Content, Text as NativebaseText } from "native-base";
+import React, { Component } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Icon } from "react-native-elements";
+import Modal from "react-native-modal";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { NavigationScreenProps } from "react-navigation";
+import { connect } from "react-redux";
 
-import { refetchTasks } from '../../actions'
-import { AppHeader, AppBackground } from '../../components'
-import CalendarsHabit from '../../components/Calendar/CalendarHabit'
-import EditTaskLine from '../../components/EditTaskLine'
-import I18n from '../../localization'
-import { IArchived } from '../../model'
-import { Colors, Fonts, Images, strings } from '../../themes'
-import { getPlatformElevation } from '../../tools'
+import { refetchTasks } from "../../actions";
+import { AppHeader, AppBackground } from "../../components";
+import CalendarsHabit from "../../components/Calendar/CalendarHabit";
+import EditTaskLine from "../../components/EditTaskLine";
+import I18n from "../../localization";
+import { IArchived } from "../../model";
+import { Colors, Fonts, Images, strings } from "../../themes";
+import { getPlatformElevation } from "../../tools";
 
 const rightArrowIcon = (
-  <FontAwesome name='chevron-right' size={30} color={Colors.buttonColor} />
-)
+  <FontAwesome name="chevron-right" size={30} color={Colors.buttonColor} />
+);
 const pencilIcon = (
-  <FontAwesome name='pencil' size={30} color={Colors.linearStart} />
-)
+  <FontAwesome name="pencil" size={30} color={Colors.linearStart} />
+);
 const scheduleIcon = (
-  <FontAwesome name='clock-o' size={30} color={Colors.bloodOrange} />
-)
-const removeIcon = <FontAwesome name='remove' size={30} color={Colors.fire} />
-const statsIcon = <Ionicons name='ios-stats' size={30} color={Colors.green} />
+  <FontAwesome name="clock-o" size={30} color={Colors.bloodOrange} />
+);
+const removeIcon = <FontAwesome name="remove" size={30} color={Colors.fire} />;
+const statsIcon = <Ionicons name="ios-stats" size={30} color={Colors.green} />;
 
-type TOverlay = 'scheduleShow'
+type TOverlay = "scheduleShow";
 
 interface IProps extends NavigationScreenProps {}
 
 interface IState {
-  isModalVisible: boolean
-  scheduleShow: boolean
+  isModalVisible: boolean;
+  scheduleShow: boolean;
 }
 
 class DetailTaskScreen extends Component<IProps, IState> {
   state = {
     isModalVisible: false,
     scheduleShow: true,
-  }
+  };
 
   getDayDone = (archived: IArchived[]) =>
-    _.pickBy(archived, (value) => {
-      return value.status === 'done'
-    })
+    _.pickBy(archived, value => {
+      return value.status === "done";
+    });
 
   countConsecutiveDays = (arr: string[]) => {
     const momentDates = arr
-      .map((date) => {
-        return moment(date, 'YYYY-MM-DD')
+      .map(date => {
+        return moment(date, "YYYY-MM-DD");
       })
-      .sort((a, b) => a.diff(b))
+      .sort((a, b) => a.diff(b));
 
-    const streak: number[] = []
-    let count = 0
+    const streak: number[] = [];
+    let count = 0;
 
     for (let i = 1; i < momentDates.length; i++) {
       if (this.isConsecutive(momentDates[i - 1], momentDates[i])) {
-        count += 1
+        count += 1;
       } else {
-        streak.push(count + 1)
-        count = 0
+        streak.push(count + 1);
+        count = 0;
       }
       if (i === momentDates.length - 1) {
-        streak.push(count + 1)
-        count = 0
+        streak.push(count + 1);
+        count = 0;
       }
     }
-    return streak
-  }
+    return streak;
+  };
 
   isConsecutive = (currentDay, nextDay) => {
-    return nextDay.diff(currentDay, 'days') === 1
-  }
+    return nextDay.diff(currentDay, "days") === 1;
+  };
 
   toggleModal = () =>
-    this.setState({ isModalVisible: !this.state.isModalVisible })
+    this.setState({ isModalVisible: !this.state.isModalVisible });
 
   renderModal = (currentStreak, bestStreak) => (
     <View style={styles.modalContent}>
       <Text style={styles.title}>More Stats</Text>
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
+          flexDirection: "row",
+          alignItems: "center",
         }}
       >
         <View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Icon
               containerStyle={{
                 paddingLeft: 8,
-                alignSelf: 'center',
+                alignSelf: "center",
               }}
-              name='tonality'
+              name="tonality"
               color={Colors.facebook}
               size={30}
             />
@@ -116,18 +116,18 @@ class DetailTaskScreen extends Component<IProps, IState> {
             height: 100,
             width: 1,
             backgroundColor: Colors.panther,
-            alignSelf: 'center',
+            alignSelf: "center",
           }}
         />
         <View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Icon
               containerStyle={{
                 paddingLeft: 8,
-                alignSelf: 'center',
+                alignSelf: "center",
               }}
-              type='MaterialCommunityIcons'
-              name='brightness-1'
+              type="MaterialCommunityIcons"
+              name="brightness-1"
               color={Colors.facebook}
               size={30}
             />
@@ -144,38 +144,38 @@ class DetailTaskScreen extends Component<IProps, IState> {
         <NativebaseText style={styles.subTitleText}>Exit</NativebaseText>
       </TouchableOpacity>
     </View>
-  )
+  );
 
   openOverlay = (type: TOverlay) => {
     this.setState({
       [type]: true,
-    })
-  }
+    });
+  };
 
   render() {
-    const { navigation } = this.props
-    const item = navigation.getParam('item')
-    const { quest: title, archived, id: taskId, icon } = item
-    const { name: iconName, color: iconColor } = icon
-    const doneDays = this.getDayDone(archived)
-    const deleteTask = navigation.getParam('deleteTask')
+    const { navigation } = this.props;
+    const item = navigation.getParam("item");
+    const { quest: title, archived, id: taskId, icon } = item;
+    const { name: iconName, color: iconColor } = icon;
+    const doneDays = this.getDayDone(archived);
+    const deleteTask = navigation.getParam("deleteTask");
 
-    const doneDayStreak: string[] = []
-    _.forEach(doneDays, (doneDay) => {
-      doneDayStreak.push(doneDay.date)
-    })
+    const doneDayStreak: string[] = [];
+    _.forEach(doneDays, doneDay => {
+      doneDayStreak.push(doneDay.date);
+    });
 
-    const streak = this.countConsecutiveDays(doneDayStreak)
+    const streak = this.countConsecutiveDays(doneDayStreak);
 
-    const currentStreak = streak[streak.length - 1]
-    const bestStreak = Math.max(...streak)
+    const currentStreak = streak[streak.length - 1];
+    const bestStreak = Math.max(...streak);
 
     return (
       <AppBackground noImage>
         <Content>
           <AppHeader
-            type={'transparent'}
-            leftIcon={'back'}
+            type={"transparent"}
+            leftIcon={"back"}
             headerText={title}
           />
           <Modal isVisible={this.state.isModalVisible}>
@@ -215,49 +215,49 @@ class DetailTaskScreen extends Component<IProps, IState> {
             content={I18n.t(strings.resetOrDelete)}
             rightIcon={rightArrowIcon}
             onPress={() => {
-              deleteTask(taskId)
-              navigation.navigate(strings.routeHome)
+              deleteTask(taskId);
+              navigation.navigate(strings.routeHome);
             }}
             styles={styles}
           />
           <EditTaskLine
             leftIcon={statsIcon}
-            content='More stats'
+            content="More stats"
             rightIcon={rightArrowIcon}
             onPress={this.toggleModal}
             styles={styles}
           />
         </Content>
       </AppBackground>
-    )
+    );
   }
 }
 
 export default connect(
   null,
   { refetchTasks }
-)(DetailTaskScreen)
+)(DetailTaskScreen);
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 10,
     margin: 10,
     backgroundColor: Colors.white,
     ...getPlatformElevation(),
   },
   textWithIcon: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   leftIcon: {
     marginLeft: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
     width: 40,
   },
   rightText: {
-    alignSelf: 'center',
+    alignSelf: "center",
     paddingLeft: 20,
     margin: 10,
     fontFamily: Fonts.type.bold,
@@ -267,19 +267,19 @@ const styles = StyleSheet.create({
   },
   viewModal: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalContent: {
     backgroundColor: Colors.lightGray,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 4,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+    borderColor: "rgba(0, 0, 0, 0.1)",
     marginLeft: 20,
     marginRight: 20,
     padding: 20,
-    shadowColor: '#000000',
+    shadowColor: "#000000",
     shadowOffset: {
       height: 1,
       width: 1,
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
   },
   subTitleText: {
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
     fontFamily: Fonts.type.base,
     fontSize: Fonts.size.input,
     color: Colors.facebook,
@@ -303,4 +303,4 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.type.semiBold,
     fontSize: Fonts.size.input,
   },
-})
+});

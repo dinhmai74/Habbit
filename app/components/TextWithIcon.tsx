@@ -1,22 +1,22 @@
-import React, { PureComponent } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Metrics } from '../themes'
-import { AppText } from './Text'
+import React, { PureComponent } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Metrics } from "../themes";
+import { AppText } from "./Text";
 
 interface IProps {
-  text?: string,
-  leftIcon?: string,
-  leftIconSize?: number,
-  leftIconTintColor?: string,
-  rightIcon?: string,
-  rightIconSize?: number,
-  rightIconTintColor?: string,
-  onPress?: () => void,
+  text?: string;
+  leftIcon?: string;
+  leftIconSize?: number;
+  leftIconTintColor?: string;
+  rightIcon?: string;
+  rightIconSize?: number;
+  rightIconTintColor?: string;
+  onPress?: () => void;
 }
 
 export default class TextWithIcon extends PureComponent<IProps> {
   static defaultProps = {
-    text: '',
+    text: "",
     leftIcon: null,
     leftIconSize: 30,
     leftIconTintColor: null,
@@ -24,7 +24,7 @@ export default class TextWithIcon extends PureComponent<IProps> {
     rightIconSize: 30,
     rightIconTintColor: null,
     onPress: () => {},
-  }
+  };
 
   render() {
     const {
@@ -35,14 +35,14 @@ export default class TextWithIcon extends PureComponent<IProps> {
       rightIcon,
       rightIconSize,
       rightIconTintColor,
-    } = this.props
+    } = this.props;
     return (
       <TouchableOpacity
         {...this.props}
         onPress={this.props.onPress}
         style={styles.container}
       >
-        { leftIcon ? (
+        {leftIcon ? (
           <Image
             // @ts-ignore
             source={leftIcon}
@@ -57,7 +57,7 @@ export default class TextWithIcon extends PureComponent<IProps> {
           />
         ) : null}
         <AppText>{text}</AppText>
-        { rightIcon ? (
+        {rightIcon ? (
           <Image
             // @ts-ignore
             source={rightIcon}
@@ -72,19 +72,19 @@ export default class TextWithIcon extends PureComponent<IProps> {
           />
         ) : null}
       </TouchableOpacity>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    alignSelf: 'flex-start',
+    flexDirection: "row",
+    backgroundColor: "transparent",
+    alignSelf: "flex-start",
     margin: Metrics.baseMargin,
     padding: 3,
   },
   icon: {
     margin: 10,
   },
-})
+});

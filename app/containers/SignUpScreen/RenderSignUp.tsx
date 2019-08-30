@@ -1,9 +1,9 @@
 /* eslint-disable no-return-assign */
-import React, { Component, Props } from 'react'
-import { ScrollView, View } from 'react-native'
-import * as Animatable from 'react-native-animatable'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import React, { Component, Props } from "react";
+import { ScrollView, View } from "react-native";
+import * as Animatable from "react-native-animatable";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import {
   AlertStatus,
@@ -11,38 +11,38 @@ import {
   AuthButton,
   Heading,
   Input,
-} from '../../components'
-import AppHeader from '../../components/AppHeader'
-import I18n from '../../localization'
-import { Images, strings } from '../../themes'
-import { capitalize } from '../../tools'
-import styles from './styles'
+} from "../../components";
+import AppHeader from "../../components/AppHeader";
+import I18n from "../../localization";
+import { Images, strings } from "../../themes";
+import { capitalize } from "../../tools";
+import styles from "./styles";
 
-const DEFAULT_DURATION = 500
-const DELAY_TIME = 100
+const DEFAULT_DURATION = 500;
+const DELAY_TIME = 100;
 
 interface IProps {
-  navigation: any
-// tslint:disable-next-line: ban-types
-  onSignUpPress: Function,
-  fetching: boolean
+  navigation: any;
+  // tslint:disable-next-line: ban-types
+  onSignUpPress: Function;
+  fetching: boolean;
   error: {
-    userName: boolean
-    email: boolean
-    password: boolean,
-  }
+    userName: boolean;
+    email: boolean;
+    password: boolean;
+  };
 }
 
-type TypeNameField= 'userName'|'email'|'password'
+type TypeNameField = "userName" | "email" | "password";
 
-const AlertStatusAnim = Animatable.createAnimatableComponent(AlertStatus)
+const AlertStatusAnim = Animatable.createAnimatableComponent(AlertStatus);
 
 export default class RenderSignUpScreen extends Component<IProps> {
   state = {
-    userName: '',
-    email: '',
-    password: '',
-    passwordRepeat: '',
+    userName: "",
+    email: "",
+    password: "",
+    passwordRepeat: "",
     animation: {
       usernameField: 0,
       emailField: DELAY_TIME,
@@ -56,7 +56,7 @@ export default class RenderSignUpScreen extends Component<IProps> {
       email: false,
       password: false,
     },
-  }
+  };
   willFocusListener: any;
   refUsernameField: any;
   refEmailField: any;
@@ -70,26 +70,26 @@ export default class RenderSignUpScreen extends Component<IProps> {
   refPasswordRepeatInput: any;
 
   componentDidMount() {
-    const { navigation, error } = this.props
+    const { navigation, error } = this.props;
     this.setState({
       error,
-    })
-    this.willFocusListener = navigation.addListener('willFocus', () => {
-      this.refresh()
-    })
+    });
+    this.willFocusListener = navigation.addListener("willFocus", () => {
+      this.refresh();
+    });
   }
 
   componentWillReceiveProps(nextProps: IProps) {
-    this.setState({ error: nextProps.error })
+    this.setState({ error: nextProps.error });
   }
 
   componentWillUnmount() {
-    this.willFocusListener.remove()
+    this.willFocusListener.remove();
   }
 
   refresh = () => {
-    this.doAnimate()
-  }
+    this.doAnimate();
+  };
 
   doAnimate = () => {
     const {
@@ -99,38 +99,42 @@ export default class RenderSignUpScreen extends Component<IProps> {
       passwordRepeatField,
       buttonCreate,
       bottomWarning,
-    } = this.state.animation
+    } = this.state.animation;
     if (this.refUsernameField) {
       this.refUsernameField.animate(
-        'fadeInLeft',
+        "fadeInLeft",
         DEFAULT_DURATION,
-        usernameField,
-      )
+        usernameField
+      );
     }
     if (this.refEmailField) {
-      this.refEmailField.animate('fadeInLeft', DEFAULT_DURATION, emailField)
+      this.refEmailField.animate("fadeInLeft", DEFAULT_DURATION, emailField);
     }
     if (this.refPasswordField) {
       this.refPasswordField.animate(
-        'fadeInLeft',
+        "fadeInLeft",
         DEFAULT_DURATION,
-        passwordField,
-      )
+        passwordField
+      );
     }
     if (this.refPasswordRepeatField) {
       this.refPasswordRepeatField.animate(
-        'fadeInLeft',
+        "fadeInLeft",
         DEFAULT_DURATION,
-        passwordRepeatField,
-      )
+        passwordRepeatField
+      );
     }
     if (this.refButtonField) {
-      this.refButtonField.animate('fadeInLeft', DEFAULT_DURATION, buttonCreate)
+      this.refButtonField.animate("fadeInLeft", DEFAULT_DURATION, buttonCreate);
     }
     if (this.refWarningBanner) {
-      this.refWarningBanner.animate('fadeInUp', DEFAULT_DURATION, bottomWarning)
+      this.refWarningBanner.animate(
+        "fadeInUp",
+        DEFAULT_DURATION,
+        bottomWarning
+      );
     }
-  }
+  };
 
   /**
    * private methods
@@ -138,42 +142,42 @@ export default class RenderSignUpScreen extends Component<IProps> {
    */
 
   onMainAuthScreen = () => {
-    this.props.navigation.navigate(strings.routeMainAuth)
-  }
+    this.props.navigation.navigate(strings.routeMainAuth);
+  };
 
   handleChangeInput = (stateName: TypeNameField, text: string) => {
     this.setState({
       [stateName]: text,
-    })
-  }
+    });
+  };
 
   /**
    *  handle events
    *
    */
   handlePressSignUp = () => {
-    const { email, userName, password, passwordRepeat } = this.state
-    if (this.props.onSignUpPress ) {
+    const { email, userName, password, passwordRepeat } = this.state;
+    if (this.props.onSignUpPress) {
       this.props.onSignUpPress({
-      email,
-      password,
-      passwordRepeat,
-      userName,
-    })
+        email,
+        password,
+        passwordRepeat,
+        userName,
+      });
     }
-  }
+  };
 
   handleLogin = () => {
-    this.props.navigation.navigate(strings.routeLogin)
-  }
+    this.props.navigation.navigate(strings.routeLogin);
+  };
 
   focus = (type: TypeNameField) => {
-    const { error } = this.state
-    error[type] = false
+    const { error } = this.state;
+    error[type] = false;
     this.setState({
       error,
-    })
-  }
+    });
+  };
 
   /**
    * render
@@ -181,8 +185,8 @@ export default class RenderSignUpScreen extends Component<IProps> {
    **/
 
   render() {
-    const { animation, error } = this.state
-    const { fetching } = this.props
+    const { animation, error } = this.state;
+    const { fetching } = this.props;
     return (
       <AppBackground isLinear>
         <KeyboardAwareScrollView
@@ -196,69 +200,73 @@ export default class RenderSignUpScreen extends Component<IProps> {
               leftTitleOnClick={this.onMainAuthScreen}
             />
             <Animatable.View>
-              <Heading color='#ffffff' textAlign='center' marginBottom={10}>
+              <Heading color="#ffffff" textAlign="center" marginBottom={10}>
                 {capitalize(I18n.t(strings.textSignUp))}
               </Heading>
             </Animatable.View>
             <ScrollView style={{ flexGrow: 1, paddingBottom: 10 }}>
               <View style={styles.formContainer}>
-                <Animatable.View ref={(c) => (this.refUsernameField = c)}>
+                <Animatable.View ref={c => (this.refUsernameField = c)}>
                   <Input
                     isError={error.userName}
-                    onFocus={() => this.focus('userName')}
+                    onFocus={() => this.focus("userName")}
                     label={capitalize(I18n.t(strings.textUsername))}
-                    icon={<Icon name='user' />}
+                    icon={<Icon name="user" />}
                     ref={(c: any) => (this.refUsernameInput = c)}
                     value={this.state.userName}
                     // @ts-ignore
-                    onChange={this.handleChangeInput.bind(this, 'userName')}
+                    onChange={this.handleChangeInput.bind(this, "userName")}
                     onSubmitEditing={() => {
-                      if (this.refEmailInput) { this.refEmailInput.focus() }
+                      if (this.refEmailInput) {
+                        this.refEmailInput.focus();
+                      }
                     }}
                   />
                 </Animatable.View>
-                <Animatable.View ref={(c) => (this.refEmailField = c)}>
+                <Animatable.View ref={c => (this.refEmailField = c)}>
                   <Input
                     isError={error.email}
-                    onFocus={() => this.focus('email')}
+                    onFocus={() => this.focus("email")}
                     label={capitalize(I18n.t(strings.textEmail))}
-                    icon={<Icon name='envelope-o' />}
+                    icon={<Icon name="envelope-o" />}
                     value={this.state.email}
                     ref={(c: any) => (this.refEmailInput = c)}
                     marginTop={23}
                     // @ts-ignore
-                    onChange={this.handleChangeInput.bind(this, 'email')}
+                    onChange={this.handleChangeInput.bind(this, "email")}
                     onSubmitEditing={() => {
-                      if (this.refPasswordInput) { this.refPasswordInput.focus() }
-                    }}
-                  />
-                </Animatable.View>
-
-                <Animatable.View ref={(c) => (this.refPasswordField = c)}>
-                  <Input
-                    isError={error.password}
-                    label={capitalize(I18n.t(strings.textPassword))}
-                    icon={<Icon name='key' />}
-                    value={this.state.password}
-                    ref={(c: any) => (this.refPasswordInput = c)}
-                    marginTop={23}
-                    // @ts-ignore
-                    onChange={this.handleChangeInput.bind(this, 'password')}
-                    secureTextEntry
-                    onSubmitEditing={() => {
-                      if (this.refPasswordRepeatInput) {
-                        this.refPasswordRepeatInput.focus()
+                      if (this.refPasswordInput) {
+                        this.refPasswordInput.focus();
                       }
                     }}
                   />
                 </Animatable.View>
 
-                <Animatable.View ref={(c) => (this.refPasswordRepeatField = c)}>
+                <Animatable.View ref={c => (this.refPasswordField = c)}>
                   <Input
                     isError={error.password}
-                    onFocus={() => this.focus('password')}
+                    label={capitalize(I18n.t(strings.textPassword))}
+                    icon={<Icon name="key" />}
+                    value={this.state.password}
+                    ref={(c: any) => (this.refPasswordInput = c)}
+                    marginTop={23}
+                    // @ts-ignore
+                    onChange={this.handleChangeInput.bind(this, "password")}
+                    secureTextEntry
+                    onSubmitEditing={() => {
+                      if (this.refPasswordRepeatInput) {
+                        this.refPasswordRepeatInput.focus();
+                      }
+                    }}
+                  />
+                </Animatable.View>
+
+                <Animatable.View ref={c => (this.refPasswordRepeatField = c)}>
+                  <Input
+                    isError={error.password}
+                    onFocus={() => this.focus("password")}
                     label={capitalize(I18n.t(strings.textPasswordRepeated))}
-                    icon={<Icon name='key' />}
+                    icon={<Icon name="key" />}
                     value={this.state.passwordRepeat}
                     ref={(c: any) => {
                       return (this.refPasswordRepeatInput = c);
@@ -266,17 +274,17 @@ export default class RenderSignUpScreen extends Component<IProps> {
                     marginTop={23}
                     onChange={this.handleChangeInput.bind(
                       this,
-                    // @ts-ignore
-                      'passwordRepeat',
+                      // @ts-ignore
+                      "passwordRepeat"
                     )}
                     secureTextEntry
                   />
                 </Animatable.View>
 
                 <Animatable.View
-                  animation='fadeInLeft'
+                  animation="fadeInLeft"
                   duration={animation.buttonCreate}
-                  ref={(c) => (this.refButtonField = c)}
+                  ref={c => (this.refButtonField = c)}
                 >
                   <AuthButton
                     text={capitalize(I18n.t(strings.textSignUp))}
@@ -291,12 +299,12 @@ export default class RenderSignUpScreen extends Component<IProps> {
           </View>
         </KeyboardAwareScrollView>
         <AlertStatusAnim
-          ref={(c) => (this.refWarningBanner = c)}
+          ref={c => (this.refWarningBanner = c)}
           textHelper={capitalize(I18n.t(strings.textAlreadyHaveAnAccount))}
           textAction={capitalize(I18n.t(strings.textLogin))}
           onPressAction={this.handleLogin}
         />
       </AppBackground>
-    )
+    );
   }
 }

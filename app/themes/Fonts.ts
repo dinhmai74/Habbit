@@ -1,29 +1,29 @@
-import { presets } from 'app/components/Text/text.presets'
-import { Fonts } from 'app/themes/index'
-import { normalize } from 'react-native-elements'
+import { presets } from "app/components/Text/text.presets";
+import { Fonts } from "app/themes/index";
+import { normalize } from "react-native-elements";
 
 const type = {
-  base: 'Montserrat-Regular',
-  black: 'Montserrat-Black',
-  blackItalic: 'Montserrat-BlackItalic',
-  bold: 'Montserrat-Bold',
-  boldItalic: 'Montserrat-BoldItalic',
-  extraBold: 'Montserrat-ExtraBold',
-  extraBoldItalic: 'Montserrat-ExtraBoldItalic',
-  extraLight: 'Montserrat-ExtraLight',
-  extraLightItalic: 'Montserrat-ExtraLightItalic',
-  italic: 'Montserrat-Italic',
-  light: 'Montserrat-Light',
-  lightItalic: 'Montserrat-LightItalic',
-  medium: 'Montserrat-Medium',
-  mediumItalic: 'Montserrat-MediumItalic',
-  semiBold: 'Montserrat-SemiBold',
-  semiBoldItalic: 'Montserrat-SemiBoldItalic',
-  thin: 'Montserrat-Thin',
-  thinItalic: 'Montserrat-ThinItalic',
-}
+  base: "Montserrat-Regular",
+  black: "Montserrat-Black",
+  blackItalic: "Montserrat-BlackItalic",
+  bold: "Montserrat-Bold",
+  boldItalic: "Montserrat-BoldItalic",
+  extraBold: "Montserrat-ExtraBold",
+  extraBoldItalic: "Montserrat-ExtraBoldItalic",
+  extraLight: "Montserrat-ExtraLight",
+  extraLightItalic: "Montserrat-ExtraLightItalic",
+  italic: "Montserrat-Italic",
+  light: "Montserrat-Light",
+  lightItalic: "Montserrat-LightItalic",
+  medium: "Montserrat-Medium",
+  mediumItalic: "Montserrat-MediumItalic",
+  semiBold: "Montserrat-SemiBold",
+  semiBoldItalic: "Montserrat-SemiBoldItalic",
+  thin: "Montserrat-Thin",
+  thinItalic: "Montserrat-ThinItalic",
+};
 
-export type FontTypes = keyof typeof type
+export type FontTypes = keyof typeof type;
 
 const size = {
   h1: normalize(38),
@@ -48,7 +48,7 @@ const size = {
   numPad: normalize(24),
   button: normalize(20),
   instructionTitle: normalize(22),
-}
+};
 
 const style = {
   h1: {
@@ -123,12 +123,12 @@ const style = {
     fontFamily: type.bold,
     fontSize: size.small,
   },
-}
+};
 
-export type FontStyles = keyof typeof style
+export type FontStyles = keyof typeof style;
 
 export default {
   type,
   size,
   style,
-}
+};

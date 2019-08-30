@@ -1,5 +1,3 @@
-export const ElementTheme={
-  Text: {
-
-  }
+export const ElementTheme = {
+  Text: {},
 };

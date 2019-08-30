@@ -2,7 +2,7 @@
   "defaultSeverity": "warn",
   "extends": [
     "tslint:recommended",
-    "tslint-config-prettier"
+    "tslint-plugin-prettier"
   ],
   "jsRules": {},
   "rules": {
@@ -24,7 +24,11 @@
     "ordered-imports": false,
     "no-unused-expression": false,
     "only-arrow-functions": false,
-    "prettier": true
+    "prettier": [
+      true,
+      "./.prettierrc"
+    ],
+    "semicolon": [true, "always", "ignore-bound-class-methods"]
   },
   "rulesDirectory": []
 }

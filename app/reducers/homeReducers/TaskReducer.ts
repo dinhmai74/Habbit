@@ -1,5 +1,5 @@
 // @ts-nocheck
-import _ from 'lodash'
+import _ from "lodash";
 import {
   CREATE_TASK,
   CREATE_TASK_FAILED,
@@ -15,134 +15,138 @@ import {
   getRequestString,
   getRollbackString,
   REFETCH_TASK,
-} from '../../actions/ActionTypes'
-import { Action } from '../../actions/ActionTypes'
+} from "../../actions/ActionTypes";
+import { Action } from "../../actions/ActionTypes";
 
-import { NetInfo } from 'react-native'
-import { DELETE_TASK } from '../../actions/ActionTypes/DeleteTask'
-import { FirebaseWorker } from '../../api/firebase'
+import { NetInfo } from "react-native";
+import { DELETE_TASK } from "../../actions/ActionTypes/DeleteTask";
+import { FirebaseWorker } from "../../api/firebase";
 // import { TypeHabitRawItem } from 'app/model';
-import { IHabitRawItem, TArchivedStatus } from '../../model'
+import { IHabitRawItem, TArchivedStatus } from "../../model";
 
 const INITIAL_STATE = {
   data: null,
   error: null,
   fetching: false,
-}
+};
 
 interface State {
-  data: IHabitRawItem[] | null
-  error: object | null
-  fetching: boolean
+  data: IHabitRawItem[] | null;
+  error: object | null;
+  fetching: boolean;
 }
 
 const editTask = (
   oldTasks: IHabitRawItem[],
-  taskEdit: { taskId: string; date: string; status: TArchivedStatus },
+  taskEdit: { taskId: string; date: string; status: TArchivedStatus }
 ): IHabitRawItem[] => {
-  FirebaseWorker.updateArchived(taskEdit.taskId, taskEdit.status, taskEdit.date)
-  const { taskId, date, status } = taskEdit
+  FirebaseWorker.updateArchived(
+    taskEdit.taskId,
+    taskEdit.status,
+    taskEdit.date
+  );
+  const { taskId, date, status } = taskEdit;
   const taskNeedEdit: any = _.filter(oldTasks, (value: any) => {
-    return value.id === taskId
-  })
+    return value.id === taskId;
+  });
   if (taskNeedEdit.length > 0) {
-    taskNeedEdit[0].archived[date].status = status
+    taskNeedEdit[0].archived[date].status = status;
   }
-  return oldTasks
-}
+  return oldTasks;
+};
 
 const editIconAndName = (oldTasks: IHabitRawItem[], newTask) => {
-  const cloneOldTask = { ...oldTasks }
+  const cloneOldTask = { ...oldTasks };
   const taskNeedEdit: any = _.filter(cloneOldTask, (value: any) => {
-    return value.id === newTask.taskId
-  })
+    return value.id === newTask.taskId;
+  });
   if (taskNeedEdit.length > 0) {
-    const { quest, icon } = newTask
+    const { quest, icon } = newTask;
     if (quest) {
-      taskNeedEdit[0].quest = quest
+      taskNeedEdit[0].quest = quest;
     }
     if (icon && icon.name && icon.color) {
-      taskNeedEdit[0].icon = icon
+      taskNeedEdit[0].icon = icon;
     }
   }
-  return cloneOldTask
-}
+  return cloneOldTask;
+};
 
 const deleteTask = (oldTasks: any, taskId: string) => {
   const newTasks = _.filter(oldTasks, (value: { id: string }) => {
-    return value.id !== taskId
-  })
-  return newTasks
-}
+    return value.id !== taskId;
+  });
+  return newTasks;
+};
 
 const createTask = (
   oldTask: IHabitRawItem[],
-  newTask: IHabitRawItem,
+  newTask: IHabitRawItem
 ): IHabitRawItem[] => {
-  return [...oldTask, newTask]
-}
+  return [...oldTask, newTask];
+};
 
 const editSchedule = (oldTasks: IHabitRawItem[], newTask: any) => {
-  const cloneOldTask = { ...oldTasks }
+  const cloneOldTask = { ...oldTasks };
   const taskNeedEdit: any = _.filter(cloneOldTask, (value: any) => {
-    return value.id === newTask.taskId
-  })
+    return value.id === newTask.taskId;
+  });
 
   if (taskNeedEdit.length > 0) {
-    const { schedule } = newTask
-    taskNeedEdit[0].schedule = schedule
+    const { schedule } = newTask;
+    taskNeedEdit[0].schedule = schedule;
   }
-  return cloneOldTask
-}
+  return cloneOldTask;
+};
 
 const editTaskStatus = (oldTasks: IHabitRawItem[], newTask: any) => {
-  const cloneOldTask = { ...oldTasks }
+  const cloneOldTask = { ...oldTasks };
   const taskNeedEdit: any = _.filter(cloneOldTask, (value: any) => {
-    return value.id === newTask.taskId
-  })
+    return value.id === newTask.taskId;
+  });
 
   if (taskNeedEdit.length > 0) {
-    const { status, date } = newTask
-    taskNeedEdit[0].archived[date].status = status
+    const { status, date } = newTask;
+    taskNeedEdit[0].archived[date].status = status;
   }
-  return cloneOldTask
-}
+  return cloneOldTask;
+};
 
 export default (state: any = INITIAL_STATE, action: Action): State => {
   switch (action.type) {
     case getRequestString(CREATE_TASK):
-      const newState = createTask(state.data, action.payload.task)
+      const newState = createTask(state.data, action.payload.task);
       return {
         data: newState,
         error: null,
         fetching: false,
-      }
+      };
 
     case getRollbackString(CREATE_TASK):
       return {
         ...state,
-      }
+      };
 
     case getCommitString(CREATE_TASK):
       return {
         ...state,
-      }
+      };
 
     case CREATE_TASK: {
       // const result = createTask(state.data || [], action.payload)
       return {
         ...state,
         fetching: true,
-      }
+      };
     }
 
     case CREATE_TASK_SUCCESS: {
-      const result = createTask(state.data || [], action.payload)
+      const result = createTask(state.data || [], action.payload);
       return {
         data: result,
         error: null,
         fetching: false,
-      }
+      };
     }
 
     case CREATE_TASK_FAILED:
@@ -150,14 +154,14 @@ export default (state: any = INITIAL_STATE, action: Action): State => {
         data: null,
         error: action.payload,
         fetching: false,
-      }
+      };
 
     case EDIT_STATUS_TASK: {
-      const result = editTask(state.data, action.payload)
+      const result = editTask(state.data, action.payload);
       return {
         ...state,
         data: result,
-      }
+      };
     }
 
     case FETCH_TASKS:
@@ -165,72 +169,72 @@ export default (state: any = INITIAL_STATE, action: Action): State => {
         error: null,
         fetching: true,
         ...state,
-      }
+      };
     case FETCH_TASKS_SUCCESS:
       return {
         data: action.payload,
         error: null,
         fetching: false,
-      }
+      };
     case FETCH_TASKS_FAIL:
       return {
         error: action.payload,
         fetching: false,
         ...state,
-      }
+      };
     case DELETE_TASK: {
-      const result = deleteTask(state.data, action.payload)
+      const result = deleteTask(state.data, action.payload);
       return {
         ...state,
         data: result,
-      }
+      };
     }
 
     case getRequestString(DELETE_TASK): {
-      const result = deleteTask(state.data, action.payload)
+      const result = deleteTask(state.data, action.payload);
       return {
         ...state,
         data: result,
-      }
+      };
     }
 
     case getCommitString(DELETE_TASK): {
-      const result = deleteTask(state.data, action.payload)
+      const result = deleteTask(state.data, action.payload);
       return {
         ...state,
         data: result,
-      }
+      };
     }
 
     case getRequestString(EDIT_ICON_NAME_TASK): {
-      const newState = editIconAndName(state.data, action.payload)
+      const newState = editIconAndName(state.data, action.payload);
       return {
         ...state,
         data: newState,
-      }
+      };
     }
 
     case getCommitString(EDIT_ICON_NAME_TASK): {
-      const newState = editIconAndName(state.data, action.payload)
+      const newState = editIconAndName(state.data, action.payload);
       return {
         ...state,
         data: newState,
-      }
+      };
     }
 
     case getRollbackString(EDIT_ICON_NAME_TASK):
-      return state
+      return state;
 
     case REFETCH_TASK: {
       return {
         ...state,
         error: null,
         fetching: false,
-      }
+      };
     }
     case getRequestString(EDIT_SCHEDULE_TASK): {
-      const newState = editSchedule(state.data, action.payload)
-      return Object.assign({}, { ...state }, { data: newState })
+      const newState = editSchedule(state.data, action.payload);
+      return Object.assign({}, { ...state }, { data: newState });
     }
 
     case getCommitString(EDIT_SCHEDULE_TASK): {
@@ -238,22 +242,22 @@ export default (state: any = INITIAL_STATE, action: Action): State => {
         ...state,
         error: true,
         fetching: false,
-      }
+      };
     }
 
     case getRollbackString(EDIT_SCHEDULE_TASK): {
-      return state
+      return state;
     }
 
     case getRequestString(EDIT_STATUS_TASK): {
-      const newState = editTaskStatus(state.data, action.payload)
+      const newState = editTaskStatus(state.data, action.payload);
       return {
         ...state,
         data: newState,
-      }
+      };
     }
 
     default:
-      return state
+      return state;
   }
-}
+};

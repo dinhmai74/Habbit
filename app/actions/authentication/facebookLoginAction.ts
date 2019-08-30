@@ -6,9 +6,9 @@ import {
   FACEBOOK_LOGIN_FAILED,
   FACEBOOK_LOGIN_SUCCESS,
   FACEBOOK_LOGIN,
-} from '../ActionTypes'
+} from "../ActionTypes";
 
-import { ResponseFirebase, TypeUser } from '../../model'
+import { ResponseFirebase, TypeUser } from "../../model";
 
 // eslint-disable-next-line import/prefer-default-export
 export const facebookLogin = (
@@ -19,8 +19,8 @@ export const facebookLogin = (
     type: FACEBOOK_LOGIN,
     resolve,
     reject,
-  }
-}
+  };
+};
 
 export const facebookLoginSuccess = (
   data: ResponseFirebase
@@ -28,8 +28,8 @@ export const facebookLoginSuccess = (
   return {
     type: FACEBOOK_LOGIN_SUCCESS,
     payload: data,
-  }
-}
+  };
+};
 
 export const facebookLoginError = (
   err: ResponseFirebase
@@ -37,5 +37,5 @@ export const facebookLoginError = (
   return {
     type: FACEBOOK_LOGIN_FAILED,
     payload: err,
-  }
-}
+  };
+};

@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native'
-import { ApplicationStyles, Colors, Fonts } from '../../themes'
-import metrics from '../../themes/Metrics'
-import { spacing } from '../../themes/spacing'
+import { StyleSheet } from "react-native";
+import { ApplicationStyles, Colors, Fonts } from "../../themes";
+import metrics from "../../themes/Metrics";
+import { spacing } from "../../themes/spacing";
 
 export default StyleSheet.create({
   container: {},
@@ -9,26 +9,26 @@ export default StyleSheet.create({
     borderRadius: 10,
     backgroundColor: Colors.lightGray,
     margin: metrics.sidesPadding,
-    padding: spacing[5]
+    padding: spacing[5],
   },
   text: {
-    textAlign: 'center',
+    textAlign: "center",
     fontFamily: Fonts.type.base,
     color: Colors.panther,
     fontSize: Fonts.size.regular,
   },
   button: {
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "transparent",
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonText: {
     color: Colors.white,
     padding: 5,
     fontFamily: Fonts.type.bold,
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
   },
   InlineDecorationText: {
     margin: 10,
   },
-})
+});

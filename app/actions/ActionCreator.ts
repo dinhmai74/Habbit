@@ -29,6 +29,6 @@ const offlineActionCreator = (
     urgent,
   },
   ...restOfArg,
-})
+});
 
-export { offlineActionCreator }
+export { offlineActionCreator };

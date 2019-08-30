@@ -1,8 +1,8 @@
-import { TextStyle, ViewStyle } from 'react-native'
-import { Colors } from '../../themes'
-import { palette } from '../../themes/palette'
-import { spacing } from '../../themes/spacing'
-import { presets } from '../Text/text.presets'
+import { TextStyle, ViewStyle } from "react-native";
+import { Colors } from "../../themes";
+import { palette } from "../../themes/palette";
+import { spacing } from "../../themes/spacing";
+import { presets } from "../Text/text.presets";
 
 /**
  * All text will start off looking like this.
@@ -11,16 +11,16 @@ const BASE_VIEW: ViewStyle = {
   paddingVertical: spacing[3],
   paddingHorizontal: spacing[5],
   borderRadius: 4,
-  justifyContent: 'center',
-  alignItems: 'center',
+  justifyContent: "center",
+  alignItems: "center",
   elevation: 0,
-}
+};
 
 const BASE_TEXT: TextStyle = {
   paddingHorizontal: spacing[1],
   fontSize: 16,
   ...presets.default,
-}
+};
 
 /**
  * All the variations of text styling within the app.
@@ -54,12 +54,12 @@ export const viewPresets = {
     paddingHorizontal: 0,
     paddingVertical: 0,
     backgroundColor: Colors.transparent,
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
   } as ViewStyle,
   /**
    * rounded button
    */
-}
+};
 
 export const textPresets = {
   primary: {
@@ -77,9 +77,9 @@ export const textPresets = {
     paddingVertical: 0,
   } as TextStyle,
   authTrans: { ...BASE_TEXT, color: Colors.primary } as ViewStyle,
-}
+};
 
 /**
  * A list of preset names.
  */
-export type ButtonPresetNames = keyof typeof viewPresets
+export type ButtonPresetNames = keyof typeof viewPresets;

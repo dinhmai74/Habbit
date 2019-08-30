@@ -4,19 +4,19 @@ import {
   SIGN_UP,
   SIGN_UP_FAILED,
   SIGN_UP_SUCCESS,
-} from '../../actions/ActionTypes'
-import { ResponseFirebase } from '../../model'
+} from "../../actions/ActionTypes";
+import { ResponseFirebase } from "../../model";
 
 const INITIAL_STATE = {
   data: null,
   error: null,
   fetching: false,
-}
+};
 
 interface State {
-  data: ResponseFirebase
-  error: ResponseFirebase
-  fetch: boolean
+  data: ResponseFirebase;
+  error: ResponseFirebase;
+  fetch: boolean;
 }
 
 // @ts-ignore
@@ -29,22 +29,22 @@ export default (state: State = INITIAL_STATE, action: ISignUpAction): State => {
         // @ts-ignore
         error: null,
         fetching: true,
-      }
+      };
     case SIGN_UP_SUCCESS:
       return {
         data: action.payload,
         // @ts-ignore
         error: null,
         fetching: false,
-      }
+      };
     case SIGN_UP_FAILED:
       return {
         // @ts-ignore
         data: null,
         error: action.payload,
         fetching: false,
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};

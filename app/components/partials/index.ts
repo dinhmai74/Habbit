@@ -1,7 +1,7 @@
-import AlertStatus from './AlertStatus'
+import AlertStatus from "./AlertStatus";
 
-export { AlertStatus }
+export { AlertStatus };
 
 export default {
   AlertStatus,
-}
+};

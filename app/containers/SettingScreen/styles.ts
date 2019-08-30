@@ -1,5 +1,5 @@
-import { StyleSheet, } from 'react-native'
-import { Colors, Metrics, Fonts, } from '../../themes'
+import { StyleSheet } from "react-native";
+import { Colors, Metrics, Fonts } from "../../themes";
 
 export default StyleSheet.create({
   container: {
@@ -13,7 +13,7 @@ export default StyleSheet.create({
     ...Fonts.style.smallBold,
   },
   cardItem: {
-    width: '100%',
+    width: "100%",
   },
   groupContainer: {},
   groupContent: {
@@ -25,4 +25,4 @@ export default StyleSheet.create({
     paddingLeft: Metrics.sidesPadding,
     paddingRight: Metrics.sidesPadding,
   },
-})
+});

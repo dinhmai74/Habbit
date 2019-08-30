@@ -1,27 +1,27 @@
 /* eslint-disable react/no-unused-prop-types */
-import { View } from 'native-base'
-import React, { PureComponent } from 'react'
-import { StyleSheet } from 'react-native'
-import { Button } from 'react-native-elements'
-import LinearGradient from 'react-native-linear-gradient'
-import { ApplicationStyles, Colors, Fonts } from '../../themes'
-import { getPlatformElevation } from '../../tools'
+import { View } from "native-base";
+import React, { PureComponent } from "react";
+import { StyleSheet } from "react-native";
+import { Button } from "react-native-elements";
+import LinearGradient from "react-native-linear-gradient";
+import { ApplicationStyles, Colors, Fonts } from "../../themes";
+import { getPlatformElevation } from "../../tools";
 
 interface IProps {
-  flex?: number
-  onPress?: () => void
-  text?: string
-  style?: object
-  loading?: boolean
+  flex?: number;
+  onPress?: () => void;
+  text?: string;
+  style?: object;
+  loading?: boolean;
 }
 
 export default class AuthButton extends PureComponent<IProps> {
   static defaultProps = {
     loading: false,
-  }
+  };
 
   render() {
-    const { text, style, loading, ...rest } = this.props
+    const { text, style, loading, ...rest } = this.props;
 
     return (
       // <TextButton
@@ -36,7 +36,7 @@ export default class AuthButton extends PureComponent<IProps> {
           containerStyle={{ flex: -1, ...style }}
           buttonStyle={styles.button}
           // @ts-ignore
-          titleStyle={{ ...ApplicationStyles.text.textButton}}
+          titleStyle={{ ...ApplicationStyles.text.textButton }}
           onPress={this.props.onPress}
           disabled={loading}
           linearGradientProps={{
@@ -48,17 +48,17 @@ export default class AuthButton extends PureComponent<IProps> {
           {...rest}
         />
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   button: {
-    alignItems: 'center',
-    alignSelf: 'center',
+    alignItems: "center",
+    alignSelf: "center",
     borderRadius: 30,
     height: 45,
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingLeft: 40,
     paddingRight: 40,
     // shadowColor: "#000000",
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
     // @ts-ignore
     ...getPlatformElevation(2),
   },
-})
+});

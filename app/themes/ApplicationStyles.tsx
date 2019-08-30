@@ -1,8 +1,8 @@
-import { Platform } from 'react-native'
-import Colors from './Colors'
-import Fonts from './Fonts'
-import Metrics from './Metrics'
-import { spacing } from './spacing';
+import { Platform } from "react-native";
+import Colors from "./Colors";
+import Fonts from "./Fonts";
+import Metrics from "./Metrics";
+import { spacing } from "./spacing";
 
 // This file is for a reusable grouping of Theme items.
 // Similar to an XML fragment layout in Android
@@ -10,12 +10,12 @@ import { spacing } from './spacing';
 const ApplicationStyles = {
   icon: {
     small: {
-      resizeMode: 'contain',
+      resizeMode: "contain",
       aspectRatio: 1,
       width: 14,
     },
     normal: {
-      resizeMode: 'contain',
+      resizeMode: "contain",
       aspectRatio: 1,
       width: 40,
     },
@@ -33,7 +33,7 @@ const ApplicationStyles = {
   text: {
     textButton: {
       fontFamily: Fonts.type.base,
-      textAlign: 'center',
+      textAlign: "center",
       color: Colors.white,
       includeFontPadding: false, // Android
     },
@@ -48,7 +48,7 @@ const ApplicationStyles = {
         paddingVertical: Metrics.doubleBaseMargin,
         color: Colors.snow,
         marginVertical: Metrics.smallMargin,
-        textAlign: 'center',
+        textAlign: "center",
       },
       subtitle: {
         color: Colors.snow,
@@ -73,7 +73,7 @@ const ApplicationStyles = {
   },
   image: {
     backgroundImage: {
-      position: 'absolute',
+      position: "absolute",
       top: 0,
       left: 0,
       bottom: 0,
@@ -99,7 +99,7 @@ const ApplicationStyles = {
       paddingVertical: Metrics.doubleBaseMargin,
       color: Colors.snow,
       marginVertical: Metrics.smallMargin,
-      textAlign: 'center',
+      textAlign: "center",
     },
     subtitle: {
       color: Colors.snow,
@@ -135,25 +135,25 @@ const ApplicationStyles = {
       flex: 1,
     },
     horizontalDivider: {
-      width: '100%',
+      width: "100%",
       height: 1,
       backgroundColor: Colors.divider,
     },
     baseContainer: {
       flex: 1,
-      flexDirection: 'column',
+      flexDirection: "column",
     },
     centerColumnContainer: {
       flex: 1,
-      flexDirection: 'column',
-      alignItems: 'center',
+      flexDirection: "column",
+      alignItems: "center",
     },
     icon: {
-      resizeMode: 'contain',
+      resizeMode: "contain",
       aspectRatio: 1,
       width: 14,
     },
   },
-}
+};
 
-export default ApplicationStyles
+export default ApplicationStyles;

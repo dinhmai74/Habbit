@@ -1,11 +1,11 @@
-import { flatten, mergeAll } from 'ramda'
-import * as React from 'react'
-import { normalize, Text as ElementText } from 'react-native-elements'
-import { Text as NBText } from 'native-base'
-import I18n from '../../localization'
-import { Fonts } from 'themes'
-import { presets } from './text.presets'
-import { TextProps } from './text.props'
+import { flatten, mergeAll } from "ramda";
+import * as React from "react";
+import { normalize, Text as ElementText } from "react-native-elements";
+import { Text as NBText } from "native-base";
+import I18n from "../../localization";
+import { Fonts } from "themes";
+import { presets } from "./text.presets";
+import { TextProps } from "./text.props";
 
 /**
  * For your text displaying needs.
@@ -15,7 +15,7 @@ import { TextProps } from './text.props'
 export function Text(props: TextProps) {
   // grab the props
   const {
-    preset = 'default',
+    preset = "default",
     tx,
     txOptions,
     text,
@@ -38,14 +38,15 @@ export function Text(props: TextProps) {
     bold,
     fontType,
     ...rest
-  } = props
+  } = props;
 
   // figure out which content to use
-  const i18nText = tx && I18n.t(tx)
-  const content = i18nText || text || children
+  const i18nText = tx && I18n.t(tx);
+  const content = i18nText || text || children;
 
   const style = mergeAll(
-    flatten([presets[preset] || presets.default,
+    flatten([
+      presets[preset] || presets.default,
       h1 && { fontSize: Fonts.size.h1 },
       h2 && { fontSize: Fonts.size.h2 },
       h3 && { fontSize: Fonts.size.h3 },
@@ -61,14 +62,15 @@ export function Text(props: TextProps) {
       p2 && { fontSize: Fonts.size.p2 },
       bold && presets.bold,
       fontType && { fontFamily: Fonts.type[fontType] },
-      color && {color},
+      color && { color },
       styleOverride,
-    ]),
-  )
+    ])
+  );
 
   return (
+    // @ts-ignore
     <NBText {...rest} style={style}>
       {content}
     </NBText>
-  )
+  );
 }

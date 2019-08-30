@@ -8,8 +8,7 @@
     "tsc": "tsc",
     "compile": "tsc --noEmit -p . --pretty",
     "lint": "tslint --project tsconfig.json --fix --config tslint.json",
-    "tslint-check": "tslint-config-prettier-check ./tslint.json",
-    "format": "npm-run-all lint tslint-check compile",
+    "format": "npm-run-all lint compile",
     "storybook": "storybook start"
   },
   "dependencies": {

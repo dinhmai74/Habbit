@@ -1,4 +1,4 @@
-import { Formik, FormikActions, FormikProps } from 'formik'
+import { Formik, FormikActions, FormikProps } from "formik";
 import {
   Body,
   Content as NContent,
@@ -6,9 +6,9 @@ import {
   Input,
   Item,
   Label,
-} from 'native-base'
-import React, { Component } from 'react'
-import * as Yup from 'yup'
+} from "native-base";
+import React, { Component } from "react";
+import * as Yup from "yup";
 import {
   AppButton,
   AppText,
@@ -16,110 +16,110 @@ import {
   ToastService,
   Icon,
   withSpacing,
-  Text, AppHeader,
-} from '../../components'
-import I18n from '../../localization'
-import { AppBackground } from '../../components/app-background'
-import metrics from '../../themes/Metrics'
-import FirebaseWorker from '../../api/firebase'
-import colors from '../../themes/Colors'
-import NavigateService from '../../tools/NavigateService'
+  Text,
+  AppHeader,
+} from "../../components";
+import I18n from "../../localization";
+import { AppBackground } from "../../components/app-background";
+import metrics from "../../themes/Metrics";
+import FirebaseWorker from "../../api/firebase";
+import colors from "../../themes/Colors";
+import NavigateService from "../../tools/NavigateService";
 
-const StyledAppText = withSpacing(Text)
-const Content = withSpacing(NContent)
+const StyledAppText = withSpacing(Text);
+const Content = withSpacing(NContent);
 
-export interface ILoginScreenProps {
-}
+export interface ILoginScreenProps {}
 
 interface IState {
-  value: string
-  email: string
-  password: string
+  value: string;
+  email: string;
+  password: string;
 
-  [rest: string]: any
+  [rest: string]: any;
 }
 
-type FormTypes = 'email' | 'password'
+type FormTypes = "email" | "password";
 
 interface FormValues {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
-    .email('errors.invalidEmailFormat')
-    .required('errors.emailRequired'),
+    .email("errors.invalidEmailFormat")
+    .required("errors.emailRequired"),
   password: Yup.string()
-    .min(5, 'errors.passwordMinLength')
-    .required('errors.passwordRequired'),
-})
+    .min(5, "errors.passwordMinLength")
+    .required("errors.passwordRequired"),
+});
 
 export class LoginScreen extends Component<ILoginScreenProps, IState> {
-  refPassword: any
+  refPassword: any;
 
   constructor(props: ILoginScreenProps) {
-    super(props)
+    super(props);
     this.state = {
-      value: '',
-      email: '',
-      password: '',
-    }
+      value: "",
+      email: "",
+      password: "",
+    };
   }
 
   handleChangeInput = (stateName: FormTypes, text: string) => {
     this.setState({
       [stateName]: text,
-    })
-  }
+    });
+  };
 
   handleSubmit = async (
     values: FormValues,
-    formikBag: FormikActions<FormValues>,
+    formikBag: FormikActions<FormValues>
   ) => {
-    formikBag.setSubmitting(true)
-    const result = await FirebaseWorker.signIn(values.email, values.password)
+    formikBag.setSubmitting(true);
+    const result = await FirebaseWorker.signIn(values.email, values.password);
 
     if (result && result.error) {
-      ToastService.showToast(result.message, 'danger')
+      ToastService.showToast(result.message, "danger");
     }
 
-    formikBag.setSubmitting(false)
-  }
+    formikBag.setSubmitting(false);
+  };
 
   onSubmit = (values: FormValues, formikBag: FormikActions<FormValues>) => {
-    this.handleSubmit(values, formikBag)
-  }
+    this.handleSubmit(values, formikBag);
+  };
 
   /**
    * render part
    */
 
   renderForm({
-               values,
-               handleSubmit,
-               setFieldValue,
-               touched,
-               errors,
-               setFieldTouched,
-               isSubmitting,
-             }: FormikProps<FormValues>) {
-    let errorEmail = false
+    values,
+    handleSubmit,
+    setFieldValue,
+    touched,
+    errors,
+    setFieldTouched,
+    isSubmitting,
+  }: FormikProps<FormValues>) {
+    let errorEmail = false;
     if (errors.email) {
-      errorEmail = true
+      errorEmail = true;
     }
 
-    const buttonSidePadding = 2
+    const buttonSidePadding = 2;
 
     return (
       <Form>
         <Item floatingLabel error={errorEmail}>
-          <Label>{I18n.t('auth.email')}</Label>
+          <Label>{I18n.t("auth.email")}</Label>
           <Input
-            autoCapitalize='none'
+            autoCapitalize="none"
             value={values.email}
-            onChangeText={(value) => setFieldValue('email', value)}
-            onBlur={() => setFieldTouched('email')}
+            onChangeText={value => setFieldValue("email", value)}
+            onBlur={() => setFieldTouched("email")}
             editable={!isSubmitting}
             onSubmitEditing={() => this.refPassword.focus()}
           />
@@ -127,7 +127,7 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
         {touched.email && errors.email && (
           <StyledAppText
             tx={errors.email}
-            preset='error'
+            preset="error"
             padding={3}
             paddingBottom={0}
             marginBottom={0}
@@ -135,54 +135,54 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
         )}
 
         <Item floatingLabel last>
-          <Label>{I18n.t('auth.password')}</Label>
+          <Label>{I18n.t("auth.password")}</Label>
           <Input
-            autoCapitalize='none'
+            autoCapitalize="none"
             secureTextEntry
             value={values.password}
-            onChangeText={(value) => setFieldValue('password', value)}
-            onBlur={() => setFieldTouched('password')}
+            onChangeText={value => setFieldValue("password", value)}
+            onBlur={() => setFieldTouched("password")}
             editable={!isSubmitting}
-            getRef={(ref) => {
+            getRef={ref => {
               // @ts-ignore
-              this.refPassword = ref.wrappedInstance // <-- notice
+              this.refPassword = ref.wrappedInstance; // <-- notice
             }}
           />
         </Item>
         {touched.password && errors.password && (
           <StyledAppText
             tx={errors.password}
-            preset='error'
+            preset="error"
             padding={3}
             paddingBottom={0}
             marginBottom={0}
           />
         )}
-        <SizedBox height={6}/>
+        <SizedBox height={6} />
         <AppButton
-          tx='title.login'
+          tx="title.login"
           // @ts-ignore
           onPress={handleSubmit}
           disabled={isSubmitting}
           loading={isSubmitting}
           disabledStyle={{ backgroundColor: colors.white }}
-          preset='authTrans'
-          buttonStyle={{marginHorizontal: buttonSidePadding}}
-          loadingProps={{ size: 'small', color: colors.primary}}
+          preset="authTrans"
+          buttonStyle={{ marginHorizontal: buttonSidePadding }}
+          loadingProps={{ size: "small", color: colors.primary }}
         />
-        <SizedBox height={4}/>
+        <SizedBox height={4} />
 
         <AppButton
-          tx='title.signUp'
+          tx="title.signUp"
           // @ts-ignore
-          onPress={() => NavigateService.navigate('signUp')}
+          onPress={() => NavigateService.navigate("signUp")}
           disabled={isSubmitting}
           linear
-          buttonStyle ={{marginHorizontal: buttonSidePadding}}
-          style={{marginHorizontal: buttonSidePadding}}
+          buttonStyle={{ marginHorizontal: buttonSidePadding }}
+          style={{ marginHorizontal: buttonSidePadding }}
         />
       </Form>
-    )
+    );
   }
 
   render() {
@@ -190,11 +190,11 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
       <AppBackground>
         <Content padding={5}>
           <Body>
-            <SizedBox height={8}/>
-            <Icon icon='logoColored' size={metrics.logo.normal}/>
+            <SizedBox height={8} />
+            <Icon icon="logoColored" size={metrics.logo.normal} />
           </Body>
           <Formik
-            initialValues={{ email: 'dinhmai@gmail.com', password: 'password' }}
+            initialValues={{ email: "dinhmai@gmail.com", password: "password" }}
             validationSchema={validationSchema}
             onSubmit={this.onSubmit}
             render={(formikBag: FormikProps<FormValues>) =>
@@ -203,8 +203,8 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
           />
         </Content>
       </AppBackground>
-    )
+    );
   }
 }
 
-export default LoginScreen
+export default LoginScreen;

@@ -1,10 +1,10 @@
-import { StyleSheet, } from 'react-native'
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {},
   loginContainer: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   formContainer: {
     flex: 1,
@@ -15,4 +15,4 @@ export default StyleSheet.create({
   button: {
     marginTop: 40,
   },
-})
+});

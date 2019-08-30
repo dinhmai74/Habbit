@@ -8,15 +8,15 @@ import {
   Icon,
   Row as NativeRow,
   Text,
-} from 'native-base'
-import React, { PureComponent } from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
-import Modal from 'react-native-modal'
-import styled from 'styled-components'
-import I18n from '../../../localization'
+} from "native-base";
+import React, { PureComponent } from "react";
+import { Platform, StyleSheet, View } from "react-native";
+import Modal from "react-native-modal";
+import styled from "styled-components";
+import I18n from "../../../localization";
 
-import { Colors, Metrics, strings } from '../../../themes'
-import { capitalize } from '../../../tools'
+import { Colors, Metrics, strings } from "../../../themes";
+import { capitalize } from "../../../tools";
 
 const styles = StyleSheet.create({
   container: {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   swipeLeftIcon: {
     backgroundColor: Colors.buttonColorInColoredBackground,
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   touchIcon: { color: Colors.yellow, padding: 10 },
   instructionText: {
@@ -44,17 +44,17 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   button: {
-    alignSelf: 'center',
+    alignSelf: "center",
     margin: 20,
     bottom: 0,
   },
-})
+});
 interface IProps {
   // eslint-disable-next-line react/require-default-props
-  buttonOnPress: () => void
-  onBackdropPress?: () => void
-  onBackButtonPress?: () => void
-  isVisible?: boolean
+  buttonOnPress: () => void;
+  onBackdropPress?: () => void;
+  onBackButtonPress?: () => void;
+  isVisible?: boolean;
 }
 
 export default class Instructions extends PureComponent<IProps> {
@@ -62,23 +62,23 @@ export default class Instructions extends PureComponent<IProps> {
     buttonOnPress: () => {},
     onBackdropPress: () => {},
     onBackButtonPress: () => {},
-  }
+  };
 
   render() {
-    const { ...rest } = this.props
-    let animationIn = 'fadeIn'
-    let animationOut = 'fadeOut'
-    const animTime = 500
+    const { ...rest } = this.props;
+    let animationIn = "fadeIn";
+    let animationOut = "fadeOut";
+    const animTime = 500;
 
-    if (Platform.OS === 'android') {
-      animationIn = 'slideInUp'
-      animationOut = 'slideOutDown'
+    if (Platform.OS === "android") {
+      animationIn = "slideInUp";
+      animationOut = "slideOutDown";
     }
     return (
       // @ts-ignore
       <Modal
         {...rest}
-        backdropColor='rgba(172,172,172, 0.6)'
+        backdropColor="rgba(172,172,172, 0.6)"
         backdropTransitionOutTiming={230}
         animationIn={animationIn}
         animationOut={animationOut}
@@ -97,8 +97,8 @@ export default class Instructions extends PureComponent<IProps> {
           <Content>
             <Row>
               <Icon
-                name='refresh'
-                type='MaterialCommunityIcons'
+                name="refresh"
+                type="MaterialCommunityIcons"
                 style={[styles.touchIcon]}
               />
               <Text style={styles.instructionText}>
@@ -107,8 +107,8 @@ export default class Instructions extends PureComponent<IProps> {
             </Row>
             <Row>
               <Icon
-                name='arrow-right'
-                type='MaterialCommunityIcons'
+                name="arrow-right"
+                type="MaterialCommunityIcons"
                 style={[styles.icon, styles.swipeRightIcon]}
               />
               <Text style={styles.instructionText}>
@@ -120,19 +120,19 @@ export default class Instructions extends PureComponent<IProps> {
               <Text style={styles.instructionText}>
                 {capitalize(I18n.t(strings.textSwipeLeftToSkip))}
               </Text>
-              <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+              <View style={{ flex: 1, justifyContent: "flex-end" }}>
                 <Icon
-                  name='arrow-left'
-                  type='MaterialCommunityIcons'
+                  name="arrow-left"
+                  type="MaterialCommunityIcons"
                   style={[styles.icon, styles.swipeLeftIcon]}
                 />
               </View>
             </Row>
 
-            <Row style={{ justifyContent: 'center' }}>
+            <Row style={{ justifyContent: "center" }}>
               <Icon
-                name='touch-app'
-                type='MaterialIcons'
+                name="touch-app"
+                type="MaterialIcons"
                 style={[styles.touchIcon]}
               />
               <Text style={styles.instructionText}>
@@ -150,7 +150,7 @@ export default class Instructions extends PureComponent<IProps> {
           </Button>
         </View>
       </Modal>
-    )
+    );
   }
 }
 
@@ -159,13 +159,13 @@ const Header = styled(View)`
   align-items: center;
   padding: 25px 15px;
   width: 100%;
-`
+`;
 const Content = styled(NativeBaseContent)`
   padding: 10px;
   margin: 20px 0px;
-`
+`;
 const Row = styled(NativeRow)`
   background: ${Colors.white};
   align-items: center;
   margin: 10px;
-`
+`;

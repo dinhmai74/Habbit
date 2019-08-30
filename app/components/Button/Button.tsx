@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from "react";
 
-import { StyleSheet, TouchableOpacity } from 'react-native'
-import { Colors, Metrics } from '../../themes'
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { Colors, Metrics } from "../../themes";
 
 const styles = StyleSheet.create({
   wideButton: {
@@ -11,18 +11,18 @@ const styles = StyleSheet.create({
     padding: Metrics.buttonPadding,
     paddingLeft: Metrics.buttonPadding * 4,
     paddingRight: Metrics.buttonPadding * 4,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
-})
+});
 
-interface Props  {
-  disable?: boolean,
-  style?: object,
+interface Props {
+  disable?: boolean;
+  style?: object;
   // eslint-disable-next-line no-undef
-  children?: any,
-  backgroundColor?: string,
-  onPress?: () => void ,
+  children?: any;
+  backgroundColor?: string;
+  onPress?: () => void;
 }
 export default class Button extends PureComponent<Props> {
   static defaultProps = {
@@ -31,15 +31,17 @@ export default class Button extends PureComponent<Props> {
     children: null,
     backgroundColor: Colors.green,
     onPress: () => {},
-  }
+  };
 
   onPress = () => {
-    if (this.props.onPress) { this.props.onPress() }
-  }
+    if (this.props.onPress) {
+      this.props.onPress();
+    }
+  };
 
   render() {
-    const { disable, style, children, backgroundColor } = this.props
-    const opacity = disable ? 1 : 0.4
+    const { disable, style, children, backgroundColor } = this.props;
+    const opacity = disable ? 1 : 0.4;
 
     return (
       <TouchableOpacity
@@ -53,6 +55,6 @@ export default class Button extends PureComponent<Props> {
       >
         {children}
       </TouchableOpacity>
-    )
+    );
   }
 }

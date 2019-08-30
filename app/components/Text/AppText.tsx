@@ -1,25 +1,25 @@
 /* eslint-disable react/require-default-props */
-import { Text } from 'native-base'
-import React, { PureComponent } from 'react'
-import { StyleSheet, TextProperties } from 'react-native'
-import { ApplicationStyles, Colors, Fonts } from '../../themes'
+import { Text } from "native-base";
+import React, { PureComponent } from "react";
+import { StyleSheet, TextProperties } from "react-native";
+import { ApplicationStyles, Colors, Fonts } from "../../themes";
 
-import { getStyleFromProps } from '../../tools'
+import { getStyleFromProps } from "../../tools";
 
 interface IProps {
-  style?: object
-  text?: string
-  inBackground?: boolean
+  style?: object;
+  text?: string;
+  inBackground?: boolean;
 }
 
-type Props = IProps & TextProperties
+type Props = IProps & TextProperties;
 
 export default class AppText extends PureComponent<Props> {
   static defaultProps = {
     style: null,
-    text: '',
+    text: "",
     inBackground: false,
-  }
+  };
 
   render() {
     return (
@@ -37,7 +37,7 @@ export default class AppText extends PureComponent<Props> {
       >
         {this.props.children}
       </Text>
-    )
+    );
   }
 }
 const styles = StyleSheet.create({
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.type.base,
     fontSize: Fonts.size.input,
     includeFontPadding: false,
-    textAlignVertical: 'center',
-    alignSelf: 'center',
+    textAlignVertical: "center",
+    alignSelf: "center",
   },
-})
+});

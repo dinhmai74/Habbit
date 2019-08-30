@@ -1,7 +1,7 @@
-import { createStackNavigator } from 'react-navigation'
-import { AuthScreen } from '../containers/AuthScreen1';
-import { LoginScreen } from '../containers/LoginScreen1';
-import SignUpScreen from '../containers/SignUpScreen';
+import { createStackNavigator } from "react-navigation";
+import { AuthScreen } from "../containers/AuthScreen1";
+import { LoginScreen } from "../containers/LoginScreen1";
+import SignUpScreen from "../containers/SignUpScreen";
 
 const RouteConfigs = {
   mainAuth: {
@@ -13,10 +13,10 @@ const RouteConfigs = {
   signUp: {
     screen: SignUpScreen,
   },
-}
+};
 
 export default createStackNavigator(RouteConfigs, {
-  headerMode: 'none',
-})
+  headerMode: "none",
+});
 
-export type AuthRouteName = keyof typeof RouteConfigs
+export type AuthRouteName = keyof typeof RouteConfigs;

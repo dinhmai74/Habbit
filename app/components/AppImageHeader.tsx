@@ -1,34 +1,37 @@
-import React, { Component } from 'react'
-import { BackHandler, ImageBackground, StyleSheet, View } from 'react-native'
-import { NavigationScreenProps, withNavigation } from 'react-navigation'
+import React, { Component } from "react";
+import { BackHandler, ImageBackground, StyleSheet, View } from "react-native";
+import { NavigationScreenProps, withNavigation } from "react-navigation";
 
-import { H2, H3, Row, Text } from 'native-base'
-import styled from 'styled-components'
-import { Colors, Fonts, Metrics } from '../themes'
-import { getPlatformElevation } from '../tools'
-import { ImageButton } from './Button'
+import { H2, H3, Row, Text } from "native-base";
+import styled from "styled-components";
+import { Colors, Fonts, Metrics } from "../themes";
+import { getPlatformElevation } from "../tools";
+import { ImageButton } from "./Button";
 
 type Props = NavigationScreenProps & {
-  title?: string
-  leftIcon?: number
-  leftTitle?: string
-  leftTitleOnClick?: Function
+  title?: string;
+  leftIcon?: number;
+  leftTitle?: string;
+  // tslint:disable-next-line:ban-types
+  leftTitleOnClick?: Function;
   // eslint-disable-next-line no-undef
-  leftComponent?: JSX.Element
-  color?: string
+  leftComponent?: JSX.Element;
+  color?: string;
 
-  rightTitle?: string
-  rightTitleOnClick?: Function
-  rightIcon?: string
+  rightTitle?: string;
+  // tslint:disable-next-line:ban-types
+  rightTitleOnClick?: Function;
+  rightIcon?: string;
   // eslint-disable-next-line no-undef
-  rightComponent?: JSX.Element
-  style?: Object
-  backgroundSrc: string,
-}
+  rightComponent?: JSX.Element;
+  // tslint:disable-next-line:ban-types
+  style?: Object;
+  backgroundSrc: string;
+};
 
 class AppHeader extends Component<Props> {
   static defaultProps = {
-    title: '',
+    title: "",
     color: Colors.white,
     leftIcon: null,
     leftTitle: null,
@@ -36,42 +39,43 @@ class AppHeader extends Component<Props> {
     leftComponent: null,
     rightTitle: null,
     rightIcon: null,
-    rightTitleOnClick: () => {},
+    rightTitleOnClick: () => {
+    },
     rightComponent: null,
     style: null,
-  }
+  };
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
   }
 
   handleBackPress = () => {
     if (this.props.navigation.state.params) {
       if (this.props.navigation.state.params.refresh) {
-        this.props.navigation.state.params.refresh()
+        this.props.navigation.state.params.refresh();
       }
     }
-    this.props.navigation.goBack(null) // works best when the goBack is async
-    return true
-  }
+    this.props.navigation.goBack(null); // works best when the goBack is async
+    return true;
+  };
 
   leftTitleOnClick = () => {
-    const { leftTitleOnClick } = this.props
+    const { leftTitleOnClick } = this.props;
     if (leftTitleOnClick) {
-      leftTitleOnClick()
+      leftTitleOnClick();
     } else {
-      this.handleBackPress()
+      this.handleBackPress();
     }
-  }
+  };
 
   renderLeftOptions = () => {
-    const { leftComponent, leftTitle, leftIcon, color } = this.props
+    const { leftComponent, leftTitle, leftIcon, color } = this.props;
     if (leftComponent) {
-      return leftComponent
+      return leftComponent;
     }
 
     if (leftIcon) {
@@ -84,7 +88,7 @@ class AppHeader extends Component<Props> {
           icon={leftIcon}
           size={22}
         />
-      )
+      );
     }
 
     if (leftTitle) {
@@ -100,16 +104,16 @@ class AppHeader extends Component<Props> {
         >
           {leftTitle}
         </Text>
-      )
+      );
     }
 
-    return <View />
-  }
+    return <View />;
+  };
 
   renderRightOptions = () => {
-    const { rightComponent, rightTitle, rightIcon, color } = this.props
+    const { rightComponent, rightTitle, rightIcon, color } = this.props;
     if (rightComponent) {
-      return rightComponent
+      return rightComponent;
     }
 
     if (rightIcon) {
@@ -122,7 +126,7 @@ class AppHeader extends Component<Props> {
           icon={rightIcon}
           size={22}
         />
-      )
+      );
     }
 
     if (rightTitle) {
@@ -135,14 +139,14 @@ class AppHeader extends Component<Props> {
         >
           {rightTitle}
         </Text>
-      )
+      );
     }
 
-    return <View />
-  }
+    return <View />;
+  };
 
   render() {
-    const { title, style, color, backgroundSrc, ...rest } = this.props
+    const { title, style, color, backgroundSrc, ...rest } = this.props;
     return (
       <ImageBackground
         // @ts-ignore
@@ -167,12 +171,12 @@ class AppHeader extends Component<Props> {
           </H3>
         </AppHeaderContainer>
       </ImageBackground>
-    )
+    );
   }
 }
 
 // @ts-ignore
-export default withNavigation(AppHeader)
+export default withNavigation(AppHeader);
 
 const AppHeaderContainer = styled(View)`
   background-color: transparent;
@@ -180,14 +184,13 @@ const AppHeaderContainer = styled(View)`
     ${Metrics.doubleBaseMargin}px;
   flex: 1;
   justify-content: space-between;
-  ${// @ts-ignore
-  { ...StyleSheet.absoluteFill }};
-`
+  ${StyleSheet.absoluteFill};
+`;
 
 const Overlay = styled(View)`
-  background-color: rgba(172,172,172, 0.45);
-  ${StyleSheet.absoluteFill };
-`
+  background-color: rgba(172, 172, 172, 0.45);
+  ${StyleSheet.absoluteFill};
+`;
 
 const styles = StyleSheet.create({
   linear: {
@@ -208,14 +211,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   subTitleText: {
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
     fontSize: Fonts.size.input,
   },
   leftTitleText: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   rightTitle: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   title: {
     paddingLeft: Metrics.sidesPadding,
@@ -225,4 +228,4 @@ const styles = StyleSheet.create({
   icon: {
     tintColor: Colors.white,
   },
-})
+});

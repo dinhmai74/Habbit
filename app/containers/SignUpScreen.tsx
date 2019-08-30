@@ -1,4 +1,4 @@
-import { Formik, FormikActions, FormikProps } from 'formik'
+import { Formik, FormikActions, FormikProps } from "formik";
 import {
   Body,
   Content as NContent,
@@ -6,9 +6,9 @@ import {
   Input,
   Item as NBItem,
   Label,
-} from 'native-base'
-import React, { Component } from 'react'
-import * as Yup from 'yup'
+} from "native-base";
+import React, { Component } from "react";
+import * as Yup from "yup";
 import {
   AppButton,
   AppText,
@@ -17,84 +17,84 @@ import {
   ToastService,
   withSpacing,
   Text,
-} from '../components'
-import AppI18n from '../localization'
-import { AppBackground } from '../components/app-background'
-import metrics from '../themes/Metrics'
-import FirebaseWorker from '../api/firebase'
-import NavigateService from '../tools/NavigateService';
+} from "../components";
+import AppI18n from "../localization";
+import { AppBackground } from "../components/app-background";
+import metrics from "../themes/Metrics";
+import FirebaseWorker from "../api/firebase";
+import NavigateService from "../tools/NavigateService";
 
-const StyledAppText = withSpacing(Text)
-const Content = withSpacing(NContent)
+const StyledAppText = withSpacing(Text);
+const Content = withSpacing(NContent);
 
-const Item = withSpacing(NBItem)
+const Item = withSpacing(NBItem);
 
 export interface ISignUpScreenProps {}
 interface IState {}
 
-type FormTypes = 'email' | 'password'
+type FormTypes = "email" | "password";
 
 interface FormValues {
-  email: string
-  password: string
-  userName: string
-  confirmPassword: string
+  email: string;
+  password: string;
+  userName: string;
+  confirmPassword: string;
 }
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
-    .email('errors.invalidEmailFormat')
-    .required('errors.emailRequired'),
+    .email("errors.invalidEmailFormat")
+    .required("errors.emailRequired"),
   password: Yup.string()
-    .min(5, 'errors.passwordMinLength')
-    .required('errors.passwordRequired'),
-  userName: Yup.string().required('errors.userNameRequired'),
+    .min(5, "errors.passwordMinLength")
+    .required("errors.passwordRequired"),
+  userName: Yup.string().required("errors.userNameRequired"),
   confirmPassword: Yup.string()
-    .required('errors.passwordRequired')
-    .test('passwords-match', 'errors.passwordsNotMatch', function(value) {
+    .required("errors.passwordRequired")
+    .test("passwords-match", "errors.passwordsNotMatch", function(value) {
       // @ts-ignore
-      return this.parent.password === value
+      return this.parent.password === value;
     }),
-})
+});
 
 export class SignUp extends Component<ISignUpScreenProps, IState> {
-  refPassword: any
+  refPassword: any;
 
-  refConfirmPass: any
+  refConfirmPass: any;
 
-  refUserName: any
+  refUserName: any;
 
   constructor(props: ISignUpScreenProps) {
-    super(props)
+    super(props);
   }
 
   handleChangeInput = (stateName: FormTypes, text: string) => {
     this.setState({
       [stateName]: text,
-    })
-  }
+    });
+  };
 
   handleSubmit = async (
     values: FormValues,
     formikBag: FormikActions<FormValues>
   ) => {
-    formikBag.setSubmitting(true)
+    formikBag.setSubmitting(true);
     const result = await FirebaseWorker.createUser(
       values.email,
       values.password,
       values.userName
-    )
+    );
 
     if (result && result.error) {
-      ToastService.showToast(result.message, 'danger')
+      ToastService.showToast(result.message, "danger");
     }
 
-    formikBag.setSubmitting(false)
-  }
+    formikBag.setSubmitting(false);
+  };
 
   onSubmit = (values: FormValues, formikBag: FormikActions<FormValues>) => {
-    this.handleSubmit(values, formikBag)
-  }
+    this.handleSubmit(values, formikBag);
+  };
 
   /**
    * render part
@@ -109,39 +109,39 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
     setFieldTouched,
     isSubmitting,
   }: FormikProps<FormValues>) {
-    const showEmailError = !!(touched.userName && errors.email)
-    const showUserNameError = !!(touched.userName && errors.userName)
-    const showPasswordError = !!(touched.password && errors.password)
+    const showEmailError = !!(touched.userName && errors.email);
+    const showUserNameError = !!(touched.userName && errors.userName);
+    const showPasswordError = !!(touched.password && errors.password);
     const showPasswordRequiredError = !!(
       touched.confirmPassword && errors.confirmPassword
-    )
+    );
 
     return (
       <Form style={{ margin: 0 }}>
         <Item margin={0} floatingLabel error={!!errors.email}>
-          <Label>{AppI18n.t('auth.email')}</Label>
+          <Label>{AppI18n.t("auth.email")}</Label>
           <Input
-            autoCapitalize='none'
+            autoCapitalize="none"
             value={values.email}
-            onChangeText={(value) => setFieldValue('email', value)}
-            onBlur={() => setFieldTouched('email')}
+            onChangeText={value => setFieldValue("email", value)}
+            onBlur={() => setFieldTouched("email")}
             editable={!isSubmitting}
             onSubmitEditing={() => this.refUserName.focus()}
           />
         </Item>
-        {showEmailError && this.renderErrorText(errors.email || '')}
+        {showEmailError && this.renderErrorText(errors.email || "")}
 
         <Item margin={0} floatingLabel error={!!errors.userName}>
-          <Label>{AppI18n.t('auth.userName')}</Label>
+          <Label>{AppI18n.t("auth.userName")}</Label>
           <Input
-            autoCapitalize='none'
-            getRef={(ref) => {
+            autoCapitalize="none"
+            getRef={ref => {
               // @ts-ignore
-              this.refUserName = ref.wrappedInstance // <-- notice
+              this.refUserName = ref.wrappedInstance; // <-- notice
             }}
             value={values.userName}
-            onChangeText={(value) => setFieldValue('userName', value)}
-            onBlur={() => setFieldTouched('userName')}
+            onChangeText={value => setFieldValue("userName", value)}
+            onBlur={() => setFieldTouched("userName")}
             editable={!isSubmitting}
             onSubmitEditing={() => this.refPassword.focus()}
           />
@@ -149,35 +149,35 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
         {showUserNameError && this.renderErrorText(errors.userName)}
 
         <Item margin={0} floatingLabel error={!!errors.password}>
-          <Label>{AppI18n.t('auth.password')}</Label>
+          <Label>{AppI18n.t("auth.password")}</Label>
           <Input
-            autoCapitalize='none'
+            autoCapitalize="none"
             secureTextEntry
             value={values.password}
-            onChangeText={(value) => setFieldValue('password', value)}
-            onBlur={() => setFieldTouched('password')}
+            onChangeText={value => setFieldValue("password", value)}
+            onBlur={() => setFieldTouched("password")}
             editable={!isSubmitting}
-            getRef={(ref) => {
+            getRef={ref => {
               // @ts-ignore
-              this.refPassword = ref.wrappedInstance // <-- notice
+              this.refPassword = ref.wrappedInstance; // <-- notice
             }}
             onSubmitEditing={() => this.refConfirmPass.focus()}
           />
         </Item>
-        {showPasswordError && this.renderErrorText(errors.password || '')}
+        {showPasswordError && this.renderErrorText(errors.password || "")}
 
         <Item margin={0} floatingLabel error={!!errors.confirmPassword}>
-          <Label>{AppI18n.t('auth.confirmPassword')}</Label>
+          <Label>{AppI18n.t("auth.confirmPassword")}</Label>
           <Input
-            autoCapitalize='none'
+            autoCapitalize="none"
             secureTextEntry
             value={values.confirmPassword}
-            onChangeText={(value) => setFieldValue('confirmPassword', value)}
-            onBlur={() => setFieldTouched('confirmPassword')}
+            onChangeText={value => setFieldValue("confirmPassword", value)}
+            onBlur={() => setFieldTouched("confirmPassword")}
             editable={!isSubmitting}
-            getRef={(ref) => {
+            getRef={ref => {
               // @ts-ignore
-              this.refConfirmPass = ref.wrappedInstance // <-- notice
+              this.refConfirmPass = ref.wrappedInstance; // <-- notice
             }}
           />
         </Item>
@@ -187,22 +187,22 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
         <SizedBox height={6} />
 
         <AppButton
-          tx='title.signUp'
+          tx="title.signUp"
           // @ts-ignore
           onPress={handleSubmit}
-          preset='authTrans'
+          preset="authTrans"
           disabled={isSubmitting}
           loading={isSubmitting}
           marginLeft={5}
           marginRight={5}
-          loadingProps={{ size: 'small', color: 'white' }}
+          loadingProps={{ size: "small", color: "white" }}
         />
         <SizedBox height={4} />
 
         <AppButton
-          tx='title.login'
+          tx="title.login"
           // @ts-ignore
-          onPress={() => NavigateService.navigate('login')}
+          onPress={() => NavigateService.navigate("login")}
           disabled={isSubmitting}
           loading={isSubmitting}
           linear
@@ -210,7 +210,7 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
           marginRight={5}
         />
       </Form>
-    )
+    );
   }
 
   render() {
@@ -219,14 +219,14 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
         <Content padding={5}>
           <Body>
             <SizedBox height={3} />
-            <Icon icon='logo' size={metrics.logo.small} />
+            <Icon icon="logo" size={metrics.logo.small} />
           </Body>
           <Formik
             initialValues={{
-              confirmPassword: '',
-              email: '',
-              password: '',
-              userName: '',
+              confirmPassword: "",
+              email: "",
+              password: "",
+              userName: "",
             }}
             validationSchema={validationSchema}
             onSubmit={this.onSubmit}
@@ -236,20 +236,20 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
           />
         </Content>
       </AppBackground>
-    )
+    );
   }
 
   private renderErrorText(text?: string): React.ReactNode {
     return (
       <StyledAppText
         tx={text}
-        preset='error'
+        preset="error"
         padding={3}
         paddingBottom={0}
         marginBottom={0}
       />
-    )
+    );
   }
 }
 
-export default SignUp
+export default SignUp;
