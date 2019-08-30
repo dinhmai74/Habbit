@@ -6,7 +6,14 @@ import LottieView from "lottie-react-native";
 import { CardItem, Content, Body, Left, Right } from "native-base";
 import React, { Component } from "react";
 import { Row, Grid, Col } from "react-native-easy-grid";
-import { Animated, FlatList, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Animated,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View
+} from "react-native";
 import { Divider, Icon } from "react-native-elements";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
@@ -20,48 +27,60 @@ import {
   Text,
   AppHeader,
   BorderCard,
-  SizedBox, AppLoading,
+  SizedBox,
+  AppLoading
 } from "components";
 import CalendarsHabit from "app/components/Calendar/CalendarHabit";
 import LineLog from "app/components/LineLog/LineLog";
 // @ts-ignore
-import PullToRefresh from "app/components/PullToRefreshView";
 import I18n from "localization";
 import { Colors, Fonts, Images, Metrics, strings, spacing } from "themes";
 import styled from "styled-components";
 import { NavigationInjectedProps } from "react-navigation";
-// import PullToRefresh from "react-native-pull-refresh";
+import PullToRefresh from "react-native-pull-refresh";
 
-const checkIcon = <Ionicons name="md-checkmark" size={metrics.icon.normal} color={Colors.green} />;
-const starIcon = <Entypo name="star" size={metrics.icon.normal} color={Colors.yellow} />;
+const checkIcon = (
+  <Ionicons
+    name="md-checkmark"
+    size={metrics.icon.normal}
+    color={Colors.green}
+  />
+);
+const starIcon = (
+  <Entypo name="star" size={metrics.icon.normal} color={Colors.yellow} />
+);
 const trophyIcon = (
   <Entypo name="trophy" size={metrics.icon.normal} color={Colors.bloodOrange} />
 );
 const infoCircle = (
-  <FontAwesome5 name="info-circle" size={metrics.icon.normal} color={Colors.blue} />
+  <FontAwesome5
+    name="info-circle"
+    size={metrics.icon.normal}
+    color={Colors.blue}
+  />
 );
 
 export interface ILifeLogDetail {
-  totalDone: number
-  someDoneDates: number
-  perfectDates: number
-  streaks: number
+  totalDone: number;
+  someDoneDates: number;
+  perfectDates: number;
+  streaks: number;
 }
 
 interface IProps extends NavigationInjectedProps {
-  lifeLog: ILifeLogDetail
-  fetching: boolean
-  handleRefresh: (...params: any) => void
-  minDate: string
+  lifeLog: ILifeLogDetail;
+  fetching: boolean;
+  handleRefresh: (...params: any) => void;
+  minDate: string;
 }
 
 interface IState {
-  isModalVisible: boolean
-  isRefresh: boolean
-  scrollViewPositionY: number
-  headerHeight: number
-  scrollY: any
-  readyToRefresh: boolean
+  isModalVisible: boolean;
+  isRefresh: boolean;
+  scrollViewPositionY: number;
+  headerHeight: number;
+  scrollY: any;
+  readyToRefresh: boolean;
 }
 
 export default class RenderLifeLogScreen extends Component<IProps, IState> {
@@ -70,11 +89,10 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       totalDone: 0,
       someDoneDates: 0,
       perfectDates: 0,
-      streaks: 0,
+      streaks: 0
     },
     fetching: true,
-    handleRefresh: () => {
-    },
+    handleRefresh: () => {}
   };
 
   state = {
@@ -83,7 +101,7 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
     scrollViewPositionY: 0,
     headerHeight: 0,
     scrollY: new Animated.Value(0),
-    readyToRefresh: false,
+    readyToRefresh: false
   };
 
   animation: LottieView | null | undefined;
@@ -99,35 +117,35 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
     }
   }
 
-  getCurrentStreak = (streaks) => {
+  getCurrentStreak = streaks => {
     if (streaks !== undefined && streaks.length > 0) {
       return streaks[streaks.length - 1];
     }
     return 0;
   };
 
-  getBestStreak = (streaks) => {
+  getBestStreak = streaks => {
     if (streaks !== undefined && streaks.length > 0) {
       return Math.max(...streaks);
     }
     return 0;
   };
 
-  getTotalPerfectDays = (perfectDates) => {
+  getTotalPerfectDays = perfectDates => {
     if (perfectDates !== undefined && perfectDates.length > 0) {
       return perfectDates.length;
     }
     return 0;
   };
 
-  onScrollViewLayout = (e) => {
+  onScrollViewLayout = e => {
     this.setState({
       scrollViewPositionY: e.nativeEvent.layout.y,
-      headerHeight: e.nativeEvent.layout.height,
+      headerHeight: e.nativeEvent.layout.height
     });
   };
 
-  onRefresh = (date) => {
+  onRefresh = date => {
     let month: any = new Date();
     if (date) {
       month = date;
@@ -154,9 +172,7 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
         Aim for as many of these perfect days as you can.
       </Text>
       <TouchableOpacity onPress={this.toggleModal}>
-        <Text style={styles.subTitleText}>
-          I'll try my best
-        </Text>
+        <Text style={styles.subTitleText}>I'll try my best</Text>
       </TouchableOpacity>
     </View>
   );
@@ -179,17 +195,17 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
 
     const interpolatedRotateClockwise = this.state.scrollY.interpolate({
       inputRange: [-200, 0],
-      outputRange: ["0deg", "360deg"],
+      outputRange: ["0deg", "360deg"]
     });
 
     const event = Animated.event([
       {
         nativeEvent: {
           contentOffset: {
-            y: this.state.scrollY,
-          },
-        },
-      },
+            y: this.state.scrollY
+          }
+        }
+      }
     ]);
 
     const content = this.renderContent(someDoneDates, perfectDates);
@@ -206,23 +222,18 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
           {this.renderModal()}
         </Modal>
         <View style={{ flex: 1 }}>
-
           <PullToRefresh
             isRefreshing={this.state.isRefresh}
             onRefresh={this.onRefresh}
             animationBackgroundColor={Colors.secondary}
             pullHeight={180}
-            contentView={
-              content
-            }
-
+            contentView={content}
             onPullAnimationSrc={Images.umbrella_pull}
             onStartRefreshAnimationSrc={Images.umbrella_start}
             onRefreshAnimationSrc={Images.umbrella_repeat}
             onEndRefreshAnimationSrc={Images.umbrella_end}
           />
         </View>
-
       </AppBackground>
     );
   }
@@ -230,17 +241,16 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
   private renderContent(someDoneDates: number, perfectDates: number) {
     const { fetching } = this.props;
     return (
-      <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false}
-                  style={{ padding: spacing[5], backgroundColor: Colors.white }}>
+      <ScrollView
+        alwaysBounceVertical={false}
+        showsVerticalScrollIndicator={false}
+        style={{ padding: spacing[5], backgroundColor: Colors.white }}
+      >
         {this.renderTodayInfoRow()}
 
         <SizedBox height={4} />
 
-        {
-          fetching ? <AppLoading
-            loadingSrc={Images.loadingPreloader}
-          /> : null
-        }
+        {fetching ? <AppLoading loadingSrc={Images.loadingPreloader} /> : null}
 
         <SizedBox height={4} />
         {this.renderThisWeekInfoRow()}
@@ -258,15 +268,16 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
           handleRefresh={this.onRefresh}
           minDate={this.props.minDate}
           isCalendarLife
-          ref={(ref) => (this.calendarRef = ref)}
+          ref={ref => (this.calendarRef = ref)}
         />
 
         {this.renderDetailLifeLogStat()}
-      </ScrollView>);
+      </ScrollView>
+    );
   }
 
-  private renderTodayInfoRow = () =>
-    (<StyledRow>
+  private renderTodayInfoRow = () => (
+    <StyledRow>
       {/*<BorderCard style={{ alignItems: 'center', flex: 1 }}>*/}
       {/*  <Text tx={'lifeLog.currentStreaks'} preset={'cardTitle'}/>*/}
       {/*  <SizedBox height={2}/>*/}
@@ -282,28 +293,44 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
 
       <SizedBox height={2} />
       <BorderCard>
-        <Text text={"0/4"} preset={"bigContent"} style={{ paddingHorizontal: spacing[5] }} />
+        <Text
+          text={"0/4"}
+          preset={"bigContent"}
+          style={{ paddingHorizontal: spacing[5] }}
+        />
         <SizedBox height={2} />
-        <Text tx={"lifeLog.today"} preset={"cardTitle"} style={{ paddingHorizontal: spacing[5] }} />
+        <Text
+          tx={"lifeLog.today"}
+          preset={"cardTitle"}
+          style={{ paddingHorizontal: spacing[5] }}
+        />
       </BorderCard>
       <View style={{ flex: 1 }}>
-        <LottieView ref={(c) => this.refLottieFunny = c} loop source={Images.lifeLogFunny} />
-
+        <LottieView
+          ref={c => (this.refLottieFunny = c)}
+          loop
+          source={Images.lifeLogFunny}
+        />
       </View>
-    </StyledRow>);
+    </StyledRow>
+  );
 
   private renderThisWeekInfoRow = () => {
-
-    const data: LifeLogTaskInfoModel[] = [{ total: 7, done: 1, title: "Cook some thing" }, {
-      title: "play game",
-      total: 5,
-      done: 3,
-    }];
+    const data: LifeLogTaskInfoModel[] = [
+      { total: 7, done: 1, title: "Cook some thing" },
+      {
+        title: "play game",
+        total: 5,
+        done: 3
+      }
+    ];
     return this.renderInfoTasks("lifeLog.thisWeek", data);
   };
 
   private renderThisMonthInfoRow = () => {
-    const data: LifeLogTaskInfoModel[] = [{ total: 7, done: 6, title: "Cook some thing" }];
+    const data: LifeLogTaskInfoModel[] = [
+      { total: 7, done: 6, title: "Cook some thing" }
+    ];
     return this.renderInfoTasks("lifeLog.thisWeek", data);
   };
 
@@ -312,10 +339,18 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       <StyledBorderCard>
         <Grid>
           <Col>
-            <Text color={Colors.black} h6 tx={"lifeLog.thisWeek"} style={{ padding: spacing[3] }} />
+            <Text
+              color={Colors.black}
+              h6
+              tx={"lifeLog.thisWeek"}
+              style={{ padding: spacing[3] }}
+            />
             <AppDivider />
-            <FlatList data={listTasks} renderItem={this.renderTaskInfoRow}
-                      keyExtractor={(item, index) => index.toString()} />
+            <FlatList
+              data={listTasks}
+              renderItem={this.renderTaskInfoRow}
+              keyExtractor={(item, index) => index.toString()}
+            />
           </Col>
         </Grid>
       </StyledBorderCard>
@@ -324,30 +359,37 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
 
   private renderTaskInfoRow = ({ item }: { item: LifeLogTaskInfoModel }) => {
     const size = scaledSize(30);
-    const percent = (item.done / item.total);
-    return <CenterContentRow style={{ paddingVertical: spacing[3], paddingHorizontal: spacing[2] }}>
-      <SizedBox width={3} />
-      <Col size={1}>
-        <ProgressCircle
-          style={{ height: size, width: size }}
-          progress={percent}
-          strokeWidth={2}
-          progressColor={"rgb(134, 65, 244)"}
-        />
-      </Col>
+    const percent = item.done / item.total;
+    return (
+      <CenterContentRow
+        style={{ paddingVertical: spacing[3], paddingHorizontal: spacing[2] }}
+      >
+        <SizedBox width={3} />
+        <Col size={1}>
+          <ProgressCircle
+            style={{ height: size, width: size }}
+            progress={percent}
+            strokeWidth={2}
+            progressColor={"rgb(134, 65, 244)"}
+          />
+        </Col>
 
-      <Col size={3}>
-        <Text text={item.title} />
-      </Col>
-      <SizedBox width={2} />
-      <Col size={1}>
-        <CenterContentRow>
-          <Text text={`${item.done} / ${item.total}`} color={Colors.text.normal} />
-          <Icon name="chevron-right" color={Colors.text.normal} />
-        </CenterContentRow>
-      </Col>
-      <SizedBox width={2} />
-    </CenterContentRow>;
+        <Col size={3}>
+          <Text text={item.title} />
+        </Col>
+        <SizedBox width={2} />
+        <Col size={1}>
+          <CenterContentRow>
+            <Text
+              text={`${item.done} / ${item.total}`}
+              color={Colors.text.normal}
+            />
+            <Icon name="chevron-right" color={Colors.text.normal} />
+          </CenterContentRow>
+        </Col>
+        <SizedBox width={2} />
+      </CenterContentRow>
+    );
   };
 
   private renderDetailLifeLogStat = () => {
@@ -368,7 +410,8 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
     const bestStreak = this.getBestStreak(streaks);
     const totalPerfectDays = this.getTotalPerfectDays(perfectDates);
 
-    return (<View style={{ flex: 1 }}>
+    return (
+      <View style={{ flex: 1 }}>
         <LineLog
           icon={checkIcon}
           content={I18n.t(strings.totalPerfectDays)}
@@ -392,7 +435,6 @@ export default class RenderLifeLogScreen extends Component<IProps, IState> {
       </View>
     );
   };
-
 }
 
 const StyledRow = styled(Row)`
@@ -402,7 +444,7 @@ const StyledRow = styled(Row)`
 `;
 
 const StyledBorderCard = styled(BorderCard)`
-   padding: ${spacing[0]}px ${spacing[0]}px ;
+  padding: ${spacing[0]}px ${spacing[0]}px;
 `;
 
 const CenterContentRow = styled(Row)`
@@ -415,12 +457,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     width: "100%",
-    height: 60,
+    height: 60
   },
   viewModal: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   modalContent: {
     backgroundColor: Colors.lightGray,
@@ -434,26 +476,26 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOffset: {
       height: 1,
-      width: 1,
+      width: 1
     },
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.5
   },
   subTitleText: {
     textDecorationLine: "underline",
     fontFamily: Fonts.type.base,
     fontSize: Fonts.size.input,
-    color: Colors.facebook,
+    color: Colors.facebook
   },
   title: {
     color: Colors.facebook,
     fontFamily: Fonts.type.base,
     fontSize: Fonts.size.h6,
-    paddingBottom: 20,
+    paddingBottom: 20
   },
   text: {
     fontFamily: Fonts.type.base,
     fontSize: Fonts.size.input,
     textAlign: "center",
-    paddingBottom: 20,
-  },
+    paddingBottom: 20
+  }
 });

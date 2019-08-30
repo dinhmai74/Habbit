@@ -2,7 +2,6 @@
   "defaultSeverity": "warn",
   "extends": [
     "tslint:recommended",
-    "tslint-plugin-prettier",
     "tslint-config-prettier"
   ],
   "jsRules": {},
@@ -11,7 +10,6 @@
       true,
       "double"
     ],
-    "semicolon": true,
     "member-access": [
       true,
       "no-public"

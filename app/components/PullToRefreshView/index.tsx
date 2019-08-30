@@ -1,1 +1,1 @@
-export * from "components/PullToRefreshView/PullToRefreshView"
+export * from "./PullToRefreshView";
