@@ -1,15 +1,17 @@
 {
-  "defaultSeverity": "error",
+  "defaultSeverity": "warn",
   "extends": [
-    "tslint:recommended"
+    "tslint:recommended",
+    "tslint-plugin-prettier",
+    "tslint-config-prettier"
   ],
   "jsRules": {},
   "rules": {
     "quotemark": [
       true,
-      "single"
+      "double"
     ],
-    "semicolon": false,
+    "semicolon": true,
     "member-access": [
       true,
       "no-public"
@@ -23,7 +25,8 @@
     "trailing-comma": true,
     "ordered-imports": false,
     "no-unused-expression": false,
-    "only-arrow-functions": false
+    "only-arrow-functions": false,
+    "prettier": true
   },
   "rulesDirectory": []
 }

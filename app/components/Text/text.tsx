@@ -61,6 +61,7 @@ export function Text(props: TextProps) {
       p2 && { fontSize: Fonts.size.p2 },
       bold && presets.bold,
       fontType && { fontFamily: Fonts.type[fontType] },
+      color && {color},
       styleOverride,
     ]),
   )

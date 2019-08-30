@@ -1,33 +1,33 @@
-import React, { Component } from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import Swipeable from 'react-native-swipeable'
-import styled from 'styled-components'
+import React, { Component } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import Swipeable from "react-native-swipeable";
+import styled from "styled-components";
 
-import { Button, Text } from 'native-base'
-import { Icon } from 'react-native-elements'
-import firebase from 'react-native-firebase'
-import { NavigationScreenProp } from 'react-navigation'
-import { connect } from 'react-redux'
-import { editTaskStatus } from '../../../actions'
-import { AppText, CardItem, RowView } from '../../../components'
-import ModalTask from '../../../components/Modal'
-import I18n from '../../../localization'
-import { IArchived, IHabitItem } from '../../../model'
+import { Button, Text } from "native-base";
+import { Icon } from "react-native-elements";
+import firebase from "react-native-firebase";
+import { NavigationScreenProp } from "react-navigation";
+import { connect } from "react-redux";
+import { editTaskStatus } from "../../../actions";
+import { AppText, CardItem, RowView } from "../../../components";
+import ModalTask from "../../../components/Modal";
+import I18n from "../../../localization";
+import { IArchived, IHabitItem } from "../../../model";
 import {
   ApplicationStyles,
   Colors,
   Fonts,
   Metrics,
   strings,
-} from '../../../themes'
-import { capitalize } from '../../../tools'
-import { getTokenString } from '../../../api/firebase'
+} from "../../../themes";
+import { capitalize } from "../../../tools";
+import { getTokenString } from "../../../api/firebase";
 
 const SubIconEnum = {
-  close: 'close',
-  star: 'star',
-  check: 'check',
-}
+  close: "close",
+  star: "star",
+  check: "check",
+};
 
 interface IProps {
   status: string
@@ -51,121 +51,124 @@ class HabitCard extends Component<IProps> {
     color: Colors.text.text,
     leftText: capitalize(I18n.t(strings.textDone)),
     rightText: capitalize(I18n.t(strings.textSkip)),
-    onCardPress: () => {},
-    leftButtonOnClick: () => {},
-    rightButtonOnClick: () => {},
+    onCardPress: () => {
+    },
+    leftButtonOnClick: () => {
+    },
+    rightButtonOnClick: () => {
+    },
     releaseTime: 200,
-  }
+  };
 
   state = {
     isSwiped: false,
-    status: '',
-  }
+    status: "",
+  };
   refSwipeable: any
-  refModalTask: any
-  refRightButton: any
+  refModalTask: any;
+  refRightButton: any;
 
   componentDidMount() {
     this.setState({
       status: this.props.status,
-    })
+    });
   }
 
   componentWillReceiveProps(nextProps: IProps) {
     if (nextProps.status !== this.state.status) {
-      this.setState({ status: nextProps.status })
+      this.setState({ status: nextProps.status });
     }
   }
 
   resetState = () => {
     this.setState({
       isSwiped: false,
-    })
-  }
+    });
+  };
 
   leftButtonRelease = () => {
     setTimeout(() => {
       this.setState(
         {
           isSwiped: true,
-          status: 'done',
+          status: "done",
         },
         () => {
           if (this.props.leftButtonOnClick) {
-            this.props.leftButtonOnClick()
+            this.props.leftButtonOnClick();
           }
           if (this.refSwipeable) {
-            this.refSwipeable.recenter()
+            this.refSwipeable.recenter();
           }
-        }
-      )
-    }, this.props.releaseTime)
-  }
+        },
+      );
+    }, this.props.releaseTime);
+  };
 
   rightButtonRelease = () => {
     setTimeout(() => {
       this.setState(
         {
           isSwiped: true,
-          status: 'skipped',
+          status: "skipped",
         },
         () => {
           if (this.props.rightButtonOnClick) {
-            this.props.rightButtonOnClick()
+            this.props.rightButtonOnClick();
           }
           if (this.refSwipeable) {
-            this.refSwipeable.recenter()
+            this.refSwipeable.recenter();
           }
-        }
-      )
-    }, this.props.releaseTime)
-  }
+        },
+      );
+    }, this.props.releaseTime);
+  };
 
   rightButtonOnClick = () => {
     this.setState({
       isSwiped: true,
-      status: 'skipped',
-    })
+      status: "skipped",
+    });
     if (this.props.rightButtonOnClick) {
-      this.props.rightButtonOnClick()
+      this.props.rightButtonOnClick();
     }
-  }
+  };
 
   undoOnModal = async (taskId: string, status: IArchived, date: string) => {
-    const user = await firebase.auth().currentUser
-    let token = ''
+    const user = await firebase.auth().currentUser;
+    let token = "";
     if (user) {
-      token = await user.getIdToken()
+      token = await user.getIdToken();
     }
     this.setState(
       {
-        status: 'spending',
+        status: "spending",
       },
       () => {
         if (token) {
-          this.props.editTaskStatus(taskId, 'spending', date, token)
+          this.props.editTaskStatus(taskId, "spending", date, token);
         }
-      }
-    )
-  }
+      },
+    );
+  };
 
   viewDetail = () => {
-    const { cardInfo } = this.props
-    this.props.onCardPress(cardInfo)
-  }
+    const { cardInfo } = this.props;
+    this.props.onCardPress(cardInfo);
+  };
 
   containerPress = () => {
-    const { status } = this.state
+    const { status } = this.state;
 
-    const isInActiveCard = status === 'done' || status === 'skipped'
+    const isInActiveCard = status === "done" || status === "skipped";
 
     if (isInActiveCard) {
-      this.refModalTask.showModal()
+      this.refModalTask.showModal();
     } else {
-      const { cardInfo } = this.props
-      this.props.onCardPress(cardInfo)
+      const { cardInfo } = this.props;
+      this.props.onCardPress(cardInfo);
     }
-  }
+  };
 
   renderLeftButtons = () => [
     <LeftSwipeView>
@@ -182,7 +185,7 @@ class HabitCard extends Component<IProps> {
         </Text>
       </Button>
     </LeftSwipeView>,
-  ]
+  ];
 
   renderRightButtons = () => [
     <RightSwipeView>
@@ -199,33 +202,33 @@ class HabitCard extends Component<IProps> {
         </Text>
       </Button>
     </RightSwipeView>,
-  ]
+  ];
 
   render() {
-    const { style, cardInfo } = this.props
-    const { quest: title, icon } = cardInfo
-    const { name: iconName, color } = icon
-    const { status } = this.state
+    const { style, cardInfo } = this.props;
+    const { quest: title, icon } = cardInfo;
+    const { name: iconName, color } = icon;
+    const { status } = this.state;
 
-    let subTitleIcon = SubIconEnum.star
-    if (status === 'done') {
-      subTitleIcon = SubIconEnum.check
-    } else if (status === 'overdue' || status === 'skipped') {
-      subTitleIcon = SubIconEnum.close
+    let subTitleIcon = SubIconEnum.star;
+    if (status === "done") {
+      subTitleIcon = SubIconEnum.check;
+    } else if (status === "overdue" || status === "skipped") {
+      subTitleIcon = SubIconEnum.close;
     }
 
-    const isDisable = status === 'skipped' || status === 'done'
+    const isDisable = status === "skipped" || status === "done";
 
-    const colorToggle = isDisable ? Colors.inActiveText : null
-    const leftButtons = isDisable ? null : this.renderLeftButtons()
-    const rightButtons = isDisable ? null : this.renderRightButtons()
-    const textInactiveColor = isDisable ? { color: Colors.inActiveText } : null
+    const colorToggle = isDisable ? Colors.inActiveText : null;
+    const leftButtons = isDisable ? null : this.renderLeftButtons();
+    const rightButtons = isDisable ? null : this.renderRightButtons();
+    const textInactiveColor = isDisable ? { color: Colors.inActiveText } : null;
 
-    const length = 12
-    let trimTitle = ''
+    const length = 12;
+    let trimTitle = "";
     if (title) {
       trimTitle =
-        title.length > length ? `${title.substring(0, length)}...` : title
+        title.length > length ? `${title.substring(0, length)}...` : title;
     }
 
     return (
@@ -233,7 +236,7 @@ class HabitCard extends Component<IProps> {
       <Container style={style} ref={(c: any) => (this.refRightButton = c)}>
         <ModalTask
           ref={(c) => {
-            this.refModalTask = c
+            this.refModalTask = c;
           }}
           habitCardProp={this.props}
           // @ts-ignore
@@ -254,11 +257,11 @@ class HabitCard extends Component<IProps> {
           <TouchableOpacity onPress={this.containerPress}>
             <RowView>
               <Icon
-                type='MaterialCommunityIcons'
+                type="MaterialCommunityIcons"
                 name={iconName}
                 iconStyle={{ color: colorToggle || color }}
                 containerStyle={styles.icon}
-                color='transparent'
+                color="transparent"
                 size={Metrics.icons.medium}
                 reverse
               />
@@ -269,7 +272,7 @@ class HabitCard extends Component<IProps> {
                 </Text>
                 <StatusView>
                   <Icon
-                    type='MaterialCommunityIcons'
+                    type="MaterialCommunityIcons"
                     name={subTitleIcon}
                     color={colorToggle || color}
                     size={20}
@@ -282,22 +285,22 @@ class HabitCard extends Component<IProps> {
           </TouchableOpacity>
         </Swipeable>
       </Container>
-    )
+    );
   }
 }
 
 const StatusView = styled(RowView)`
   padding: 10px;
-`
+`;
 
 const Content = styled(View)`
   padding: 5px;
   margin: 10px 0;
-`
+`;
 
 const Container = styled(CardItem)`
   padding: 0;
-`
+`;
 
 const LeftSwipeView = styled(View)`
   display: flex;
@@ -307,7 +310,7 @@ const LeftSwipeView = styled(View)`
   padding-right: 20px;
   margin-right: 20px;
   background: ${Colors.green};
-`
+`;
 
 const RightSwipeView = styled(View)`
   display: flex;
@@ -316,14 +319,14 @@ const RightSwipeView = styled(View)`
   padding-left: 20;
   margin-right: 20;
   background: ${Colors.buttonColorInColoredBackground};
-`
+`;
 
 const styles = StyleSheet.create({
   leftButton: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   button: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     flex: 1,
     elevation: 0,
   },
@@ -333,17 +336,17 @@ const styles = StyleSheet.create({
     marginRight: 100,
   },
   icon: {
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   modal: {
     padding: 20,
     paddingLeft: Metrics.sidesPadding,
     paddingRight: Metrics.sidesPadding,
   },
-})
+});
 
 export default connect(
   null,
-  { editTaskStatus }
+  { editTaskStatus },
   // @ts-ignore
-)(HabitCard)
+)(HabitCard);

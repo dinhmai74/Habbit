@@ -61,7 +61,7 @@ const colors = {
   btnMarkedDisabled: '#808080',
   inActive: '#808080',
   line: '#dddddd',
-  divider: palette.lighterGrey,
+  divider: palette.offWhite,
   lightRed: '#e74c3c',
   blue: '#0fbcf9',
 

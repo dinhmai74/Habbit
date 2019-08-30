@@ -4,6 +4,7 @@ import color from 'color'
 
 import { Platform, Dimensions, PixelRatio } from 'react-native'
 import { Fonts, Colors, Metrics, palette } from '../../app/themes'
+import { colors } from 'react-native-elements'
 
 const deviceHeight = Dimensions.get('window').height
 const deviceWidth = Dimensions.get('window').width
@@ -89,7 +90,7 @@ export default {
 
   // Card
   cardDefaultBg: '#fff',
-  cardBorderColor: palette.offWhite,
+  cardBorderColor: Colors.border,
   cardBorderRadius: 2,
   cardItemPadding: platform === 'ios' ? 10 : 12,
 
@@ -202,7 +203,7 @@ export default {
 
   // List
   listBg: 'transparent',
-  listBorderColor: palette.offWhite,
+  listBorderColor: Colors.border,
   listDividerBg: Colors.divider,
   listBtnUnderlayColor: '#DDD',
   listItemPadding: 12,
