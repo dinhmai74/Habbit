@@ -3,6 +3,8 @@ import Colors from "./Colors";
 import Fonts from "./Fonts";
 import Images from "./Images";
 import Metrics from "./Metrics";
+
+export * from "./Metrics";
 import strings from "./strings";
 
 export * from "./palette";

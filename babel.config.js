@@ -25,7 +25,7 @@ module.exports = {
           themes: "./app/themes",
           appRedux: "./app/appRedux",
           "appRedux/*": "./app/appRedux/*",
-          "@tools": "app/tools",
+          "tools": "./app/tools",
         },
       },
     ],
