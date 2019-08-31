@@ -1,3 +1,4 @@
+import { watchUpdateRemainTasks } from "app/appRedux";
 import { all } from "redux-saga/effects";
 import {
   watchLogin,
@@ -22,5 +23,6 @@ export default function* rootSaga() {
     watchEditTask(),
     watchGoogleLogin(),
     watchFacebookLogin(),
+    watchUpdateRemainTasks(),
   ]);
 }

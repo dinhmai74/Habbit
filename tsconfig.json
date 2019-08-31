@@ -19,7 +19,7 @@
       "app/*": ["*"],
       "actions/*": ["/redux/actions/*"],
       "api/*": ["/api/*"],
-      "components/*": ["/components/*","/components/**"],
+      "components/*": ["/components/*"],
       "containers/*": ["/containers/*"],
       "images/*": ["/images/*"],
       "localization/*": ["/localization/*"],

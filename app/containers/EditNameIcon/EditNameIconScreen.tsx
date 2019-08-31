@@ -17,7 +17,7 @@ import {
   editTaskIconAndName,
   editTaskStatus,
   refetchTasks,
-} from "../../redux/actions";
+} from "actions";
 import FirebaseWorker from "../../api/firebase";
 import { IconDisplayModel } from "../../model";
 import dataIcon from "../../model/icon.json";

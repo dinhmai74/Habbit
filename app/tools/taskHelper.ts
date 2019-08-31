@@ -17,7 +17,7 @@ export const fillTaskDaily = (
   const startDate =
     moment(createdDate) > aWeekAgo ? moment(createdDate) : aWeekAgo;
 
-  const endDate = moment(today);
+  const endDate = moment().add(7, "days");
   const daysBetween = endDate.diff(startDate, "days") + 1;
 
   const modelArray = {};
@@ -27,10 +27,12 @@ export const fillTaskDaily = (
       .format("YYYY-MM-DD");
     const timesArray = [...times];
     // @ts-ignore-end
-    if (timesArray.includes(moment(date).day())) {
+    const isInThePass = moment().isAfter(date);
+    const status = !isInThePass ? "spending" : "overdue";
+    if (_.includes(timesArray, moment(date).day())) {
       const item = {
         date,
-        status: date === today ? "spending" : "overdue",
+        status,
       };
       // @ts-ignore-end
       modelArray[date] = item;
@@ -110,15 +112,13 @@ function getDaysBetweenTwoDate(container, startDate, endDate) {
 export function fillTaskWeekly(
   archived,
   times,
-  createdDate = null,
+  createdDate = "",
   taskId = null
 ) {
-  // const startDate = moment(`${createdDate}`)
   const aWeekAgo = moment(today).subtract(7, "d");
   const startDate =
-    // @ts-ignore-end
     moment(createdDate) > aWeekAgo ? moment(createdDate) : aWeekAgo;
-  const endDate = moment(today);
+  const endDate = moment().add(8, "days");
 
   const groupWeek = convertToWeekGroups(startDate, endDate);
 
@@ -138,7 +138,7 @@ export function fillTaskWeekly(
 export function fillTaskMonthly(
   archived,
   times,
-  createdDate = null,
+  createdDate = "",
   taskId: string
 ) {
   // const startDate = moment(createdDate)
@@ -146,7 +146,7 @@ export function fillTaskMonthly(
   const startDate =
     // @ts-ignore-end
     moment(createdDate) > aMonthAgo ? moment(createdDate) : aMonthAgo;
-  const endDate = moment(today);
+  const endDate = moment().add(1, "month");
 
   const monthGroupResult = convertToMonthGroups(startDate, endDate);
   let modelArray = {};
@@ -240,7 +240,8 @@ function getModelArray(groupDays, archived, times) {
       const date = formatDate(day);
       let status = "done";
       if (timeCount > 0) {
-        status = date === today ? "spending" : "overdue";
+        const isInThePass = moment().isAfter(date);
+        status = !isInThePass ? "spending" : "overdue";
       }
       const item = {
         date,

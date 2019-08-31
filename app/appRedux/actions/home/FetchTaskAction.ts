@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Action } from "redux";
-import { TaskDisplayModel } from "../../model";
+import { TaskDisplayModel } from "model";
 import {
   FETCH_TASKS,
   FETCH_TASKS_ALL,
@@ -44,7 +44,9 @@ export const fetchTasks = (
   };
 };
 
-export const fetchTasksSuccess = (data: TaskDisplayModel[]): IFetchTaskRequestAction => ({
+export const fetchTasksSuccess = (
+  data: TaskDisplayModel[]
+): IFetchTaskRequestAction => ({
   // @ts-ignore
   type: FETCH_TASKS_SUCCESS,
   payload: data,

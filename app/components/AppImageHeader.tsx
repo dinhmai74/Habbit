@@ -39,8 +39,7 @@ class AppHeader extends Component<Props> {
     leftComponent: null,
     rightTitle: null,
     rightIcon: null,
-    rightTitleOnClick: () => {
-    },
+    rightTitleOnClick: () => {},
     rightComponent: null,
     style: null,
   };

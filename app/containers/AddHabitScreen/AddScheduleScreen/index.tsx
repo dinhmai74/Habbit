@@ -41,6 +41,7 @@ interface IState {
   selectedTypeDefault: number[] | null;
 }
 
+// @ts-ignore
 const typeButtons: ScheduleType[] = ["daily", "weekly", "monthly"];
 const onTheseDaysDaily = ["M", "T", "W", "T", "F", "S", "S"];
 const onTheseDaysWeekly = [1, 2, 3, 4, 5, 6];
@@ -198,6 +199,7 @@ class AddScheduleScreen extends Component<Props, IState> {
 
     return (
       <RenderAddScheduleScreen
+        // @ts-ignore
         typeButtons={typeButtons}
         onTheseDays={onTheseDays}
         shiftButtons={shiftButtons}

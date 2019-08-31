@@ -76,8 +76,6 @@ const mapStateToProps = state => {
     }
   });
 
-  console.log(`%c state`, `color: blue; font-weight: 600`, state);
-
   const moments = createdDates.map(d => moment(d));
   // @ts-ignore
   const minDate = formatDate(moment.min(moments));

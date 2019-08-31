@@ -1,6 +1,8 @@
 import { ApiFactory, getTokenString } from "app/api/firebase";
+import { login } from "app/appRedux";
 import { Body, Row } from "native-base";
 import React, { Component } from "react";
+import { AsyncStorage } from "react-native";
 import firebase from "react-native-firebase";
 import { NavigationInjectedProps } from "react-navigation";
 import styled from "styled-components";
@@ -10,14 +12,13 @@ import {
   SizedBox,
   ToastService,
   withSpacing,
-  AppBackground
+  AppBackground,
 } from "components";
-import { Metrics as metrics } from "themes";
+import { Metrics as metrics, strings } from "themes";
 import { Colors as color, palette, screen } from "themes";
 import NavigateService from "tools/NavigateService";
 
-export interface IAuthScreenProps extends NavigationInjectedProps {
-}
+export interface IAuthScreenProps extends NavigationInjectedProps {}
 
 interface State {
   user: any;
@@ -48,9 +49,10 @@ export class AuthScreen extends Component<IAuthScreenProps, State> {
         user.getIdToken().then(token => {
           ApiFactory.getInstance().setHeader(
             "Authorization",
-            getTokenString(token),
+            getTokenString(token)
           );
         });
+        AsyncStorage.setItem(strings.uid, user.uid);
       }
     });
   }
@@ -70,7 +72,7 @@ export class AuthScreen extends Component<IAuthScreenProps, State> {
           NavigateService.navigate("main");
         },
         "bottom",
-        1000,
+        1000
       );
     }
     return (

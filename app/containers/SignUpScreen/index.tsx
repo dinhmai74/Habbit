@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unused-state */
+import { signUp } from "app/appRedux";
 /* eslint-disable react/prop-types */
 import React, { Component } from "react";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 
-import { signUp } from "../../actions";
 import { ToastService } from "../../components";
 import I18n from "../../localization";
 import { strings } from "../../themes";

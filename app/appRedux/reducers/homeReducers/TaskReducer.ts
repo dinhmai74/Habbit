@@ -25,7 +25,7 @@ import { FirebaseWorker } from "app/api/firebase";
 import { TaskRawModel, ArchivedTaskModel } from "../../../model";
 
 const INITIAL_STATE = {
-  data: null,
+  data: [],
   error: null,
   fetching: false,
 };
@@ -56,7 +56,7 @@ const editTask = (
 };
 
 const editIconAndName = (oldTasks: TaskRawModel[], newTask) => {
-  const cloneOldTask = { ...oldTasks };
+  const cloneOldTask = [...oldTasks];
   const taskNeedEdit: any = _.filter(cloneOldTask, (value: any) => {
     return value.id === newTask.taskId;
   });
@@ -76,7 +76,7 @@ const deleteTask = (oldTasks: any, taskId: string) => {
   const newTasks = _.filter(oldTasks, (value: { id: string }) => {
     return value.id !== taskId;
   });
-  return newTasks;
+  return [...newTasks];
 };
 
 const createTask = (
@@ -87,7 +87,7 @@ const createTask = (
 };
 
 const editSchedule = (oldTasks: TaskRawModel[], newTask: any) => {
-  const cloneOldTask = { ...oldTasks };
+  const cloneOldTask = [...oldTasks];
   const taskNeedEdit: any = _.filter(cloneOldTask, (value: any) => {
     return value.id === newTask.taskId;
   });
@@ -96,11 +96,11 @@ const editSchedule = (oldTasks: TaskRawModel[], newTask: any) => {
     const { schedule } = newTask;
     taskNeedEdit[0].schedule = schedule;
   }
-  return cloneOldTask;
+  return [...cloneOldTask];
 };
 
 const editTaskStatus = (oldTasks: TaskRawModel[], newTask: any) => {
-  const cloneOldTask = { ...oldTasks };
+  const cloneOldTask = [...oldTasks];
   const taskNeedEdit: any = _.filter(cloneOldTask, (value: any) => {
     return value.id === newTask.taskId;
   });
@@ -109,7 +109,7 @@ const editTaskStatus = (oldTasks: TaskRawModel[], newTask: any) => {
     const { status, date } = newTask;
     taskNeedEdit[0].archived[date].status = status;
   }
-  return cloneOldTask;
+  return [...cloneOldTask];
 };
 
 export default (state: any = INITIAL_STATE, action: Action): State => {

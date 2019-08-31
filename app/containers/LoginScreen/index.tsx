@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Button, Text, Toast, View } from "native-base";
 import { NavigationScreenProps } from "react-navigation";
 
-import { login, googleLogin, facebookLogin } from "../../actions";
+import { login, googleLogin, facebookLogin } from "actions";
 import { ToastService } from "../../components";
 import I18n from "../../localization";
 import { strings } from "../../themes";

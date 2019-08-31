@@ -1,6 +1,5 @@
-import { fetchLifeLog } from "app/actions";
 import AppDivider from "app/components/Divider";
-import { TaskDisplayModel, TaskRawModel } from "app/model";
+import { RemainTasks, TaskDisplayModel, TaskRawModel } from "app/model";
 import { LifeLogTaskInfoModel } from "app/model/LifeLogModel";
 import metrics, { scaledSize } from "app/themes/Metrics";
 import _ from "lodash";
@@ -77,6 +76,7 @@ interface IProps extends NavigationInjectedProps {
   handleRefresh: (...params: any) => void;
   minDate: string;
   tasks: TaskRawModel[];
+  remainTasks: RemainTasks;
 }
 
 interface IState {
@@ -97,8 +97,7 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
       streaks: 0,
     },
     fetching: true,
-    handleRefresh: () => {
-    },
+    handleRefresh: () => {},
   };
 
   state = {
@@ -148,7 +147,7 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
    **/
 
   render() {
-    const { lifeLog } = this.props;
+    const { lifeLog, fetching } = this.props;
     // tslint:disable-next-line: one-variable-per-declaration
     let someDoneDates = 0,
       perfectDates = 0;
@@ -171,6 +170,7 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
           type={"transparent"}
           hasDivider
         />
+        {fetching ? <AppLoading loadingSrc={Images.loadingPreloader} /> : null}
         <Modal isVisible={this.state.isModalVisible}>
           {this.renderModal()}
         </Modal>
@@ -210,8 +210,6 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
 
         <SizedBox height={4} />
 
-        {fetching ? <AppLoading loadingSrc={Images.loadingPreloader} /> : null}
-
         <SizedBox height={4} />
         {this.renderThisWeekInfoRow()}
 
@@ -236,44 +234,47 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
     );
   }
 
-  private renderTodayInfoRow = () => (
-    <StyledRow>
-      {/*<BorderCard style={{ alignItems: 'center', flex: 1 }}>*/}
-      {/*  <Text tx={'lifeLog.currentStreaks'} preset={'cardTitle'}/>*/}
-      {/*  <SizedBox height={2}/>*/}
-      {/*  <Text text={'3'} preset={'bigContent'}/>*/}
-      {/*</BorderCard>*/}
+  private renderTodayInfoRow = () => {
+    const { remainTasks } = this.props;
+    return (
+      <StyledRow>
+        {/*<BorderCard style={{ alignItems: 'center', flex: 1 }}>*/}
+        {/*  <Text tx={'lifeLog.currentStreaks'} preset={'cardTitle'}/>*/}
+        {/*  <SizedBox height={2}/>*/}
+        {/*  <Text text={'3'} preset={'bigContent'}/>*/}
+        {/*</BorderCard>*/}
 
-      {/*<SizedBox width={4}/>*/}
-      {/*<BorderCard style={{ alignItems: 'center', flex: 1 }}>*/}
-      {/*  <Text text={'3/7'} preset={'bigContent'}/>*/}
-      {/*  <SizedBox height={2}/>*/}
-      {/*  <Text tx={'lifeLog.inThisWeeks'} preset={'cardTitle'}/>*/}
-      {/*</BorderCard>*/}
+        {/*<SizedBox width={4}/>*/}
+        {/*<BorderCard style={{ alignItems: 'center', flex: 1 }}>*/}
+        {/*  <Text text={'3/7'} preset={'bigContent'}/>*/}
+        {/*  <SizedBox height={2}/>*/}
+        {/*  <Text tx={'lifeLog.inThisWeeks'} preset={'cardTitle'}/>*/}
+        {/*</BorderCard>*/}
 
-      <SizedBox height={2} />
-      <BorderCard>
-        <Text
-          text={"0/4"}
-          preset={"bigContent"}
-          style={{ paddingHorizontal: spacing[5] }}
-        />
         <SizedBox height={2} />
-        <Text
-          tx={"lifeLog.today"}
-          preset={"cardTitle"}
-          style={{ paddingHorizontal: spacing[5] }}
-        />
-      </BorderCard>
-      <View style={{ flex: 1 }}>
-        <LottieView
-          ref={c => (this.refLottieFunny = c)}
-          loop
-          source={Images.lifeLogFunny}
-        />
-      </View>
-    </StyledRow>
-  );
+        <BorderCard>
+          <Text
+            text={`${remainTasks.daily.done}/${remainTasks.daily.total}`}
+            preset={"bigContent"}
+            style={{ paddingHorizontal: spacing[5] }}
+          />
+          <SizedBox height={2} />
+          <Text
+            tx={"lifeLog.today"}
+            preset={"cardTitle"}
+            style={{ paddingHorizontal: spacing[5] }}
+          />
+        </BorderCard>
+        <View style={{ flex: 1 }}>
+          <LottieView
+            ref={c => (this.refLottieFunny = c)}
+            loop
+            source={Images.lifeLogFunny}
+          />
+        </View>
+      </StyledRow>
+    );
+  };
 
   private renderThisWeekInfoRow = () => {
     const data: LifeLogTaskInfoModel[] = [
@@ -421,11 +422,9 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
     todayTasks.sort();
   };
 
-  private calculateThisMonthTaskRemain() {
-  }
+  private calculateThisMonthTaskRemain() {}
 
-  private calculateThisWeekTaskRemain() {
-  }
+  private calculateThisWeekTaskRemain() {}
 
   private getCurrentStreak = streaks => {
     if (streaks !== undefined && streaks.length > 0) {
@@ -453,14 +452,29 @@ const mapStateToProps = store => {
   if (store.tasks && store.tasks.data) {
     return {
       tasks: store.tasks.data,
+      remainTasks: store.remainTasks,
     };
   }
   return {
     tasks: [],
+    remainTasks: {
+      daily: {
+        total: 0,
+        done: 0,
+      },
+      monthly: {
+        total: 0,
+        done: 0,
+      },
+      weekly: {
+        total: 0,
+        done: 0,
+      },
+    },
   };
 };
 
 export default connect(
   mapStateToProps,
-  null,
+  null
 )(withNavigation(RenderLifeLogScreen));

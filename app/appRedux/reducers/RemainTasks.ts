@@ -1,18 +1,34 @@
-import { Action, FETCH_LIFE_LOG, fetchLifeLogFail } from "app/appRedux/actions";
-import FirebaseWorker from "app/api/firebase";
-import { RemainTaskModel, RemainTasks, RemainTasksActionsCreators, RemainTasksActionsTypes } from "model";
-import { put, takeLatest } from "redux-saga/effects";
+import { Action } from "app/appRedux/actions";
+import _ from "lodash";
+import {
+  RemainTaskModel,
+  RemainTasks,
+  RemainTasksActionsCreators,
+  RemainTasksActionsTypes,
+  TaskRawModel,
+} from "model";
+import moment from "moment";
+import { AnyAction } from "redux";
+import { put, select, takeLatest } from "redux-saga/effects";
 import { createActions, createReducer } from "reduxsauce";
 import Immutable from "seamless-immutable";
 
+import { strings } from "app/themes";
+
 /* ------------- Types and Action Creators ------------- */
-const { Types, Creators } = createActions<RemainTasksActionsTypes, RemainTasksActionsCreators>({
+const { Types, Creators } = createActions<
+  RemainTasksActionsTypes,
+  RemainTasksActionsCreators
+>({
   updateAllTasksRemain: null,
+  updateDailyTasksRemain: ["tasks"],
+  updateMonthlyTasksRemain: ["tasks"],
+  updateWeeklyTasksRemain: ["tasks"],
 });
 
 export const RemainTasksType = Types;
 export default Creators;
-export const RemainTasksActions= Creators;
+export const RemainTasksActions = Creators;
 
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE: RemainTasks = Immutable({
@@ -35,35 +51,106 @@ const updateAllTaskReducer = (state): RemainTasks => {
   return state;
 };
 
+const updateDailyTaskReducer = (state, action: AnyAction): RemainTasks => {
+  const { tasks } = action;
+  const daily: RemainTaskModel = {
+    done: 0,
+    total: 0,
+  };
+  if (tasks) {
+    let todayTasks = [...tasks];
+    todayTasks = _.filter(todayTasks, (task: TaskRawModel) => {
+      let result = 0;
+      _.forEach(task.archived, arc => {
+        if (moment(arc.date).isSame(moment(), "day")) {
+          result++;
+        }
+      });
+
+      return result > 0;
+    });
+    todayTasks.sort();
+    let done = 0;
+
+    _.forEach(todayTasks, task => {
+      if (
+        task.archived[moment().format(strings.format.date)].status === "done"
+      ) {
+        done += 1;
+      }
+    });
+
+    daily.total = todayTasks.length;
+    daily.done = done;
+  }
+  return Immutable.merge(state, { daily });
+};
+
+const updateWeeklyReducer = (state, action): RemainTasks => {
+  const { tasks } = action;
+  const weekly: RemainTaskModel = {
+    done: 0,
+    total: 0,
+  };
+  console.log("tasks", tasks);
+  if (tasks) {
+    let weeklyTasks = { ...tasks };
+    weeklyTasks = _.filter(weeklyTasks, (task: TaskRawModel) => {
+      let result = 0;
+      _.forEach(task.archived, arc => {
+        if (moment(arc.date).isSame(moment(), "day")) {
+          result++;
+        }
+      });
+
+      return result > 0;
+    });
+    weeklyTasks.sort();
+    let done = 0;
+
+    _.forEach(weeklyTasks, task => {
+      if (task.archived[moment().format(strings.format.date)] === "done") {
+        done += 1;
+      }
+    });
+
+    weekly.total = weeklyTasks.length;
+    weekly.done = done;
+  }
+  return state;
+};
+
+const updateMonthlyReducer = (state, action): RemainTasks => {
+  return state;
+};
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 const HANDLERS = {
   [Types.UPDATE_ALL_TASKS_REMAIN]: updateAllTaskReducer,
+  [Types.UPDATE_DAILY_TASKS_REMAIN]: updateDailyTaskReducer,
+  [Types.UPDATE_WEEKLY_TASKS_REMAIN]: updateWeeklyReducer,
+  [Types.UPDATE_MONTHLY_TASKS_REMAIN]: updateMonthlyReducer,
 };
 
-export const reducer = createReducer(INITIAL_STATE, HANDLERS);
+export const reducer = createReducer<RemainTasks, AnyAction>(
+  INITIAL_STATE,
+  HANDLERS
+);
 
 /* ------------- Sagas ------------- */
+const getAllTasks = state => state.tasks;
+
 function* doUpdateCall(action: Action) {
   try {
-    try {
-      {
-        const tasks = yield FirebaseWorker.getLifeLogStat(action.payload);
-        if (tasks.error) {
-          yield put(fetchLifeLogFail(tasks.message));
-        } else {
-        }
-      }
-    } catch (error) {
-      yield put(fetchLifeLogFail(error));
-    }
+    const tasks = yield select(getAllTasks);
+    console.log("tasks", tasks);
+    yield put(Creators.updateDailyTasksRemain(tasks.data));
   } catch (error) {
-    yield put(fetchLifeLogFail(error));
+    console.warn(error);
   }
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export function* watchUpdateRemainTasks() {
   yield takeLatest(Types.UPDATE_ALL_TASKS_REMAIN, doUpdateCall);
 }
-

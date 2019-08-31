@@ -164,7 +164,10 @@ class HomeScreen extends Component<IProps, IState> {
     return status;
   };
 
-  convertData = (data: TaskRawModel[], date: string = today): TaskFormattedModel[] => {
+  convertData = (
+    data: TaskRawModel[],
+    date: string = today
+  ): TaskFormattedModel[] => {
     // @ts-ignore
     data = _.filter(data, (e: any) => {
       const status = this.getStatusFromTask(e, date);

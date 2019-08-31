@@ -1,7 +1,11 @@
 // @flow
 // @ts-nocheck
 import { BASE_URL, getTokenString } from "app/api/firebase";
-import { IconDisplayModel, ScheduleTaskModel, ArchivedTaskModel } from "../../../model";
+import {
+  IconDisplayModel,
+  ScheduleTaskModel,
+  ArchivedTaskModel,
+} from "../../../model";
 import { offlineActionCreator } from "../ActionCreator";
 import {
   Action,

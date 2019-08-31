@@ -2,7 +2,11 @@ import apisauce, { ApisauceInstance } from "apisauce";
 import _ from "lodash";
 import { AsyncStorage } from "react-native";
 import firebase from "react-native-firebase";
-import { IconDisplayModel, ScheduleTaskModel, TaskDisplayModel } from "../model";
+import {
+  IconDisplayModel,
+  ScheduleTaskModel,
+  TaskDisplayModel,
+} from "../model";
 import { strings } from "../themes";
 import { fillTask, formatDate, logReactotron, today } from "../tools";
 import { GoogleSignin, statusCodes } from "react-native-google-signin";
@@ -167,10 +171,9 @@ export const FirebaseWorker = {
       const uid = await AsyncStorage.getItem(strings.uid);
       // @ts-ignore
       date = formatDate(date);
-      console.log("uid", uid);
 
       const updates = {};
-      updates[`/tasks/uid=${uid}/${taskId}/archived/${date}`] = {
+      updates[`/uid=${uid}/tasks/${taskId}/archived/${date}`] = {
         date,
         status,
       };
@@ -324,15 +327,9 @@ export const FirebaseWorker = {
   updateLifelog: async (month: string = today) => {
     try {
       const formatedMonth = moment(month).format(strings.format.month);
-      console.log(`%c month`, `color: blue; font-weight: 600`, formatedMonth);
       const postResult = await ApiFactory.getInstance().post(`/updateLifeLog`, {
         month: formatedMonth,
       });
-      console.log(
-        `%c update life log result`,
-        `color: blue; font-weight: 600`,
-        postResult
-      );
       return postResult;
     } catch (error) {
       console.warn("error update lifelog", error);
@@ -346,8 +343,6 @@ export const FirebaseWorker = {
       const result = await ApiFactory.getInstance().post(`/getLifeLogStat`, {
         month: moment(month).format("YYYY-MM"),
       });
-
-      console.log("result", result);
 
       return result;
     } catch (error) {
