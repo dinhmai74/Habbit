@@ -92,30 +92,18 @@ const updateWeeklyReducer = (state, action): RemainTasks => {
     done: 0,
     total: 0,
   };
-  console.log("tasks", tasks);
   if (tasks) {
-    let weeklyTasks = { ...tasks };
-    weeklyTasks = _.filter(weeklyTasks, (task: TaskRawModel) => {
-      let result = 0;
-      _.forEach(task.archived, arc => {
-        if (moment(arc.date).isSame(moment(), "day")) {
-          result++;
+    const dailyTask: TaskRawModel[] = _.filter(tasks, (e: TaskRawModel) => {
+      if (e.schedule) {
+        const { type } = e.schedule;
+        if (type === "daily" || type === "weekly") {
+          return true;
         }
-      });
-
-      return result > 0;
-    });
-    weeklyTasks.sort();
-    let done = 0;
-
-    _.forEach(weeklyTasks, task => {
-      if (task.archived[moment().format(strings.format.date)] === "done") {
-        done += 1;
       }
+      return false;
     });
 
-    weekly.total = weeklyTasks.length;
-    weekly.done = done;
+    console.log(`%c dailyTask`, `color: blue; font-weight: 600`, dailyTask);
   }
   return state;
 };
@@ -138,24 +126,14 @@ export const reducer = createReducer<RemainTasks, AnyAction>(
   HANDLERS
 );
 
-const offlineReducer = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    case Types.UPDATE_ALL_TASKS_REMAIN:
-      return state;
-
-    default:
-      return state;
-  }
-};
-
 /* ------------- Sagas ------------- */
 const getAllTasks = state => state.tasks;
 
 function* doUpdateCall(action: Action) {
   try {
     const tasks = yield select(getAllTasks);
-    console.log("tasks", tasks);
     yield put(Creators.updateDailyTasksRemain(tasks.data));
+    yield put(Creators.updateWeeklyTasksRemain(tasks.data));
   } catch (error) {
     console.warn(error);
   }

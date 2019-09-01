@@ -24,6 +24,7 @@ import {
   InlineDecorationText,
   AppBackground,
   AppHeader,
+  SizedBox,
 } from "../../components";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import I18n from "../../localization";
@@ -239,7 +240,6 @@ export default class HomeRender extends Component<Props, State> {
           ) : (
             <Content
               style={{
-                marginBottom: 200,
                 padding: spacing[2],
               }}
             >
@@ -268,8 +268,7 @@ export default class HomeRender extends Component<Props, State> {
                   />
                 )}
               </ScrollView>
-
-              <View style={{ padding: 10, marginBottom: 20 }} />
+              <SizedBox height={5} />
             </Content>
           )
         ) : (
@@ -282,19 +281,29 @@ export default class HomeRender extends Component<Props, State> {
           </View>
         )}
 
-        <Icon
-          name="plus"
-          type="entypo"
-          color={Colors.green}
-          reverse
-          containerStyle={styles.button}
-          onPress={this.props.addButtonOnPress}
-        />
-        <DateSelection
-          onDateChange={this.onChangeDate}
-          style={styles.bottomDateSelection}
-        />
+        {this.renderAddButton()}
+        {this.renderDateSelectionFooter()}
       </AppBackground>
     );
   }
+
+  renderDateSelectionFooter = (): React.ReactNode => {
+    return (
+      <DateSelection
+        onDateChange={this.onChangeDate}
+        style={styles.bottomDateSelection}
+      />
+    );
+  };
+
+  renderAddButton = () => (
+    <Icon
+      name="plus"
+      type="entypo"
+      color={Colors.green}
+      reverse
+      containerStyle={styles.button}
+      onPress={this.props.addButtonOnPress}
+    />
+  );
 }

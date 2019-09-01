@@ -1,6 +1,6 @@
 /* eslint-disable no-return-assign */
 // @ts-nocheck
-import { Content, H3, Image, Spinner, Text } from "native-base";
+import { Content, Spinner, Text } from "native-base";
 import React, { Component } from "react";
 import { LayoutAnimation, UIManager } from "react-native";
 
@@ -13,7 +13,7 @@ import {
 import AppLoading from "../../../components/AppLoading";
 import I18n from "../../../localization";
 import { TimeShiftType, TypeSchedule } from "../../../model";
-import { ApplicationStyles, Colors, Images, strings } from "../../../themes";
+import { Colors, strings } from "../../../themes";
 import { capitalize } from "../../../tools";
 import ScheduleSelection from "./components/ScheduleSelection";
 import styles from "./styles";
@@ -82,7 +82,14 @@ export default class RenderAddScheduleScreen extends Component<Props, State> {
           indexes = [0, 1, 2, 3];
         }
       }
-      habitSchedule.times = indexes;
+
+      if (habitSchedule.type === "weekly" || habitSchedule.type === "monthly") {
+        const tempIndexes = [...indexes];
+        tempIndexes[0] = tempIndexes[0] + 1;
+        habitSchedule.times = tempIndexes;
+      } else {
+        habitSchedule.times = indexes;
+      }
     }
     if (this.refShift) {
       let indexes = this.refShift.getSelectedIndex();

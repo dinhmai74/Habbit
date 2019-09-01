@@ -129,25 +129,6 @@ class AddScheduleScreen extends Component<Props, IState> {
           () => {}
         );
       }
-      // const result = await FirebaseWorker.updateSchedule(
-      //   taskId,
-      //   convertedSchedule.schedule,
-      // )
-      // if (result.error) {
-      //   ToastService.showToast(I18n.t(strings.errEditScheduleFailed))
-      //   setTimeout(() => {
-      //     callback()
-      //   }, 250)
-      // } else {
-      //   this.props.refetchTasks(() => {}, () => {})
-      //   ToastService.showToast(
-      //     I18n.t(strings.textEditScheduleSuccess),
-      //     'success',
-      //   )
-      //   setTimeout(() => {
-      //     callback()
-      //   }, 250)
-      // }
     } else {
       this.props.createTask(habit);
       callback();
@@ -158,6 +139,11 @@ class AddScheduleScreen extends Component<Props, IState> {
 
   convertSchedule = (habitSchedule: any) => {
     const convertItem = { ...habitSchedule };
+    console.log(
+      `%c habitSchedule`,
+      `color: blue; font-weight: 600`,
+      habitSchedule
+    );
     convertItem.shift = habitSchedule.shift.map(e => {
       return shiftButtons[e];
     });

@@ -4,6 +4,7 @@ import { formatDate, today } from "./DateHelper";
 
 import _ from "lodash";
 import moment from "moment";
+import { Alert } from "react-native";
 
 // eslint-disable-next-line import/prefer-default-export
 export const fillTaskDaily = (
@@ -27,8 +28,13 @@ export const fillTaskDaily = (
       .format("YYYY-MM-DD");
     const timesArray = [...times];
     // @ts-ignore-end
-    const isInThePass = moment().isAfter(date);
-    const status = !isInThePass ? "spending" : "overdue";
+    let status = "done";
+    if (moment().isSame(date, "date")) {
+      status = "spending";
+    } else {
+      const isInThePass = moment().isAfter(date, "date");
+      status = !isInThePass ? "spending" : "overdue";
+    }
     if (_.includes(timesArray, moment(date).day())) {
       const item = {
         date,
@@ -144,7 +150,6 @@ export function fillTaskMonthly(
   // const startDate = moment(createdDate)
   const aMonthAgo = moment(today).subtract(1, "month");
   const startDate =
-    // @ts-ignore-end
     moment(createdDate) > aMonthAgo ? moment(createdDate) : aMonthAgo;
   const endDate = moment().add(1, "month");
 
@@ -240,8 +245,12 @@ function getModelArray(groupDays, archived, times) {
       const date = formatDate(day);
       let status = "done";
       if (timeCount > 0) {
-        const isInThePass = moment().isAfter(date);
-        status = !isInThePass ? "spending" : "overdue";
+        if (moment().isSame(date, "date")) {
+          status = "spending";
+        } else {
+          const isInThePass = moment().isAfter(date, "date");
+          status = !isInThePass ? "spending" : "overdue";
+        }
       }
       const item = {
         date,
@@ -282,7 +291,7 @@ export function fillTask(
   times: any[],
   // @ts-ignore-end
   createdDate: string = null,
-  taskId?: string
+  taskId: string
 ) {
   if (type === "daily") {
     // @ts-ignore-end
@@ -293,7 +302,6 @@ export function fillTask(
     return fillTaskWeekly(archived, times, createdDate, taskId);
   }
   if (type === "monthly") {
-    // @ts-ignore-end
     return fillTaskMonthly(archived, times, createdDate, taskId);
   }
   return null;

@@ -1,12 +1,12 @@
 // @flow
-import React, { PureComponent, } from "react"
-import { View, StyleSheet, } from "react-native"
-import { Text, Button, } from "native-base"
-import _ from "lodash"
+import React, { PureComponent } from "react";
+import { View, StyleSheet } from "react-native";
+import { Text, Button } from "native-base";
+import _ from "lodash";
 
-import { CardItem, InlineDecorationText, } from "../../../../components"
-import { Colors, } from "../../../../themes"
-import ButtonGroup from "./ButtonGroup"
+import { CardItem, InlineDecorationText } from "../../../../components";
+import { Colors } from "../../../../themes";
+import ButtonGroup from "./ButtonGroup";
 
 const styles = {
   title: {
@@ -34,9 +34,9 @@ const styles = {
   selectedButton: {
     backgroundColor: Colors.darkButtonColor,
   },
-}
+};
 
-type TypeScheduleSelection = "one" | "multiple"
+type TypeScheduleSelection = "one" | "multiple";
 
 type Props = {
   title: string,
@@ -46,11 +46,11 @@ type Props = {
   style?: ?Object,
   type?: TypeScheduleSelection,
   selected?: Array<number>,
-}
+};
 
 type State = {
   selectedIndex: Array<number>,
-}
+};
 
 export default class ScheduleSelection extends PureComponent<Props, State> {
   static defaultProps = {
@@ -59,20 +59,20 @@ export default class ScheduleSelection extends PureComponent<Props, State> {
     summaryText: "",
     type: "one",
     selected: null,
-  }
+  };
 
   constructor() {
-    super()
+    super();
     this.state = {
-      selectedIndex: [0,],
-    }
+      selectedIndex: [0],
+    };
   }
 
   componentDidMount() {
     if (this.props.selected) {
       this.setState({
         selectedIndex: this.props.selected,
-      })
+      });
     }
   }
 
@@ -80,47 +80,49 @@ export default class ScheduleSelection extends PureComponent<Props, State> {
     if (nextProps.selected !== this.props.selected)
       this.setState({
         selectedIndex: nextProps.selected,
-      })
+      });
   }
 
-  getSelectedIndex = () => this.state.selectedIndex
+  getSelectedIndex = () => this.state.selectedIndex;
 
   updateIndex = (selected: number): void => {
-    const { type, } = this.props
-    const { selectedIndex, } = this.state
+    const { type } = this.props;
+    const { selectedIndex } = this.state;
 
-    if (type === "one") this.setState({ selectedIndex: [selected,], })
+    console.log(`%c selected`, `color: blue; font-weight: 600`, selected);
+
+    if (type === "one") this.setState({ selectedIndex: [selected] });
     else if (selected === -1) {
       this.setState({
-        selectedIndex: [-1,],
-      })
+        selectedIndex: [-1],
+      });
     } else {
-      const isSelected = selectedIndex.includes(selected)
-      let newArray = selectedIndex.filter(e => e !== -1)
+      const isSelected = selectedIndex.includes(selected);
+      let newArray = selectedIndex.filter(e => e !== -1);
       if (isSelected) {
-        newArray = newArray.filter(e => e !== selected)
+        newArray = newArray.filter(e => e !== selected);
       } else {
-        newArray = [...newArray, selected,]
-        if (newArray.length === this.props.buttons.length) newArray = [-1,]
+        newArray = [...newArray, selected];
+        if (newArray.length === this.props.buttons.length) newArray = [-1];
       }
 
-      this.setState({ selectedIndex: newArray, })
+      this.setState({ selectedIndex: newArray });
     }
 
-    this.props.onSelected(selected)
-  }
+    this.props.onSelected(selected);
+  };
 
   render() {
-    const { selectedIndex, } = this.state
-    const { buttons, title, style, summaryText, type, } = this.props
+    const { selectedIndex } = this.state;
+    const { buttons, title, style, summaryText, type } = this.props;
     const summaryButtonSelected =
-      selectedIndex[0] === -1 && selectedIndex.length === 1
+      selectedIndex[0] === -1 && selectedIndex.length === 1;
     const summaryTextNormalBg = !summaryButtonSelected
-      ? { backgroundColor: Colors.white, }
-      : null
+      ? { backgroundColor: Colors.white }
+      : null;
 
     return (
-      <View style={[styles.container, style,]}>
+      <View style={[styles.container, style]}>
         <InlineDecorationText text={title} textStyle={styles.title} />
         <View style={styles.buttonGroupStyle}>
           <ButtonGroup
@@ -129,13 +131,13 @@ export default class ScheduleSelection extends PureComponent<Props, State> {
             buttons={buttons}
             buttonStyle={styles.button}
             selectedButtonStyle={styles.selectedButton}
-            selectedTextStyle={{ color: Colors.white, }}
+            selectedTextStyle={{ color: Colors.white }}
           />
           {type === "multiple" ? (
             <Button
               dark
               full
-              style={[styles.fullSizeButton, summaryTextNormalBg,]}
+              style={[styles.fullSizeButton, summaryTextNormalBg]}
               bordered={!summaryButtonSelected}
               onPress={() => this.updateIndex(-1)}
             >
@@ -144,6 +146,6 @@ export default class ScheduleSelection extends PureComponent<Props, State> {
           ) : null}
         </View>
       </View>
-    )
+    );
   }
 }
