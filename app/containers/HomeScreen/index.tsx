@@ -12,7 +12,6 @@ import {
   deleteTask,
   editTaskStatus,
   fetchTasks,
-  fetchTasksAll,
   refetchTasks,
 } from "app/appRedux/actions";
 import I18n from "localization";
@@ -31,7 +30,6 @@ interface IProps {
   data: any[];
   error: boolean;
   fetchTasks: typeof fetchTasks;
-  fetchTasksAll: typeof fetchTasksAll;
   editTaskStatus: typeof editTaskStatus;
   deleteTask: (arg1: string, ...restOfArg1: Function[]) => void;
   offlineCreateTask: typeof createTaskOffline;
@@ -291,6 +289,5 @@ export default connect(
     deleteTask,
     refetchTasks,
     offlineCreateTask: createTaskOffline,
-    fetchTasksAll,
   }
 )(HomeScreen);

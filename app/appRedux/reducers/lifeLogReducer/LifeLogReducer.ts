@@ -16,7 +16,7 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case FETCH_LIFE_LOG: {
       return {
-        data: null,
+        ...state,
         error: null,
         fetching: true,
       };
@@ -30,7 +30,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case FETCH_LIFE_LOG_FAIL: {
       return {
-        data: null,
+        ...state,
         error: action.payload,
         fetching: false,
       };

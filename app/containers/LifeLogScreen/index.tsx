@@ -2,21 +2,19 @@ import { RemainTasksActions } from "app/appRedux/reducers";
 import _ from "lodash";
 import { View } from "native-base";
 import React, { Component } from "react";
-import { NavigationScreenProps } from "react-navigation";
+import { NavigationInjectedProps } from "react-navigation";
 import { connect } from "react-redux";
 
 import moment from "moment";
 import { fetchLifeLog } from "app/appRedux/actions";
 import { AppLoading } from "../../components";
-import RenderWaitingScreen from "../../components/RenderWaitingScreen";
 import { currentMonth, formatDate } from "../../tools";
 import RenderLifeLogScreen from "./renderLifeLog";
-import { Alert } from "react-native";
 import { Images } from "themes";
 import colors from "app/themes/Colors";
-import { bindActionCreators, Dispatch } from "redux";
+import { bindActionCreators } from "redux";
 
-interface IProps extends NavigationScreenProps {
+interface IProps extends NavigationInjectedProps {
   fetchLifeLog: typeof fetchLifeLog;
   data: any;
   fetching: boolean;
@@ -25,10 +23,6 @@ interface IProps extends NavigationScreenProps {
 }
 
 class LifeLogScreen extends Component<IProps> {
-  static defaultProps = {
-    navigation: null,
-  };
-
   hadLoadingFirstTime: boolean = false;
 
   componentDidMount() {
@@ -94,5 +88,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-  // @ts-ignore
 )(LifeLogScreen);

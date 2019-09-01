@@ -14,28 +14,9 @@ import {
   REFETCH_TASK,
 } from "../ActionTypes";
 
-export const fetchTasksAll = () => {
-  return {
-    type: FETCH_TASKS_ALL,
-    payload: [],
-    fetching: true,
-    meta: {
-      offline: {
-        effect: {
-          url:
-            "https://us-central1-habit-74198.cloudfunctions.net/getTasks?uid=m1j9VWsYmIhqcwFM9eFAtJA3K6m1",
-        },
-        commit: { type: FETCH_TASKS_COMMIT },
-        // action to dispatch if network action fails permanently:
-        rollback: { type: FETCH_TASKS_ROLLBACK },
-      },
-    },
-  };
-};
-
 export const fetchTasks = (
-  resolve: Function,
-  reject: Function
+  resolve: () => void,
+  reject: () => void
 ): IFetchTaskRequestAction => {
   return {
     type: FETCH_TASKS,
@@ -52,15 +33,15 @@ export const fetchTasksSuccess = (
   payload: data,
 });
 
-export const fetchTasksFail = (error: Object): IFetchTaskRequestAction => ({
+export const fetchTasksFail = (error): IFetchTaskRequestAction => ({
   // @ts-ignore
   type: FETCH_TASKS_FAIL,
   payload: error,
 });
 
 export const refetchTasks = (
-  resolve: Function = () => {},
-  reject: Function = () => {}
+  resolve: () => void,
+  reject: () => void
 ): IRefetchTaskRequestAction => {
   return {
     type: REFETCH_TASK,

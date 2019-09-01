@@ -1,4 +1,4 @@
-import { Action } from "app/appRedux/actions";
+import { Action, offlineActionCreator } from "app/appRedux/actions";
 import _ from "lodash";
 import {
   RemainTaskModel,
@@ -8,7 +8,7 @@ import {
   TaskRawModel,
 } from "model";
 import moment from "moment";
-import { AnyAction } from "redux";
+import { AnyAction, combineReducers } from "redux";
 import { put, select, takeLatest } from "redux-saga/effects";
 import { createActions, createReducer } from "reduxsauce";
 import Immutable from "seamless-immutable";
@@ -28,7 +28,7 @@ const { Types, Creators } = createActions<
 
 export const RemainTasksType = Types;
 export default Creators;
-export const RemainTasksActions = Creators;
+export const RemainTasksActions = { ...Creators };
 
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE: RemainTasks = Immutable({
@@ -127,16 +127,26 @@ const updateMonthlyReducer = (state, action): RemainTasks => {
 /* ------------- Hookup Reducers To Types ------------- */
 
 const HANDLERS = {
-  [Types.UPDATE_ALL_TASKS_REMAIN]: updateAllTaskReducer,
   [Types.UPDATE_DAILY_TASKS_REMAIN]: updateDailyTaskReducer,
   [Types.UPDATE_WEEKLY_TASKS_REMAIN]: updateWeeklyReducer,
   [Types.UPDATE_MONTHLY_TASKS_REMAIN]: updateMonthlyReducer,
+  [Types.UPDATE_ALL_TASKS_REMAIN]: updateAllTaskReducer,
 };
 
 export const reducer = createReducer<RemainTasks, AnyAction>(
   INITIAL_STATE,
   HANDLERS
 );
+
+const offlineReducer = (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+    case Types.UPDATE_ALL_TASKS_REMAIN:
+      return state;
+
+    default:
+      return state;
+  }
+};
 
 /* ------------- Sagas ------------- */
 const getAllTasks = state => state.tasks;

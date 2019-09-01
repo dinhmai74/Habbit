@@ -15,6 +15,7 @@ function* fetchLifeLogFromFirebase(action: Action) {
   try {
     try {
       {
+        console.log(`%c action`, `color: blue; font-weight: 600`, action);
         const tasks = yield FirebaseWorker.getLifeLogStat(action.payload);
         if (tasks.error) {
           yield put(fetchLifeLogFail(tasks.message));
