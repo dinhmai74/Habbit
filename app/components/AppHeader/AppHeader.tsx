@@ -19,7 +19,7 @@ import {
 } from "./AppHeader.preset";
 import { IHeaderProps } from "./AppHeader.props";
 import AppI18n from "app/localization";
-import { Colors, palette } from "app/themes";
+import { Colors, palette, spacing } from "app/themes";
 import { Text } from "../Text";
 import { Icon, IconTypes } from "../icon";
 import styled from "styled-components";
@@ -166,9 +166,11 @@ class AppHeader extends React.PureComponent<IHeaderProps, {}> {
           size={30}
           color={iconColor}
           onPress={this.onLeftPress}
+          underlayColor="transparent"
           containerStyle={{
             alignSelf: "flex-start",
             margin: 0,
+            marginLeft: spacing[2],
             padding: 0,
           }}
         />
@@ -266,6 +268,7 @@ class AppHeader extends React.PureComponent<IHeaderProps, {}> {
         color={iconColor}
         onPress={this.onLeftPress}
         containerStyle={{ justifyContent: "center", margin: 0, padding: 0 }}
+        underlayColor="transparent"
       />
     );
   }

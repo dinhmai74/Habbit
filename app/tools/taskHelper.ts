@@ -18,7 +18,7 @@ export const fillTaskDaily = (
   const startDate =
     moment(createdDate) > aWeekAgo ? moment(createdDate) : aWeekAgo;
 
-  const endDate = moment().add(7, "days");
+  const endDate = moment();
   const daysBetween = endDate.diff(startDate, "days") + 1;
 
   const modelArray = {};
@@ -124,7 +124,7 @@ export function fillTaskWeekly(
   const aWeekAgo = moment(today).subtract(7, "d");
   const startDate =
     moment(createdDate) > aWeekAgo ? moment(createdDate) : aWeekAgo;
-  const endDate = moment().add(8, "days");
+  const endDate = moment();
 
   const groupWeek = convertToWeekGroups(startDate, endDate);
 
@@ -145,13 +145,13 @@ export function fillTaskMonthly(
   archived,
   times,
   createdDate = "",
-  taskId: string
+  taskId?: string
 ) {
   // const startDate = moment(createdDate)
   const aMonthAgo = moment(today).subtract(1, "month");
   const startDate =
     moment(createdDate) > aMonthAgo ? moment(createdDate) : aMonthAgo;
-  const endDate = moment().add(1, "month");
+  const endDate = moment();
 
   const monthGroupResult = convertToMonthGroups(startDate, endDate);
   let modelArray = {};
@@ -291,7 +291,7 @@ export function fillTask(
   times: any[],
   // @ts-ignore-end
   createdDate: string = null,
-  taskId: string
+  taskId?: string
 ) {
   if (type === "daily") {
     // @ts-ignore-end

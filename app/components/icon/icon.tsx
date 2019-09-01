@@ -8,6 +8,7 @@ import { Metrics } from "../../themes";
 
 const ROOT: ImageStyle = {
   resizeMode: "contain",
+  backgroundColor: "transparent",
 };
 
 export function Icon(props: IconProps) {

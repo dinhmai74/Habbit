@@ -1,3 +1,10 @@
+import {
+  countTheDoneTasksInToday,
+  filterTodayTasks,
+  getTaskBaseOnType,
+  getTheMonthlyTasks,
+  mapDoneAndTotalStatus,
+} from "app/appRedux/reducers/RemainTasksReducer/RemainTasksReducer.helper";
 import _ from "lodash";
 import {
   RemainTaskModel,
@@ -22,6 +29,7 @@ const { Types, Creators } = createActions<
   RemainTasksActionsCreators
 >({
   updateAllTasksRemain: null,
+  updateTodayTasksRemain: ["tasks"],
   updateDailyTasksRemain: ["tasks"],
   updateMonthlyTasksRemain: ["tasks"],
   updateWeeklyTasksRemain: ["tasks"],
@@ -33,10 +41,13 @@ export const RemainTasksActions = { ...Creators };
 
 /* ------------- Initial State ------------- */
 export const INITIAL_STATE: RemainTasks = Immutable({
-  daily: {
+  today: {
     done: 0,
     total: 0,
   } as RemainTaskModel,
+  daily: {
+    tasks: [],
+  } as RemainTaskWeekAndMonthModel,
   weekly: {
     tasks: [],
   } as RemainTaskWeekAndMonthModel,
@@ -50,95 +61,62 @@ const updateAllTaskReducer = (state): RemainTasks => {
   return state;
 };
 
-const updateDailyTaskReducer = (state, action: AnyAction): RemainTasks => {
+const updateTodayTaskReducer = (state, action: AnyAction): RemainTasks => {
   const { tasks } = action;
-  const daily: RemainTaskModel = {
+  const today: RemainTaskModel = {
     done: 0,
     total: 0,
   };
   if (tasks) {
     let todayTasks = [...tasks];
-    todayTasks = _.filter(todayTasks, (task: TaskRawModel) => {
-      let result = 0;
-      _.forEach(task.archived, arc => {
-        if (moment(arc.date).isSame(moment(), "day")) {
-          result++;
-        }
-      });
-
-      return result > 0;
-    });
-    todayTasks.sort();
+    todayTasks = filterTodayTasks(todayTasks);
     let done = 0;
+    done = countTheDoneTasksInToday(todayTasks, done);
 
-    _.forEach(todayTasks, task => {
-      if (
-        task.archived[moment().format(strings.format.date)].status === "done"
-      ) {
-        done += 1;
-      }
-    });
-
-    daily.total = todayTasks.length;
-    daily.done = done;
+    today.total = todayTasks.length;
+    today.done = done;
   }
-  return Immutable.merge(state, { daily });
+  return Immutable.merge(state, { today });
+};
+
+const updateDailyTaskReducer = (state, action): RemainTasks => {
+  return state;
 };
 
 const updateWeeklyReducer = (state, action): RemainTasks => {
   const { tasks } = action;
-  let dailyTask: TaskLifelogModel[] = [];
+  let weeklyTask: TaskLifelogModel[] = [];
   if (tasks) {
-    dailyTask = _.filter(tasks, (e: TaskLifelogModel) => {
-      if (e.schedule) {
-        const { type } = e.schedule;
-        if (type === "daily" || type === "weekly") {
-          return true;
-        }
-      }
-      return false;
-    });
+    weeklyTask = getTaskBaseOnType(tasks, "weekly");
 
-    const startWeek = moment().startOf("isoWeek");
-    const endWeek = moment().endOf("isoWeek");
-
-    console.log(`%c startWeek`, `color: blue; font-weight: 600`, startWeek);
-    console.log(`%c endWeek`, `color: blue; font-weight: 600`, endWeek);
-
-    dailyTask = _.forEach(dailyTask, task => {
-      let total = 0;
-      let done = 0;
-
-      _.forEach(task.archived, archive => {
-        if (isInWeek(moment(archive.date), startWeek, endWeek)) {
-          total++;
-          if (archive.status === "done") {
-            done++;
-          }
-        }
-        task.done = done;
-        task.total = total;
-      });
-    });
+    weeklyTask = mapDoneAndTotalStatus(weeklyTask, "week");
   }
   return Immutable.merge(state, {
     weekly: {
-      tasks: dailyTask,
+      tasks: weeklyTask,
     },
   });
 };
 
-const isInWeek = (date: Moment, startWeek: Moment, endWeek: Moment) => {
-  return date.isAfter(startWeek, "date") && date.isBefore(endWeek, "date");
-};
+const updateMonthlyReducer = (state, action): RemainTasks => {
+  const { tasks } = action;
+  let monthlyTask: TaskLifelogModel[] = [];
+  if (tasks) {
+    monthlyTask = getTaskBaseOnType(tasks, "monthly");
 
-const updateMonthlyReducer = (state): RemainTasks => {
-  return state;
+    monthlyTask = mapDoneAndTotalStatus(monthlyTask, "month");
+  }
+  return Immutable.merge(state, {
+    monthly: {
+      tasks: monthlyTask,
+    },
+  });
 };
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 const HANDLERS = {
+  [Types.UPDATE_TODAY_TASKS_REMAIN]: updateTodayTaskReducer,
   [Types.UPDATE_DAILY_TASKS_REMAIN]: updateDailyTaskReducer,
   [Types.UPDATE_WEEKLY_TASKS_REMAIN]: updateWeeklyReducer,
   [Types.UPDATE_MONTHLY_TASKS_REMAIN]: updateMonthlyReducer,
@@ -151,13 +129,15 @@ export const reducer = createReducer<RemainTasks, AnyAction>(
 );
 
 /* ------------- Sagas ------------- */
-const getAllTasks = state => state.tasks;
+const getAllTasksFromStore = state => state.tasks;
 
 function* doUpdateCall() {
   try {
-    const tasks = yield select(getAllTasks);
+    const tasks = yield select(getAllTasksFromStore);
     yield put(Creators.updateDailyTasksRemain(tasks.data));
+    yield put(Creators.updateTodayTasksRemain(tasks.data));
     yield put(Creators.updateWeeklyTasksRemain(tasks.data));
+    yield put(Creators.updateMonthlyTasksRemain(tasks.data));
   } catch (error) {
     console.warn(error);
   }

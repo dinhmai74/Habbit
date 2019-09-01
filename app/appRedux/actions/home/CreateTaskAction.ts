@@ -29,12 +29,12 @@ export const createTask = (task: TaskRawModel): Action => {
 export const createTaskOffline = (task: TaskRawModel, token: string = "") => {
   const { archived, createdDate, schedule } = task;
 
-  if (schedule) {
-    const { type } = schedule;
-    task.archived = fillTask(type, archived, schedule.times, createdDate);
-  }
   const id = generateUid();
   task.id = id;
+  if (schedule) {
+    const { type } = schedule;
+    task.archived = fillTask(type, archived, schedule.times, createdDate, id);
+  }
 
   return offlineActionCreator(
     `${BASE_URL}/createTask`,
@@ -46,7 +46,7 @@ export const createTaskOffline = (task: TaskRawModel, token: string = "") => {
       body: JSON.stringify({ task }),
       headers: {
         "content-type": "application/json",
-        "Authorization": getTokenString(token),
+        Authorization: getTokenString(token),
       },
     }
   );

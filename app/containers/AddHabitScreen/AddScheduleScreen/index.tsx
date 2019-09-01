@@ -27,7 +27,6 @@ import RenderAddScheduleScreen from "./RenderAddScheduleScreen";
 
 type Props = NavigationScreenProps & {
   fetchTasks: typeof fetchTasks;
-  refetchTasks: typeof refetchTasks;
   fetching: boolean;
   createTaskOffline: typeof createTaskOffline;
   createTask: typeof createTask;
@@ -41,8 +40,7 @@ interface IState {
   selectedTypeDefault: number[] | null;
 }
 
-// @ts-ignore
-const typeButtons: ScheduleType[] = ["daily", "weekly", "monthly"];
+const typeButtons: TypeSchedule[] = ["daily", "weekly", "monthly"];
 const onTheseDaysDaily = ["M", "T", "W", "T", "F", "S", "S"];
 const onTheseDaysWeekly = [1, 2, 3, 4, 5, 6];
 const onTheseDaysMonthly = [1, 2, 3];
@@ -126,13 +124,14 @@ class AddScheduleScreen extends Component<Props, IState> {
         ToastService.showToast(
           I18n.t(strings.textEditScheduleSuccess),
           "success",
-          () => {}
+          () => {
+            this.props.fetchTasks(() => {}, () => {});
+          }
         );
       }
     } else {
       this.props.createTask(habit);
       callback();
-      this.props.refetchTasks(() => {}, () => {});
       this.props.navigation.navigate(strings.routeHome);
     }
   };
@@ -217,5 +216,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { createTask, fetchTasks, refetchTasks, createTaskOffline, editSchedule }
+  { createTask, fetchTasks, createTaskOffline, editSchedule }
 )(AddScheduleScreen);

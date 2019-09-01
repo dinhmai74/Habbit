@@ -27,7 +27,7 @@ export const deleteTaskOfflineRequest = (taskId: string, token: string) => {
       body: JSON.stringify({ id: taskId }),
       headers: {
         "content-type": "application/json",
-        "Authorization": getTokenString(token),
+        Authorization: getTokenString(token),
       },
     },
     {

@@ -43,7 +43,7 @@ export const editTaskStatus = (
       }),
       headers: {
         "content-type": "application/json",
-        Authorization: getTokenString(token),
+        "Authorization": getTokenString(token),
       },
     }
   );
@@ -68,7 +68,7 @@ export const editTaskIconAndName = (
       }),
       headers: {
         "content-type": "application/json",
-        Authorization: getTokenString(token),
+        "Authorization": getTokenString(token),
       },
     }
   );
@@ -91,7 +91,7 @@ export const editSchedule = (
       }),
       headers: {
         "content-type": "application/json",
-        Authorization: getTokenString(token),
+        "Authorization": getTokenString(token),
       },
     }
   );

@@ -3,8 +3,8 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  FlatList,
-} from "react-native"
+  FlatList, TouchableWithoutFeedback,
+} from "react-native";
 import { Icon, } from "react-native-elements"
 import { Metrics, Colors, Fonts, strings, } from "../../themes"
 import {
@@ -78,9 +78,9 @@ export default class HobbiesScreen extends Component {
   }
 
   renderLeftIcon = () => (
-    <TouchableOpacity onPress={this.props.goBack}>
+    <TouchableWithoutFeedback onPress={this.props.goBack}>
       <AppIcon icon={"back"} color={Colors.white} />
-    </TouchableOpacity>
+    </TouchableWithoutFeedback>
   )
 
   render() {

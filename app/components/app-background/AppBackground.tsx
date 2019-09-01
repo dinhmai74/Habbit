@@ -22,7 +22,7 @@ import { icons, Icon } from "app/components/icon";
 export const ABBackground = styled(Container)`
   background: ${Colors.background};
   width: 100%;
-  height: 100;
+  height: 100%;
 `;
 
 const StyledBottomImageWrapper = styled(View)`

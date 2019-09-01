@@ -10,6 +10,7 @@ import { Row, Grid, Col } from "react-native-easy-grid";
 import {
   Animated,
   FlatList,
+  Platform,
   ScrollView,
   TouchableOpacity,
   View,
@@ -229,6 +230,8 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
         />
 
         {this.renderDetailLifeLogStat()}
+
+        {Platform.OS === "ios" ? <SizedBox height={5} /> : null}
       </ScrollView>
     );
   }
@@ -253,7 +256,7 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
         <SizedBox height={2} />
         <BorderCard>
           <Text
-            text={`${remainTasks.daily.done}/${remainTasks.daily.total}`}
+            text={`${remainTasks.today.done}/${remainTasks.today.total}`}
             preset={"bigContent"}
             style={{ paddingHorizontal: spacing[5] }}
           />
@@ -288,7 +291,14 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
   };
 
   private renderThisMonthInfoRow = () => {
-    const data: LifeLogTaskInfoModel[] = [];
+    let data: LifeLogTaskInfoModel[] = [];
+    const { remainTasks } = this.props;
+    if (remainTasks.monthly) {
+      // @ts-ignore
+      data = _.map(remainTasks.monthly.tasks, task => {
+        return task;
+      });
+    }
     return this.renderInfoTasks("lifeLog.thisMonth", data);
   };
 
@@ -346,6 +356,7 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
         onPress={() =>
           NavigateService.navigate("detailTask", {
             item,
+            transition: strings.transitionFromBottom,
           })
         }
       >
@@ -455,9 +466,12 @@ const mapStateToProps = store => {
   return {
     tasks: [],
     remainTasks: {
-      daily: {
-        total: 0,
+      today: {
         done: 0,
+        total: 0,
+      },
+      daily: {
+        tasks: [],
       },
       monthly: {
         tasks: [],

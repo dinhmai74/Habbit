@@ -13,11 +13,7 @@ import I18n from "../../localization";
 
 import firebase from "react-native-firebase";
 import { NavigationScreenProps } from "react-navigation";
-import {
-  editTaskIconAndName,
-  editTaskStatus,
-  refetchTasks,
-} from "actions";
+import { editTaskIconAndName, editTaskStatus, refetchTasks } from "actions";
 import FirebaseWorker from "../../api/firebase";
 import { IconDisplayModel } from "../../model";
 import dataIcon from "../../model/icon.json";

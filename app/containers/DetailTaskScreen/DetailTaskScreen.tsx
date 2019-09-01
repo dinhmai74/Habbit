@@ -180,7 +180,7 @@ class DetailTaskScreen extends Component<IProps, IState> {
         <Content>
           <AppHeader
             type={"transparent"}
-            leftIcon={"back"}
+            leftIcon={"close"}
             headerText={title}
           />
           <Modal isVisible={this.state.isModalVisible}>
