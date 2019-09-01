@@ -6,10 +6,15 @@ export interface RemainTaskModel {
   total: number;
 }
 
+export interface TaskLifelogModel extends RemainTaskModel, TaskRawModel {}
+export interface RemainTaskWeekAndMonthModel {
+  tasks: TaskLifelogModel[];
+}
+
 export interface RemainTasks {
   daily: RemainTaskModel;
-  weekly: RemainTaskModel;
-  monthly: RemainTaskModel;
+  weekly: RemainTaskWeekAndMonthModel;
+  monthly: RemainTaskWeekAndMonthModel;
 }
 
 export interface RemainTasksActionsCreators {

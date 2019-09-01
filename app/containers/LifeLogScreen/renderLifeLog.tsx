@@ -2,6 +2,7 @@ import AppDivider from "app/components/Divider";
 import { RemainTasks, TaskDisplayModel, TaskRawModel } from "app/model";
 import { LifeLogTaskInfoModel } from "app/model/LifeLogModel";
 import metrics, { scaledSize } from "app/themes/Metrics";
+import NavigateService from "app/tools/NavigateService";
 import _ from "lodash";
 import LottieView from "lottie-react-native";
 import React, { Component } from "react";
@@ -124,8 +125,6 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
     if (this.refLottieFunny) {
       this.refLottieFunny.play();
     }
-
-    this.calculateTheTasksRemain();
   }
 
   onRefresh = date => {
@@ -277,22 +276,20 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
   };
 
   private renderThisWeekInfoRow = () => {
-    const data: LifeLogTaskInfoModel[] = [
-      { total: 7, done: 1, title: "Cook some thing" },
-      {
-        title: "play game",
-        total: 5,
-        done: 3,
-      },
-    ];
+    const { remainTasks } = this.props;
+    let data: LifeLogTaskInfoModel[] = [];
+    if (remainTasks.weekly) {
+      // @ts-ignore
+      data = _.map(remainTasks.weekly.tasks, task => {
+        return task;
+      });
+    }
     return this.renderInfoTasks("lifeLog.thisWeek", data);
   };
 
   private renderThisMonthInfoRow = () => {
-    const data: LifeLogTaskInfoModel[] = [
-      { total: 7, done: 6, title: "Cook some thing" },
-    ];
-    return this.renderInfoTasks("lifeLog.thisWeek", data);
+    const data: LifeLogTaskInfoModel[] = [];
+    return this.renderInfoTasks("lifeLog.thisMonth", data);
   };
 
   private renderInfoTasks = (title, listTasks: LifeLogTaskInfoModel[]) => {
@@ -303,18 +300,40 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
             <Text
               color={Colors.black}
               h6
-              tx={"lifeLog.thisWeek"}
+              tx={title}
               style={{ padding: spacing[3] }}
             />
             <AppDivider />
-            <FlatList
-              data={listTasks}
-              renderItem={this.renderTaskInfoRow}
-              keyExtractor={(item, index) => index.toString()}
-            />
+            {this.renderFlatListInfoTask(title, listTasks)}
           </Col>
         </Grid>
       </StyledBorderCard>
+    );
+  };
+
+  private renderFlatListInfoTask = (
+    title,
+    listTasks: LifeLogTaskInfoModel[]
+  ) => {
+    let text = I18n.t("lifeLog.thereAreNoTaskFor");
+    text += " ";
+    text += I18n.t(title).toLocaleLowerCase();
+
+    if (listTasks.length <= 0) {
+      return (
+        <Text
+          text={text}
+          style={{ flex: 1, padding: spacing[4], textAlign: "center" }}
+          preset="small"
+        />
+      );
+    }
+    return (
+      <FlatList
+        data={listTasks}
+        renderItem={this.renderTaskInfoRow}
+        keyExtractor={(item, index) => index.toString()}
+      />
     );
   };
 
@@ -324,6 +343,11 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
     return (
       <CenterContentRow
         style={{ paddingVertical: spacing[3], paddingHorizontal: spacing[2] }}
+        onPress={() =>
+          NavigateService.navigate("detailTask", {
+            item,
+          })
+        }
       >
         <SizedBox width={3} />
         <Col size={1}>
@@ -336,7 +360,7 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
         </Col>
 
         <Col size={3}>
-          <Text text={item.title} />
+          <Text text={item.quest} />
         </Col>
         <SizedBox width={2} />
         <Col size={1}>
@@ -399,33 +423,6 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
    * private methods
    * */
 
-  /// Caclutate tasks
-  private calculateTheTasksRemain() {
-    this.calculateTodayTaskRemain();
-    this.calculateThisWeekTaskRemain();
-    this.calculateThisMonthTaskRemain();
-  }
-
-  private calculateTodayTaskRemain = () => {
-    const { tasks } = this.props;
-    let todayTasks = [...tasks];
-    todayTasks = _.filter(todayTasks, (task: TaskRawModel) => {
-      let result = 0;
-      _.forEach(task.archived, arc => {
-        if (moment(arc.date).isSame(moment(), "day")) {
-          result++;
-        }
-      });
-
-      return result > 0;
-    });
-    todayTasks.sort();
-  };
-
-  private calculateThisMonthTaskRemain() {}
-
-  private calculateThisWeekTaskRemain() {}
-
   private getCurrentStreak = streaks => {
     if (streaks !== undefined && streaks.length > 0) {
       return streaks[streaks.length - 1];
@@ -463,12 +460,10 @@ const mapStateToProps = store => {
         done: 0,
       },
       monthly: {
-        total: 0,
-        done: 0,
+        tasks: [],
       },
       weekly: {
-        total: 0,
-        done: 0,
+        tasks: [],
       },
     },
   };

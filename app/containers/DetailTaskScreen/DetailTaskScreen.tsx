@@ -7,10 +7,13 @@ import { Icon } from "react-native-elements";
 import Modal from "react-native-modal";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { NavigationScreenProps } from "react-navigation";
+import {
+  NavigationInjectedProps,
+  NavigationScreenProps,
+} from "react-navigation";
 import { connect } from "react-redux";
 
-import { refetchTasks } from "app/appRedux/actions";
+import { deleteTask, fetchTasks } from "app/appRedux/actions";
 import { AppHeader, AppBackground } from "components";
 import CalendarsHabit from "app/components/Calendar/CalendarHabit";
 import EditTaskLine from "app/components/EditTaskLine";
@@ -33,7 +36,9 @@ const statsIcon = <Ionicons name="ios-stats" size={30} color={Colors.green} />;
 
 type TOverlay = "scheduleShow";
 
-interface IProps extends NavigationScreenProps {}
+interface IProps extends NavigationInjectedProps {
+  deleteTask: typeof deleteTask;
+}
 
 interface IState {
   isModalVisible: boolean;
@@ -158,7 +163,7 @@ class DetailTaskScreen extends Component<IProps, IState> {
     const { quest: title, archived, id: taskId, icon } = item;
     const { name: iconName, color: iconColor } = icon;
     const doneDays = this.getDayDone(archived);
-    const deleteTask = navigation.getParam("deleteTask");
+    const deleteTask = this.props.deleteTask;
 
     const doneDayStreak: string[] = [];
     _.forEach(doneDays, doneDay => {
@@ -235,7 +240,7 @@ class DetailTaskScreen extends Component<IProps, IState> {
 
 export default connect(
   null,
-  { refetchTasks }
+  { refetchTasks: fetchTasks, deleteTask }
 )(DetailTaskScreen);
 
 const styles = StyleSheet.create({

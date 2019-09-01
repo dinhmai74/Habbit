@@ -35,6 +35,9 @@ export function Text(props: TextProps) {
     label,
     p1,
     p2,
+    p3,
+    p4,
+    size,
     bold,
     fontType,
     ...rest
@@ -60,8 +63,11 @@ export function Text(props: TextProps) {
       label && { fontSize: Fonts.size.label },
       p1 && { fontSize: Fonts.size.p1 },
       p2 && { fontSize: Fonts.size.p2 },
+      p3 && { fontSize: Fonts.size.p3 },
+      p4 && { fontSize: Fonts.size.p4 },
       bold && presets.bold,
       fontType && { fontFamily: Fonts.type[fontType] },
+      size && { fontSize: size },
       color && { color },
       styleOverride,
     ])

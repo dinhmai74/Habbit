@@ -118,9 +118,10 @@
   },
   "lifeLog": {
     "currentStreaks": "Current Streaks",
-    "inThisWeeks" : "In this week",
+    "inThisWeeks": "In this week",
     "today": "Today",
     "thisWeek": "This week",
-    "thisMonth": "This month"
+    "thisMonth": "This month",
+    "thereAreNoTaskFor": "There are no tasks to view by"
   }
 }

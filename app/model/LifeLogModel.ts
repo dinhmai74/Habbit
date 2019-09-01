@@ -1,5 +1,5 @@
 export interface LifeLogTaskInfoModel {
-  title: string;
+  quest: string;
   total: number;
   done: number;
 }

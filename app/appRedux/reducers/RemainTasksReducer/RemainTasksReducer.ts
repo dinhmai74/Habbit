@@ -1,4 +1,3 @@
-import { Action, offlineActionCreator } from "app/appRedux/actions";
 import _ from "lodash";
 import {
   RemainTaskModel,
@@ -6,9 +5,11 @@ import {
   RemainTasksActionsCreators,
   RemainTasksActionsTypes,
   TaskRawModel,
+  RemainTaskWeekAndMonthModel,
+  TaskLifelogModel,
 } from "model";
-import moment from "moment";
-import { AnyAction, combineReducers } from "redux";
+import moment, { Moment } from "moment";
+import { AnyAction } from "redux";
 import { put, select, takeLatest } from "redux-saga/effects";
 import { createActions, createReducer } from "reduxsauce";
 import Immutable from "seamless-immutable";
@@ -37,13 +38,11 @@ export const INITIAL_STATE: RemainTasks = Immutable({
     total: 0,
   } as RemainTaskModel,
   weekly: {
-    done: 0,
-    total: 0,
-  } as RemainTaskModel,
+    tasks: [],
+  } as RemainTaskWeekAndMonthModel,
   monthly: {
-    done: 0,
-    total: 0,
-  } as RemainTaskModel,
+    tasks: [],
+  } as RemainTaskWeekAndMonthModel,
 });
 
 /* ------------- Reducers ------------- */
@@ -88,12 +87,9 @@ const updateDailyTaskReducer = (state, action: AnyAction): RemainTasks => {
 
 const updateWeeklyReducer = (state, action): RemainTasks => {
   const { tasks } = action;
-  const weekly: RemainTaskModel = {
-    done: 0,
-    total: 0,
-  };
+  let dailyTask: TaskLifelogModel[] = [];
   if (tasks) {
-    const dailyTask: TaskRawModel[] = _.filter(tasks, (e: TaskRawModel) => {
+    dailyTask = _.filter(tasks, (e: TaskLifelogModel) => {
       if (e.schedule) {
         const { type } = e.schedule;
         if (type === "daily" || type === "weekly") {
@@ -103,12 +99,40 @@ const updateWeeklyReducer = (state, action): RemainTasks => {
       return false;
     });
 
-    console.log(`%c dailyTask`, `color: blue; font-weight: 600`, dailyTask);
+    const startWeek = moment().startOf("isoWeek");
+    const endWeek = moment().endOf("isoWeek");
+
+    console.log(`%c startWeek`, `color: blue; font-weight: 600`, startWeek);
+    console.log(`%c endWeek`, `color: blue; font-weight: 600`, endWeek);
+
+    dailyTask = _.forEach(dailyTask, task => {
+      let total = 0;
+      let done = 0;
+
+      _.forEach(task.archived, archive => {
+        if (isInWeek(moment(archive.date), startWeek, endWeek)) {
+          total++;
+          if (archive.status === "done") {
+            done++;
+          }
+        }
+        task.done = done;
+        task.total = total;
+      });
+    });
   }
-  return state;
+  return Immutable.merge(state, {
+    weekly: {
+      tasks: dailyTask,
+    },
+  });
 };
 
-const updateMonthlyReducer = (state, action): RemainTasks => {
+const isInWeek = (date: Moment, startWeek: Moment, endWeek: Moment) => {
+  return date.isAfter(startWeek, "date") && date.isBefore(endWeek, "date");
+};
+
+const updateMonthlyReducer = (state): RemainTasks => {
   return state;
 };
 
@@ -129,7 +153,7 @@ export const reducer = createReducer<RemainTasks, AnyAction>(
 /* ------------- Sagas ------------- */
 const getAllTasks = state => state.tasks;
 
-function* doUpdateCall(action: Action) {
+function* doUpdateCall() {
   try {
     const tasks = yield select(getAllTasks);
     yield put(Creators.updateDailyTasksRemain(tasks.data));

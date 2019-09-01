@@ -34,19 +34,6 @@ class LifeLogScreen extends Component<IProps> {
     this.props.updateAllTasksRemain();
   };
 
-  renderFirstTimeLoading = () => {
-    if (this.props.fetching && !this.hadLoadingFirstTime) {
-      this.hadLoadingFirstTime = true;
-      return (
-        <AppLoading
-          loadingSrc={Images.loadingPreloader}
-          backgroundColor={colors.backdrop}
-        />
-      );
-    }
-    return null;
-  };
-
   render() {
     const { data, fetching, minDate } = this.props;
     return (
