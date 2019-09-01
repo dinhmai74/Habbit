@@ -65,16 +65,6 @@ class HomeScreen extends Component<IProps, IState> {
 
   componentDidMount() {
     this.handleRefresh();
-    const { navigation } = this.props;
-    this.willFocusListener = navigation.addListener("willFocus", () => {
-      if (!this.props.fetching) {
-        this.handleRefresh();
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    this.willFocusListener.remove();
   }
 
   /**
