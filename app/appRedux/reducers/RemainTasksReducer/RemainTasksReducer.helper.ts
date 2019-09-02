@@ -51,25 +51,41 @@ export function getTaskBaseOnType(
 }
 
 export function mapDoneAndTotalStatus(
-  dailyTask: TaskLifelogModel[],
+  tasks: TaskLifelogModel[],
   type: "month" | "week" = "week"
 ) {
-  dailyTask = _.forEach(dailyTask, task => {
+  tasks = _.forEach(tasks, task => {
     let done = 0;
 
     _.forEach(task.archived, archive => {
-      const isInDiffResult = moment().isSame(archive.date, type);
-      if (isInDiffResult) {
-        task.total = task.schedule.times[0];
-        console.log("task.schedule.times[0]", task.schedule.times[0]);
+      const isThisArchiveInDiff = moment().isSame(archive.date, type);
+      if (isThisArchiveInDiff) {
         if (archive.status === "done") {
           done++;
         }
       }
       task.done = done;
+      task.total = task.schedule.times[0];
     });
   });
-  return dailyTask;
+  return tasks;
+}
+
+export function mapDoneAndTotalStatusForDailyTasks(tasks: TaskLifelogModel[]) {
+  tasks = _.forEach(tasks, task => {
+    let done = 0;
+    _.forEach(task.archived, archive => {
+      const day = moment(archive.date).day();
+      if (_.includes(task.schedule.times, day)) {
+        if (archive.status === "done") {
+          done++;
+        }
+      }
+    });
+    task.done = done;
+    task.total = task.schedule.times.length;
+  });
+  return tasks;
 }
 
 /***

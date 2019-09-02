@@ -122,6 +122,7 @@
     "today": "Today",
     "thisWeek": "This week",
     "thisMonth": "This month",
-    "thereAreNoTaskFor": "There are no tasks to view by"
+    "thereAreNoTaskFor": "There are no tasks to view by",
+    "daily": "Daily"
   }
 }

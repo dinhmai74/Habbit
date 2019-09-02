@@ -70,8 +70,7 @@ class HomeScreen extends Component<IProps, IState> {
   /**
    * Private methods
    */
-  refresh: Function = () => {
-  };
+  refresh: Function = () => {};
 
   rightIconOnClick = () => {
     const { navigation } = this.props;
@@ -98,7 +97,7 @@ class HomeScreen extends Component<IProps, IState> {
   updateTaskStatus = async (
     taskId: string,
     status: ArchivedTaskModel,
-    date: string,
+    date: string
   ) => {
     const user = await firebase.auth().currentUser;
     if (user) {
@@ -108,8 +107,7 @@ class HomeScreen extends Component<IProps, IState> {
   };
 
   deleteTask = (taskId: string) => {
-    this.props.deleteTask(taskId, () => this.handleRefresh(), () => {
-    });
+    this.props.deleteTask(taskId, () => this.handleRefresh(), () => {});
   };
 
   onCardPress = (item: TaskFormattedModel) => {
@@ -156,7 +154,7 @@ class HomeScreen extends Component<IProps, IState> {
 
   convertData = (
     data: TaskRawModel[],
-    date: string = today,
+    date: string = today
   ): TaskFormattedModel[] => {
     // @ts-ignore
     data = _.filter(data, (e: any) => {
@@ -218,10 +216,10 @@ class HomeScreen extends Component<IProps, IState> {
               this.props.navigation.navigate(strings.routeMainAuth);
             },
             "top",
-            1000,
+            1000
           );
         }
-      },
+      }
     );
   };
 
@@ -282,5 +280,5 @@ export default connect(
     deleteTask,
     refetchTasks,
     offlineCreateTask: createTaskOffline,
-  },
+  }
 )(HomeScreen);

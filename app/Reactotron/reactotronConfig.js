@@ -1,7 +1,8 @@
 import Reactotron, { storybook, overlay, trackGlobalErrors } from 'reactotron-react-native'
 import sagaPlugin from 'reactotron-redux-saga'
 
-const _TAG_NAME = 'TING'
+
+const _TAG_NAME = 'Dinh dep trai'
 import { Platform } from 'react-native'
 
 console.tron = Reactotron
@@ -23,12 +24,7 @@ function tlog(tagName, preview, ...params) {
       Reactotron.display({
         name: `[${_TAG_NAME}]:${Platform.OS.toUpperCase()}-` + tagName,
         preview: JSON.stringify(preview),
-        value: preview,
-      })
-      Reactotron.display({
-        name: `[${_TAG_NAME}]:${Platform.OS.toUpperCase()}`,
-        preview: JSON.stringify(tagName),
-        value: tagName,
+        value: {...preview,...params},
       })
 
     } else {
@@ -88,7 +84,6 @@ function tlog(tagName, preview, ...params) {
 Reactotron.configure({ host: 'localhost', port: 9090 })
   .useReactNative() // add all built-in react native plugins
   .use(sagaPlugin())
-// .use(reactotronRedux())
 
 if (__DEV__) {
   Reactotron.connect()

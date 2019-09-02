@@ -1,12 +1,12 @@
 import AppDivider from "app/components/Divider";
-import { RemainTasks, TaskDisplayModel, TaskRawModel } from "app/model";
+import { RemainTasks, TaskRawModel } from "app/model";
 import { LifeLogTaskInfoModel } from "app/model/LifeLogModel";
 import metrics, { scaledSize } from "app/themes/Metrics";
 import NavigateService from "app/tools/NavigateService";
 import _ from "lodash";
 import LottieView from "lottie-react-native";
 import React, { Component } from "react";
-import { Row, Grid, Col } from "react-native-easy-grid";
+import { Grid, Col } from "react-native-easy-grid";
 import {
   Animated,
   FlatList,
@@ -36,7 +36,7 @@ import {
   CalendarHabit,
   LineLog,
 } from "components";
-import { Colors, Fonts, Images, strings, spacing } from "themes";
+import { Colors, Images, strings, spacing } from "themes";
 import {
   styles,
   CenterContentRow,
@@ -199,7 +199,6 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
   );
 
   private renderContent(someDoneDates: number, perfectDates: number) {
-    const { fetching } = this.props;
     return (
       <ScrollView
         alwaysBounceVertical={false}
@@ -209,6 +208,7 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
         {this.renderTodayInfoRow()}
 
         <SizedBox height={4} />
+        {this.renderDailyInfoRow()}
 
         <SizedBox height={4} />
         {this.renderThisWeekInfoRow()}
@@ -276,6 +276,18 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
         </View>
       </StyledRow>
     );
+  };
+
+  private renderDailyInfoRow = () => {
+    const { remainTasks } = this.props;
+    let data: LifeLogTaskInfoModel[] = [];
+    if (remainTasks.daily) {
+      // @ts-ignore
+      data = _.map(remainTasks.daily.tasks, task => {
+        return task;
+      });
+    }
+    return this.renderInfoTasks("lifeLog.daily", data);
   };
 
   private renderThisWeekInfoRow = () => {

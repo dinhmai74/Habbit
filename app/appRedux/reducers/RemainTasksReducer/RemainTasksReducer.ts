@@ -4,6 +4,7 @@ import {
   getTaskBaseOnType,
   getTheMonthlyTasks,
   mapDoneAndTotalStatus,
+  mapDoneAndTotalStatusForDailyTasks,
 } from "app/appRedux/reducers/RemainTasksReducer/RemainTasksReducer.helper";
 import _ from "lodash";
 import {
@@ -80,7 +81,17 @@ const updateTodayTaskReducer = (state, action: AnyAction): RemainTasks => {
 };
 
 const updateDailyTaskReducer = (state, action): RemainTasks => {
-  return state;
+  const { tasks } = action;
+  let dailyTasks: TaskLifelogModel[] = [];
+  if (tasks) {
+    dailyTasks = getTaskBaseOnType(tasks, "daily");
+    dailyTasks = mapDoneAndTotalStatusForDailyTasks(dailyTasks);
+  }
+  return Immutable.merge(state, {
+    daily: {
+      tasks: dailyTasks,
+    },
+  });
 };
 
 const updateWeeklyReducer = (state, action): RemainTasks => {
