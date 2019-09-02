@@ -1,9 +1,26 @@
+import {
+  countDoneTaskFromOriginTask,
+  countTheDoneTasksInToday,
+  mapDoneAndTotalStatus,
+} from "app/appRedux/reducers/RemainTasksReducer/RemainTasksReducer.helper";
+import {
+  pencilIcon,
+  removeIcon,
+  rightArrowIcon,
+  scheduleIcon,
+  statsIcon,
+  styles,
+} from "app/containers/DetailTaskScreen/DetailTaskScreen.presets";
+import StreakRow from "app/containers/DetailTaskScreen/StreakRow";
+import { StyledRow } from "app/containers/LifeLogScreen/renderLifeLog.presets";
+import NavigateService from "app/tools/NavigateService";
 import _ from "lodash";
 import moment from "moment";
 import { Content, Text as NativebaseText } from "native-base";
 import React, { Component } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Icon } from "react-native-elements";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Grid, Row } from "react-native-easy-grid";
+import { Divider, Icon } from "react-native-elements";
 import Modal from "react-native-modal";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -14,25 +31,19 @@ import {
 import { connect } from "react-redux";
 
 import { deleteTask, fetchTasks } from "app/appRedux/actions";
-import { AppHeader, AppBackground } from "components";
+import {
+  AppHeader,
+  AppBackground,
+  SizedBox,
+  BorderCard,
+  Text,
+} from "components";
 import CalendarsHabit from "app/components/Calendar/CalendarHabit";
 import EditTaskLine from "app/components/EditTaskLine";
 import I18n from "app/localization";
-import { IArchived } from "app/model";
-import { Colors, Fonts, Images, strings } from "app/themes";
+import { IArchived, IconAndNameModel, TaskRawModel } from "app/model";
+import { Colors, Fonts, Images, spacing, strings } from "app/themes";
 import { getPlatformElevation } from "app/tools";
-
-const rightArrowIcon = (
-  <FontAwesome name="chevron-right" size={30} color={Colors.buttonColor} />
-);
-const pencilIcon = (
-  <FontAwesome name="pencil" size={30} color={Colors.linearStart} />
-);
-const scheduleIcon = (
-  <FontAwesome name="clock-o" size={30} color={Colors.bloodOrange} />
-);
-const removeIcon = <FontAwesome name="remove" size={30} color={Colors.fire} />;
-const statsIcon = <Ionicons name="ios-stats" size={30} color={Colors.green} />;
 
 type TOverlay = "scheduleShow";
 
@@ -43,13 +54,22 @@ interface IProps extends NavigationInjectedProps {
 interface IState {
   isModalVisible: boolean;
   scheduleShow: boolean;
+  item: TaskRawModel | null;
 }
 
 class DetailTaskScreen extends Component<IProps, IState> {
   state = {
     isModalVisible: false,
     scheduleShow: true,
+    item: null,
   };
+
+  componentDidMount() {
+    const item = this.props.navigation.getParam("item");
+    this.setState({
+      item,
+    });
+  }
 
   getDayDone = (archived: IArchived[]) =>
     _.pickBy(archived, value => {
@@ -59,22 +79,42 @@ class DetailTaskScreen extends Component<IProps, IState> {
   countConsecutiveDays = (arr: string[]) => {
     const momentDates = arr
       .map(date => {
-        return moment(date, "YYYY-MM-DD");
+        return moment(date);
       })
       .sort((a, b) => a.diff(b));
 
-    const streak: number[] = [];
+    const streak: any[] = [];
     let count = 0;
+    let beginStreakDate = momentDates[0];
+    let endStreakDate = momentDates[0];
+    let isCountingStreak = false;
 
     for (let i = 1; i < momentDates.length; i++) {
       if (this.isConsecutive(momentDates[i - 1], momentDates[i])) {
+        if (!isCountingStreak) {
+          isCountingStreak = true;
+          beginStreakDate = momentDates[i];
+        }
         count += 1;
       } else {
-        streak.push(count + 1);
+        if (isCountingStreak) {
+          isCountingStreak = false;
+          endStreakDate = momentDates[i];
+          streak.push({
+            length: count + 1,
+            endDate: beginStreakDate,
+            startDate: endStreakDate,
+          });
+        }
         count = 0;
       }
       if (i === momentDates.length - 1) {
-        streak.push(count + 1);
+        streak.push({
+          length: count + 1,
+          endDate: beginStreakDate,
+          startDate: endStreakDate,
+        });
+        isCountingStreak = false;
         count = 0;
       }
     }
@@ -85,85 +125,111 @@ class DetailTaskScreen extends Component<IProps, IState> {
     return nextDay.diff(currentDay, "days") === 1;
   };
 
-  toggleModal = () =>
-    this.setState({ isModalVisible: !this.state.isModalVisible });
+  getCurrentProcess() {
+    let doneInTimeCycle: number;
+    let totalInTimeCycle: number;
+    const { item } = this.state;
+    // @ts-ignore
+    const { schedule } = item;
+    let type = "week";
+    totalInTimeCycle = schedule.times[0];
+    if (schedule.type === "monthly") {
+      type = "month";
+    } else if (schedule.type === "daily") {
+      totalInTimeCycle = schedule.times.length;
+    }
+    doneInTimeCycle = countDoneTaskFromOriginTask(item, type);
 
-  renderModal = (currentStreak, bestStreak) => (
-    <View style={styles.modalContent}>
-      <Text style={styles.title}>More Stats</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-        }}
-      >
-        <View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon
-              containerStyle={{
-                paddingLeft: 8,
-                alignSelf: "center",
-              }}
-              name="tonality"
-              color={Colors.facebook}
-              size={30}
-            />
-            <Text style={[styles.text, { paddingLeft: 10, paddingBottom: 5 }]}>
-              {currentStreak}
-            </Text>
-          </View>
-          <Text style={[{ paddingRight: 10, paddingLeft: 10 }]}>
-            CURRENT STREAK
-          </Text>
-        </View>
-        <View
-          style={{
-            height: 100,
-            width: 1,
-            backgroundColor: Colors.panther,
-            alignSelf: "center",
-          }}
-        />
-        <View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon
-              containerStyle={{
-                paddingLeft: 8,
-                alignSelf: "center",
-              }}
-              type="MaterialCommunityIcons"
-              name="brightness-1"
-              color={Colors.facebook}
-              size={30}
-            />
-            <Text style={[styles.text, { paddingLeft: 10, paddingBottom: 5 }]}>
-              {bestStreak}
-            </Text>
-          </View>
-          <Text style={[{ paddingLeft: 10, paddingRight: 5 }]}>
-            LONGEST STREAK
-          </Text>
-        </View>
-      </View>
-      <TouchableOpacity onPress={this.toggleModal}>
-        <NativebaseText style={styles.subTitleText}>Exit</NativebaseText>
-      </TouchableOpacity>
-    </View>
-  );
-
-  openOverlay = (type: TOverlay) => {
-    this.setState({
-      [type]: true,
-    });
-  };
+    return { doneInTimeCycle, totalInTimeCycle };
+  }
 
   render() {
-    const { navigation } = this.props;
-    const item = navigation.getParam("item");
-    const { quest: title, archived, id: taskId, icon } = item;
-    const { name: iconName, color: iconColor } = icon;
+    const { item } = this.state;
+    if (!item) {
+      return <View />;
+    }
+    const { quest: title, archived } = item;
+
     const doneDays = this.getDayDone(archived);
-    const deleteTask = this.props.deleteTask;
+
+    // @ts-ignore
+    return (
+      <AppBackground noImage>
+        <AppHeader
+          type={"transparent"}
+          leftIcon={"close"}
+          headerText={title}
+          hasDivider={true}
+        />
+        <Content
+          style={{ paddingHorizontal: spacing[5], paddingBottom: spacing[2] }}
+        >
+          {this.renderCurrentProcessInfo()}
+          <SizedBox height={4} />
+
+          <CalendarsHabit doneDays={doneDays} isCalendarDetail />
+
+          <SizedBox height={4} />
+
+          {this.renderStreaksInfo()}
+
+          <SizedBox height={4} />
+          {this.renderEditLines()}
+        </Content>
+      </AppBackground>
+    );
+  }
+
+  renderStreakRow = ({ item }) => {
+    console.log(`%c item`, `color: blue; font-weight: 600`, item);
+    return (
+      <StreakRow
+        startDate={item.startDate}
+        endDate={item.endDate}
+        streak={item.length}
+      />
+    );
+  };
+
+  private renderCurrentProcessInfo() {
+    const {
+      schedule,
+      currentStreak,
+      doneInTimeCycle,
+      totalInTimeCycle,
+    } = this.getStreaksInfo();
+
+    const currentStreakText = currentStreak && currentStreak.length;
+    return (
+      <Row>
+        <BorderCard style={{ alignItems: "center", flex: 1 }}>
+          <Text tx={"lifeLog.currentStreaks"} preset={"cardTitle"} />
+          <SizedBox height={2} />
+          <Text text={currentStreakText || "0"} preset={"bigContent"} />
+        </BorderCard>
+
+        <SizedBox width={4} />
+        <BorderCard style={{ alignItems: "center", flex: 1 }}>
+          <Text
+            text={`${doneInTimeCycle}/${totalInTimeCycle}`}
+            preset={"bigContent"}
+          />
+          <SizedBox height={2} />
+          <Text
+            // @ts-ignore
+            tx={`lifeLog.${schedule.type}`}
+            preset={"cardTitle"}
+          />
+        </BorderCard>
+      </Row>
+    );
+  }
+
+  private getStreaksInfo() {
+    const { item } = this.state;
+    // @ts-ignore
+    const { archived, schedule } = item;
+    const doneDays = this.getDayDone(archived);
 
     const doneDayStreak: string[] = [];
     _.forEach(doneDays, doneDay => {
@@ -173,139 +239,96 @@ class DetailTaskScreen extends Component<IProps, IState> {
     const streak = this.countConsecutiveDays(doneDayStreak);
 
     const currentStreak = streak[streak.length - 1];
-    const bestStreak = Math.max(...streak);
+
+    const { doneInTimeCycle, totalInTimeCycle } = this.getCurrentProcess();
+    return {
+      schedule,
+      currentStreak,
+      doneInTimeCycle,
+      totalInTimeCycle,
+      streak,
+    };
+  }
+
+  private renderStreaksInfo = () => {
+    const { streak } = this.getStreaksInfo();
+    const sidePadding = 3;
+    console.log(`%c streak`, `color: blue; font-weight: 600`, streak);
+    return (
+      <BorderCard>
+        <Text
+          h5
+          tx={"detail.allStreaks"}
+          style={{ padding: spacing[sidePadding] }}
+        />
+        <Divider />
+        {streak.length > 0 ? (
+          <FlatList
+            data={streak}
+            renderItem={this.renderStreakRow}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        ) : (
+          <Text
+            tx={"detail.thereIsNoStreakYet"}
+            preset="small"
+            style={{ padding: spacing[sidePadding], textAlign: "center" }}
+          />
+        )}
+      </BorderCard>
+    );
+  };
+
+  private renderEditLines = () => {
+    const { item } = this.state;
+    const { navigation } = this.props;
+    // @ts-ignore
+    const { id: taskId } = item;
 
     return (
-      <AppBackground noImage>
-        <Content>
-          <AppHeader
-            type={"transparent"}
-            leftIcon={"close"}
-            headerText={title}
-          />
-          <Modal isVisible={this.state.isModalVisible}>
-            {this.renderModal(currentStreak, bestStreak)}
-          </Modal>
-          <CalendarsHabit doneDays={doneDays} isCalendarDetail />
-          <EditTaskLine
-            leftIcon={pencilIcon}
-            content={I18n.t(strings.nameIconTimer)}
-            rightIcon={rightArrowIcon}
-            onPress={() =>
-              navigation.navigate(strings.routeEditNameIcon, {
-                transition: strings.transitionFromTop,
-                taskId,
-                title,
-                iconName,
-                iconColor,
-              })
-            }
-            styles={styles}
-          />
-          <EditTaskLine
-            leftIcon={scheduleIcon}
-            content={I18n.t(strings.schedule)}
-            rightIcon={rightArrowIcon}
-            onPress={() =>
-              this.props.navigation.navigate(strings.routeEditSchedule, {
-                transition: strings.transitionFromTop,
-                edit: true,
-                item,
-              })
-            }
-            styles={styles}
-          />
-          <EditTaskLine
-            leftIcon={removeIcon}
-            content={I18n.t(strings.resetOrDelete)}
-            rightIcon={rightArrowIcon}
-            onPress={() => {
-              deleteTask(taskId);
-              navigation.navigate(strings.routeHome);
-            }}
-            styles={styles}
-          />
-          <EditTaskLine
-            leftIcon={statsIcon}
-            content="More stats"
-            rightIcon={rightArrowIcon}
-            onPress={this.toggleModal}
-            styles={styles}
-          />
-        </Content>
-      </AppBackground>
+      <>
+        <EditTaskLine
+          leftIcon={pencilIcon}
+          content={I18n.t(strings.nameIconTimer)}
+          rightIcon={rightArrowIcon}
+          onPress={() =>
+            NavigateService.navigate("editIconScreen", {
+              transition: strings.transitionFromTop,
+              type: "edit",
+              item,
+            })
+          }
+          styles={styles}
+        />
+        <EditTaskLine
+          leftIcon={scheduleIcon}
+          content={I18n.t(strings.schedule)}
+          rightIcon={rightArrowIcon}
+          onPress={() =>
+            this.props.navigation.navigate(strings.routeEditSchedule, {
+              transition: strings.transitionFromTop,
+              edit: true,
+              item,
+            })
+          }
+          styles={styles}
+        />
+        <EditTaskLine
+          leftIcon={removeIcon}
+          content={I18n.t(strings.resetOrDelete)}
+          rightIcon={rightArrowIcon}
+          onPress={() => {
+            this.props.deleteTask(taskId);
+            navigation.navigate(strings.routeHome);
+          }}
+          styles={styles}
+        />
+      </>
     );
-  }
+  };
 }
 
 export default connect(
   null,
   { refetchTasks: fetchTasks, deleteTask }
 )(DetailTaskScreen);
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 10,
-    margin: 10,
-    backgroundColor: Colors.white,
-    ...getPlatformElevation(),
-  },
-  textWithIcon: {
-    flexDirection: "row",
-  },
-  leftIcon: {
-    marginLeft: 20,
-    alignSelf: "center",
-    width: 40,
-  },
-  rightText: {
-    alignSelf: "center",
-    paddingLeft: 20,
-    margin: 10,
-    fontFamily: Fonts.type.bold,
-  },
-  rightIcon: {
-    color: Colors.textInBackground,
-  },
-  viewModal: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
-    backgroundColor: Colors.lightGray,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 4,
-    borderColor: "rgba(0, 0, 0, 0.1)",
-    marginLeft: 20,
-    marginRight: 20,
-    padding: 20,
-    shadowColor: "#000000",
-    shadowOffset: {
-      height: 1,
-      width: 1,
-    },
-    shadowOpacity: 0.5,
-  },
-  subTitleText: {
-    textDecorationLine: "underline",
-    fontFamily: Fonts.type.base,
-    fontSize: Fonts.size.input,
-    color: Colors.facebook,
-    paddingTop: 30,
-  },
-  title: {
-    color: Colors.facebook,
-    fontFamily: Fonts.type.base,
-    fontSize: Fonts.size.h6,
-    paddingBottom: 20,
-  },
-  text: {
-    fontFamily: Fonts.type.semiBold,
-    fontSize: Fonts.size.input,
-  },
-});

@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import EditNameIconScreen from "app/containers/EditNameIcon/EditNameIconScreen";
 import React from "react";
 import { createStackNavigator } from "react-navigation";
 import { Easing, Animated } from "react-native";

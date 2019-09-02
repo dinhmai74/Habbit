@@ -1,26 +1,38 @@
 // @flow
+import { editTaskIconAndName } from "app/appRedux";
+import {
+  IconAndNameModel,
+  IconDisplayModel,
+  TaskFormattedModel,
+} from "app/model";
+import NavigateService from "app/tools/NavigateService";
 import { Content } from "native-base";
 import React, { Component } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
+import firebase from "react-native-firebase";
+import { NavigationInjectedProps, withNavigation } from "react-navigation";
+import { connect } from "react-redux";
 import {
   AppBackground,
   AppHeader,
   InlineDecorationText,
   Text,
+  ToastService,
 } from "../../../components";
 import I18n from "../../../localization";
 
 import dataIcon from "../../../model/icon.json";
 import { Colors, strings } from "../../../themes";
-import images from "../../../themes/Images";
 import { capitalize, today } from "../../../tools";
 import HabitInput from "./components/HabitInput";
 import styles from "./styles";
 
-interface IProps {
+interface IProps extends NavigationInjectedProps {
   onNextScreen: Function;
   titleHobbie?: string;
+
+  [anther: string]: any;
 }
 
 interface IState {
@@ -35,15 +47,34 @@ interface IState {
 
 class RenderAddDetailHabitScreen extends Component<IProps, IState> {
   state = {
-    // eslint-disable-next-line react/no-unused-state
+    taskId: "",
     textHabit: "",
     timeDuration: 20,
     colorIcon: dataIcon.color[0],
     iconName: dataIcon.icon[0].name,
-    createdDate: today,
     colorHightLight: dataIcon.color[0],
     iconHightLight: dataIcon.icon[0].name,
+    createdDate: today,
+    type: "add",
+    item: null,
   };
+
+  componentDidMount() {
+    const { item, type } = this.props;
+    if (item && type) {
+      const { icon } = item;
+      this.setState({
+        type,
+        taskId: item.id,
+        colorIcon: icon.color,
+        colorHightLight: icon.color,
+        iconHightLight: icon.name,
+        iconName: icon.name,
+        textHabit: item.quest,
+        item,
+      });
+    }
+  }
 
   componentWillMount() {
     if (this.props.titleHobbie) {
@@ -59,7 +90,67 @@ class RenderAddDetailHabitScreen extends Component<IProps, IState> {
     });
   };
 
-  rightTitleOnClick = () => {
+  rightTitleOnClick = async () => {
+    const { type } = this.state;
+    if (type === "add") {
+      this.onNextInAddMode();
+    } else {
+      this.sendEditIconRequest();
+    }
+  };
+
+  sendEditIconRequest = async () => {
+    const { textHabit: quest, colorIcon, iconName, taskId } = this.state;
+    const icon: IconDisplayModel = {
+      name: iconName,
+      color: colorIcon,
+    };
+
+    if (!quest) {
+      ToastService.showToast(
+        I18n.t(strings.errMessYourHabitQuestIsEmpty),
+        "danger"
+      );
+      return;
+    }
+
+    if (!icon) {
+      ToastService.showToast(
+        I18n.t(strings.errMessPleaseChoseYourIcon),
+        "danger"
+      );
+      return;
+    } else {
+      if (!icon.name || !icon.color) {
+        ToastService.showToast(
+          I18n.t(strings.errMessPleaseChoseYourIcon),
+          "danger"
+        );
+        return;
+      }
+    }
+    const user = await firebase.auth().currentUser;
+    if (user) {
+      const token = await user.getIdToken();
+      const { item } = this.state;
+      if (item) {
+        // @ts-ignore
+        item.quest = quest;
+        // @ts-ignore
+        item.icon = icon;
+      }
+
+      this.props.editTaskIconAndName(taskId, quest, icon, token);
+      setTimeout(() => {
+        NavigateService.navigate("detailTask", {
+          item,
+          type: "backFromEditIcon",
+        });
+      }, 100);
+    }
+  };
+
+  onNextInAddMode() {
     const {
       textHabit: quest,
       timeDuration: taskDuringTime,
@@ -77,7 +168,7 @@ class RenderAddDetailHabitScreen extends Component<IProps, IState> {
       icon,
       createdDate,
     });
-  };
+  }
 
   colorClick = color => {
     this.setState({
@@ -129,16 +220,18 @@ class RenderAddDetailHabitScreen extends Component<IProps, IState> {
   };
 
   renderRightIcon = () => {
-    const { textHabit } = this.state;
+    const { textHabit, type } = this.state;
     if (!textHabit) {
       return null;
     }
+
+    const rightTitle = type === "add" ? strings.textNext : strings.textDone;
 
     return (
       <TouchableOpacity onPress={this.rightTitleOnClick}>
         <Text
           style={{ color: Colors.white, textTransform: "capitalize" }}
-          tx={strings.textNext}
+          tx={rightTitle}
         />
       </TouchableOpacity>
     );
@@ -198,4 +291,7 @@ class RenderAddDetailHabitScreen extends Component<IProps, IState> {
   }
 }
 
-export default RenderAddDetailHabitScreen;
+export default connect(
+  null,
+  { editTaskIconAndName }
+)(withNavigation(RenderAddDetailHabitScreen));

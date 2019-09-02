@@ -240,19 +240,6 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
     const { remainTasks } = this.props;
     return (
       <StyledRow>
-        {/*<BorderCard style={{ alignItems: 'center', flex: 1 }}>*/}
-        {/*  <Text tx={'lifeLog.currentStreaks'} preset={'cardTitle'}/>*/}
-        {/*  <SizedBox height={2}/>*/}
-        {/*  <Text text={'3'} preset={'bigContent'}/>*/}
-        {/*</BorderCard>*/}
-
-        {/*<SizedBox width={4}/>*/}
-        {/*<BorderCard style={{ alignItems: 'center', flex: 1 }}>*/}
-        {/*  <Text text={'3/7'} preset={'bigContent'}/>*/}
-        {/*  <SizedBox height={2}/>*/}
-        {/*  <Text tx={'lifeLog.inThisWeeks'} preset={'cardTitle'}/>*/}
-        {/*</BorderCard>*/}
-
         <SizedBox height={2} />
         <BorderCard>
           <Text
@@ -299,7 +286,7 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
         return task;
       });
     }
-    return this.renderInfoTasks("lifeLog.thisWeek", data);
+    return this.renderInfoTasks("lifeLog.weekly", data);
   };
 
   private renderThisMonthInfoRow = () => {
@@ -311,7 +298,7 @@ class RenderLifeLogScreen extends Component<IProps, IState> {
         return task;
       });
     }
-    return this.renderInfoTasks("lifeLog.thisMonth", data);
+    return this.renderInfoTasks("lifeLog.monthly", data);
   };
 
   private renderInfoTasks = (title, listTasks: LifeLogTaskInfoModel[]) => {

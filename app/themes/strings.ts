@@ -138,6 +138,7 @@ const strings = {
   format: {
     month: "YYYY-MM",
     date: "YYYY-MM-DD",
+    dayAndMonth: "DD-MM",
   },
 };
 

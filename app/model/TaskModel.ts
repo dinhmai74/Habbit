@@ -3,6 +3,7 @@
 export type TimeShiftType = "morning" | "afternoon" | "evening";
 export type TypeSchedule = "daily" | "weekly" | "monthly";
 export type ArchivedTaskModel = "done" | "overdue" | "spending";
+
 export interface IArchived {
   date: string;
   status: ArchivedTaskModel;

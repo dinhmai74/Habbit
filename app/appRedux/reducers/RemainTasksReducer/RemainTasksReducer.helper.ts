@@ -21,7 +21,8 @@ export function filterTodayTasks(todayTasks) {
   return todayTasks;
 }
 
-export function countTheDoneTasksInToday(todayTasks, done: number) {
+export function countTheDoneTasksInToday(todayTasks) {
+  let done = 0;
   _.forEach(todayTasks, task => {
     if (task.archived[moment().format(strings.format.date)].status === "done") {
       done += 1;
@@ -55,20 +56,25 @@ export function mapDoneAndTotalStatus(
   type: "month" | "week" = "week"
 ) {
   tasks = _.forEach(tasks, task => {
-    let done = 0;
-
-    _.forEach(task.archived, archive => {
-      const isThisArchiveInDiff = moment().isSame(archive.date, type);
-      if (isThisArchiveInDiff) {
-        if (archive.status === "done") {
-          done++;
-        }
-      }
-      task.done = done;
-      task.total = task.schedule.times[0];
-    });
+    task.done = countDoneTaskFromOriginTask(task, type);
+    task.total = task.schedule.times[0];
   });
+
   return tasks;
+}
+
+export function countDoneTaskFromOriginTask(task, type) {
+  let done = 0;
+  _.forEach(task.archived, archive => {
+    const isThisArchiveInDiff = moment().isSame(archive.date, type);
+    if (isThisArchiveInDiff) {
+      if (archive.status === "done") {
+        done++;
+      }
+    }
+  });
+
+  return done;
 }
 
 export function mapDoneAndTotalStatusForDailyTasks(tasks: TaskLifelogModel[]) {

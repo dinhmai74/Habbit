@@ -68,7 +68,7 @@ export interface TextProps extends NativeBase.Text {
   /**
    * Text which is looked up via i18n.
    */
-  tx?: string;
+  tx?: string | number;
 
   /**
    * Optional options to pass to i18n. Useful for interpolation
@@ -82,7 +82,7 @@ export interface TextProps extends NativeBase.Text {
   /**
    * The text to display if not using `tx` or nested components.
    */
-  text?: string;
+  text?: string | number;
 
   /**
    * An optional style override useful for padding & margin.

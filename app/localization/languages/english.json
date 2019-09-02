@@ -120,9 +120,13 @@
     "currentStreaks": "Current Streaks",
     "inThisWeeks": "In this week",
     "today": "Today",
-    "thisWeek": "This week",
-    "thisMonth": "This month",
+    "weekly": "This week",
+    "monthly": "This month",
     "thereAreNoTaskFor": "There are no tasks to view by",
     "daily": "Daily"
+  },
+  "detail": {
+    "allStreaks": "All Streaks",
+    "thereIsNoStreakYet": "There is no streak yet!"
   }
 }

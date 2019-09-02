@@ -1,20 +1,12 @@
-// @ts-nocheck
-import { RemainTasksActions } from "app/appRedux";
-import firebase from "react-native-firebase";
-import { call, fork, put, takeEvery, takeLatest } from "redux-saga/effects";
-
-// eslint-disable-next-line import/named
 import {
-  createTaskFailed,
-  createTaskSuccess,
+  RemainTasksActions,
   fetchLifeLog,
   getRequestString,
-} from "../../actions";
-import {
   Action,
-  CREATE_TASK,
   EDIT_STATUS_TASK,
-} from "../../actions/ActionTypes";
+} from "app/appRedux";
+import { put, takeLatest } from "redux-saga/effects";
+
 import moment from "moment";
 
 function* editTasks(action: Action) {
@@ -25,6 +17,6 @@ function* editTasks(action: Action) {
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export function* watchEditTask() {
+export function* watchEditTaskRequest() {
   yield takeLatest(getRequestString(EDIT_STATUS_TASK), editTasks);
 }

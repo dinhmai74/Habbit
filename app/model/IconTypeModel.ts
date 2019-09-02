@@ -1,3 +1,5 @@
+import { IconDisplayModel } from "app/model/TaskModel";
+
 export type NativeBaseIconType =
   | "AntDesign"
   | "EvilIcons"
@@ -11,3 +13,9 @@ export type NativeBaseIconType =
   | "Octicons"
   | "SimpleLineIcons"
   | "Zocial";
+
+export interface IconAndNameModel {
+  taskId: string;
+  quest: string;
+  icon: IconDisplayModel;
+}

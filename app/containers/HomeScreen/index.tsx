@@ -106,17 +106,12 @@ class HomeScreen extends Component<IProps, IState> {
     }
   };
 
-  deleteTask = (taskId: string) => {
-    this.props.deleteTask(taskId, () => this.handleRefresh(), () => {});
-  };
-
   onCardPress = (item: TaskFormattedModel) => {
     // tslint:disable-next-line: no-shadowed-variable
-    const deleteTask = this.deleteTask;
     this.props.navigation.navigate(strings.routeDetailTask, {
       transition: strings.transitionFromTop,
       item,
-      deleteTask,
+      type: "view",
     });
   };
 

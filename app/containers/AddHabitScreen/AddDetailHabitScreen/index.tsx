@@ -1,4 +1,5 @@
 // @flow
+import dataIcon from "app/model/icon.json";
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { NavigationScreenProps } from "react-navigation";
@@ -31,11 +32,13 @@ export default class AddDetailHabitScreen extends Component<IProps, IState> {
   };
 
   render() {
-    const titleHobbie = this.props.navigation.getParam("titleHobbie");
+    const params = this.props.navigation.state.params;
+    const titleHobbie = this.props.navigation.getParam("titleHobbie", "");
     return (
       <RenderAddDetailHabitScreen
         onNextScreen={this.rightIconOnClick}
         titleHobbie={titleHobbie}
+        {...params}
       />
     );
   }
