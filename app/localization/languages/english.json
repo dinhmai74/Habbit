@@ -114,7 +114,8 @@
     "yourFieldsIsEmpty": "You have an empty field!"
   },
   "message": {
-    "loginSuccess": "Login success, we'll navigate soon!"
+    "loginSuccess": "Login success, we'll navigate soon!",
+    "editIconAndNameSuccessful": "Edit icon and name successful"
   },
   "lifeLog": {
     "currentStreaks": "Current Streaks",

@@ -1,5 +1,5 @@
 // @flow
-import { editTaskIconAndName } from "app/appRedux";
+import { editTaskIconAndName, fetchTasks } from "app/appRedux";
 import {
   IconAndNameModel,
   IconDisplayModel,
@@ -141,12 +141,13 @@ class RenderAddDetailHabitScreen extends Component<IProps, IState> {
       }
 
       this.props.editTaskIconAndName(taskId, quest, icon, token);
-      setTimeout(() => {
-        NavigateService.navigate("detailTask", {
-          item,
-          type: "backFromEditIcon",
-        });
-      }, 100);
+      ToastService.showToast(
+        "message.editIconAndNameSuccessful",
+        "success",
+        () => {
+          this.props.fetchTasks(() => {}, () => {});
+        }
+      );
     }
   };
 
@@ -293,5 +294,5 @@ class RenderAddDetailHabitScreen extends Component<IProps, IState> {
 
 export default connect(
   null,
-  { editTaskIconAndName }
+  { editTaskIconAndName, fetchTasks }
 )(withNavigation(RenderAddDetailHabitScreen));

@@ -72,7 +72,6 @@ type Props = NavigationScreenProps & {
   onChangeDate: (item: IDateItem) => void;
   watchingDate: string;
   refresh: () => void;
-  deleteTask: (taskId: string) => void;
   onCardPress: (item: TaskFormattedModel) => void;
 };
 

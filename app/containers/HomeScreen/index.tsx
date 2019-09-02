@@ -251,7 +251,6 @@ class HomeScreen extends Component<IProps, IState> {
         watchingDate={watchingDate}
         error={error}
         navigation={this.props.navigation}
-        deleteTask={this.deleteTask}
         refresh={this.handleRefresh}
       />
     );

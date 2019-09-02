@@ -49,6 +49,7 @@ type TOverlay = "scheduleShow";
 
 interface IProps extends NavigationInjectedProps {
   deleteTask: typeof deleteTask;
+  tasks: TaskRawModel;
 }
 
 interface IState {
@@ -66,8 +67,11 @@ class DetailTaskScreen extends Component<IProps, IState> {
 
   componentDidMount() {
     const item = this.props.navigation.getParam("item");
+    const { tasks } = this.props;
+    // @ts-ignore
+    const viewTask = _.filter(tasks, task => task.id === item.id);
     this.setState({
-      item,
+      item: viewTask[0] || item,
     });
   }
 
@@ -328,7 +332,13 @@ class DetailTaskScreen extends Component<IProps, IState> {
   };
 }
 
+const mapStateToProps = store => {
+  return {
+    tasks: store.tasks.data,
+  };
+};
+
 export default connect(
-  null,
-  { refetchTasks: fetchTasks, deleteTask }
+  mapStateToProps,
+  { refetchTasks: fetchTasks, deleteTask },
 )(DetailTaskScreen);

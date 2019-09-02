@@ -66,11 +66,14 @@ class AddScheduleScreen extends Component<Props, IState> {
     const { schedule, id: taskId } = item;
     if (edit) {
       if (schedule) {
-        const { times: timesRaw } = schedule;
 
         const shift = this.convertArray(schedule.shift, shiftButtons);
         const type = typeButtons.indexOf(schedule.type);
-        let times = timesRaw;
+        const { times: timesRaw } = schedule;
+        let times = [...timesRaw];
+        if (schedule.type !== "daily" && times[0]) {
+          times[0] -= 1;
+        }
 
         const isAllTimes =
           (type === 0 && timesRaw.length === 7) ||
@@ -110,7 +113,8 @@ class AddScheduleScreen extends Component<Props, IState> {
     });
   };
 
-  onDone = async (habitSchedule: any, callback: () => void = () => {}) => {
+  onDone = async (habitSchedule: any, callback: () => void = () => {
+  }) => {
     const convertedSchedule = this.convertSchedule(habitSchedule);
     const habit = this.convertToRawItem(convertedSchedule);
     const edit = this.props.navigation.getParam("edit", false);
@@ -125,8 +129,10 @@ class AddScheduleScreen extends Component<Props, IState> {
           I18n.t(strings.textEditScheduleSuccess),
           "success",
           () => {
-            this.props.fetchTasks(() => {}, () => {});
-          }
+            this.props.fetchTasks(() => {
+            }, () => {
+            });
+          },
         );
       }
     } else {
@@ -141,7 +147,7 @@ class AddScheduleScreen extends Component<Props, IState> {
     console.log(
       `%c habitSchedule`,
       `color: blue; font-weight: 600`,
-      habitSchedule
+      habitSchedule,
     );
     convertItem.shift = habitSchedule.shift.map(e => {
       return shiftButtons[e];
@@ -216,5 +222,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { createTask, fetchTasks, createTaskOffline, editSchedule }
+  { createTask, fetchTasks, createTaskOffline, editSchedule },
 )(AddScheduleScreen);

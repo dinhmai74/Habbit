@@ -38,12 +38,12 @@ interface State {
 
 const editTask = (
   oldTasks: TaskRawModel[],
-  taskEdit: { taskId: string; date: string; status: ArchivedTaskModel }
+  taskEdit: { taskId: string; date: string; status: ArchivedTaskModel },
 ): TaskRawModel[] => {
   FirebaseWorker.updateArchived(
     taskEdit.taskId,
     taskEdit.status,
-    taskEdit.date
+    taskEdit.date,
   );
   const { taskId, date, status } = taskEdit;
   const taskNeedEdit: any = _.filter(oldTasks, (value: any) => {
@@ -81,12 +81,14 @@ const deleteTask = (oldTasks: any, taskId: string) => {
 
 const createTask = (
   oldTask: TaskRawModel[],
-  newTask: TaskRawModel
+  newTask: TaskRawModel,
 ): TaskRawModel[] => {
   return [...oldTask, newTask];
 };
 
 const editSchedule = (oldTasks: TaskRawModel[], newTask: any) => {
+  console.log(`%c oldTasks`, `color: blue; font-weight: 600`, oldTasks);
+  console.log(`%c newTask`, `color: blue; font-weight: 600`, newTask);
   const cloneOldTask = [...oldTasks];
   const taskNeedEdit: any = _.filter(cloneOldTask, (value: any) => {
     return value.id === newTask.taskId;

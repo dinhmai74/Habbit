@@ -9,7 +9,7 @@ import firebase from "react-native-firebase";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { editTaskStatus } from "app/appRedux/actions";
-import { AppText, CardItem, RowView } from "../../../components";
+import { AppText, CardItem, RowView, SizedBox } from "../../../components";
 import ModalTask from "../../../components/Modal";
 import I18n from "../../../localization";
 import { IArchived, TaskFormattedModel } from "../../../model";
@@ -267,6 +267,7 @@ class HabitCard extends Component<IProps> {
                 <Text style={[styles.title, textInactiveColor]}>
                   {capitalize(trimTitle)}
                 </Text>
+                <SizedBox height={2} />
                 <StatusView>
                   <Icon
                     type="MaterialCommunityIcons"
@@ -313,8 +314,8 @@ const RightSwipeView = styled(View)`
   display: flex;
   flex: 1;
   justify-content: center;
-  padding-left: 20;
-  margin-right: 20;
+  padding-left: 20px;
+  margin-right: 20px;
   background: ${Colors.buttonColorInColoredBackground};
 `;
 
