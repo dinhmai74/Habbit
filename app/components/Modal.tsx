@@ -12,7 +12,7 @@ import Modal from "react-native-modal";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import EditTaskLine from "./EditTaskLine";
 
-import { Colors, Fonts, strings } from "../themes";
+import { Colors, Fonts, spacing, strings } from "../themes";
 import { InlineDecorationText } from "./Text";
 
 const checkIcon = <FontAwesome5 name="check" size={20} color={Colors.green} />;
@@ -136,10 +136,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 4,
     borderColor: "rgba(0, 0, 0, 0.1)",
-    marginLeft: 70,
-    marginRight: 70,
-    paddingTop: 20,
-    paddingBottom: 20,
+    marginHorizontal: spacing[6],
+    padding: spacing[5],
     shadowColor: "#000000",
     // @ts-ignore
     shadowOffset: {

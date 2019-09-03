@@ -14,7 +14,13 @@ function navigate(routeName: RootRouteName, params: any = null) {
     NavigationActions.navigate({
       routeName,
       params,
-    })
+    }),
+  );
+}
+
+function goBack() {
+  navigator.dispatch(
+    NavigationActions.back(null),
   );
 }
 
@@ -22,5 +28,6 @@ function navigate(routeName: RootRouteName, params: any = null) {
 
 export default {
   navigate,
+  goBack,
   setTopLevelNavigator,
 };

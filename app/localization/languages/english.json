@@ -86,6 +86,10 @@
   "nameIconTimer": "Name, icon",
   "schedule": "Schedule",
   "resetOrDelete": "Delete",
+  "undo": "Undo",
+  "viewDetail": "View detail",
+  "noneOfThese": "None of these!",
+  "undoSuccess": "Undo successful!",
 
   "common": {
     "ok": "OK!",
