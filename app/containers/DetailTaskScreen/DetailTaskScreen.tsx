@@ -87,41 +87,42 @@ class DetailTaskScreen extends Component<IProps, IState> {
       })
       .sort((a, b) => a.diff(b));
 
+    console.log(`%c momentDates`, `color: blue; font-weight: 600`, momentDates);
+
     const streak: any[] = [];
     let count = 0;
     let beginStreakDate = momentDates[0];
     let endStreakDate = momentDates[0];
-    let isCountingStreak = false;
 
-    for (let i = 1; i < momentDates.length; i++) {
-      if (this.isConsecutive(momentDates[i - 1], momentDates[i])) {
+    let isCountingStreak = false;
+    for (let i = 0; i < momentDates.length; i++) {
+      const current = momentDates[i];
+      const next = momentDates[i + 1];
+
+      const isConsecutive =
+        current && next && this.isConsecutive(current, next);
+
+      if (isConsecutive) {
         if (!isCountingStreak) {
+          beginStreakDate = current;
           isCountingStreak = true;
-          beginStreakDate = momentDates[i];
         }
+        endStreakDate = next;
         count += 1;
       } else {
-        if (isCountingStreak) {
-          isCountingStreak = false;
-          endStreakDate = momentDates[i];
-          streak.push({
-            length: count + 1,
-            endDate: beginStreakDate,
-            startDate: endStreakDate,
-          });
-        }
-        count = 0;
-      }
-      if (i === momentDates.length - 1) {
         streak.push({
           length: count + 1,
-          endDate: beginStreakDate,
-          startDate: endStreakDate,
+          startDate: beginStreakDate,
+          endDate: endStreakDate,
         });
+
+        // reset
         isCountingStreak = false;
+        beginStreakDate = current;
         count = 0;
       }
     }
+
     return streak;
   };
 
@@ -240,6 +241,8 @@ class DetailTaskScreen extends Component<IProps, IState> {
       doneDayStreak.push(doneDay.date);
     });
 
+    console.log("doneDayStreak", doneDayStreak);
+
     const streak = this.countConsecutiveDays(doneDayStreak);
 
     const currentStreak = streak[streak.length - 1];
@@ -340,5 +343,5 @@ const mapStateToProps = store => {
 
 export default connect(
   mapStateToProps,
-  { refetchTasks: fetchTasks, deleteTask },
+  { refetchTasks: fetchTasks, deleteTask }
 )(DetailTaskScreen);
