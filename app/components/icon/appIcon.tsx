@@ -11,7 +11,7 @@ const ROOT: ImageStyle = {
   backgroundColor: "transparent",
 };
 
-export function Icon(props: IconProps) {
+export function AppIcon(props: IconProps) {
   const { style: styleOverride, icon, size, bg, color, containerStyle } = props;
   const imageSize = size || Metrics.icon.normal;
   const sizeImage = { width: imageSize, height: imageSize };

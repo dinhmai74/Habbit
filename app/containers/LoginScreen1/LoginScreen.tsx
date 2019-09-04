@@ -14,7 +14,7 @@ import {
   AppText,
   SizedBox,
   ToastService,
-  Icon,
+  AppIcon,
   withSpacing,
   Text,
   AppHeader,
@@ -191,7 +191,7 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
         <Content padding={5}>
           <Body>
             <SizedBox height={8} />
-            <Icon icon="logoColored" size={metrics.logo.normal} />
+            <AppIcon icon="logoColored" size={metrics.logo.normal} />
           </Body>
           <Formik
             initialValues={{ email: "dinhmai@gmail.com", password: "password" }}

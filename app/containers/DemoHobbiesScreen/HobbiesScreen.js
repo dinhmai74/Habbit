@@ -9,7 +9,7 @@ import { Icon, } from "react-native-elements"
 import { Metrics, Colors, Fonts, strings, } from "../../themes"
 import {
   AppBackground,
-  AppHeader, Icon as AppIcon,
+  AppHeader, AppIcon as AppIcon,
   InlineDecorationText,
   Text
 } from '../../components'

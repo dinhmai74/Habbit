@@ -12,7 +12,7 @@ import * as Yup from "yup";
 import {
   AppButton,
   AppText,
-  Icon,
+  AppIcon,
   SizedBox,
   ToastService,
   withSpacing,
@@ -219,7 +219,7 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
         <Content padding={5}>
           <Body>
             <SizedBox height={3} />
-            <Icon icon="logo" size={metrics.logo.small} />
+            <AppIcon icon="logo" size={metrics.logo.small} />
           </Body>
           <Formik
             initialValues={{
