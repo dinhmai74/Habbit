@@ -1,7 +1,7 @@
 import { TextStyle, View, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import styled from "styled-components";
-import { Icon } from "../icon";
+import { AppIcon } from "../icon";
 import { spacing } from "app/themes/spacing";
 import { Colors as color } from "app/themes";
 import { screen } from "app/themes/Metrics";
@@ -56,7 +56,7 @@ export const StyledBottomBg = styled(LinearGradient)`
   z-index: -1;
 `;
 
-export const StyledImage = styled(Icon)`
+export const StyledImage = styled(AppIcon)`
   height: ${(props: { height?: number }) => props.height || 100}px;
   width: ${screen.width}px;
 `;

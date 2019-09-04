@@ -12,7 +12,7 @@ import {
   InlineDecorationText,
   AppBackground,
   AppHeader,
-  Icon as AppIcon,
+  AppIcon as AppIcon,
 } from "../../components";
 import TextWithIcon from "../../components/TextWithIcon";
 import I18n from "../../localization";

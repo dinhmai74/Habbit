@@ -21,7 +21,7 @@ import { IHeaderProps } from "./AppHeader.props";
 import AppI18n from "app/localization";
 import { Colors, palette, spacing } from "app/themes";
 import { Text } from "../Text";
-import { Icon, IconTypes } from "../icon";
+import { AppIcon, IconTypes } from "../icon";
 import styled from "styled-components";
 
 const StylesSafeArea = {
@@ -142,7 +142,7 @@ class AppHeader extends React.PureComponent<IHeaderProps, {}> {
 
       return (
         <Button onPress={onRightPress} transparent>
-          <Icon icon={rightIcon} style={{ tintColor: iconColor }} />
+          <AppIcon icon={rightIcon} style={{ tintColor: iconColor }} />
         </Button>
       );
     }
@@ -248,7 +248,7 @@ class AppHeader extends React.PureComponent<IHeaderProps, {}> {
           alignItems: "center",
         }}
       >
-        <Icon icon={leftIcon as IconTypes} size={size} color={iconColor} />
+        <AppIcon icon={leftIcon as IconTypes} size={size} color={iconColor} />
       </Button>
     );
   }

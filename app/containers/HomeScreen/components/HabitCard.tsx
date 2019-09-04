@@ -1,27 +1,45 @@
 import React, { Component } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Col, Grid, Row } from "react-native-easy-grid";
 import Swipeable from "react-native-swipeable";
 import styled from "styled-components";
+import Feather from "react-native-vector-icons/Feather";
 
-import { Button, Text } from "native-base";
+import { Button } from "native-base";
 import { Icon } from "react-native-elements";
 import firebase from "react-native-firebase";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { editTaskStatus } from "app/appRedux/actions";
-import { AppText, CardItem, RowView, SizedBox } from "../../../components";
-import ModalTask from "../../../components/Modal";
-import I18n from "../../../localization";
-import { IArchived, TaskFormattedModel } from "../../../model";
+import {
+  AppIcon,
+  AppText,
+  CardItem,
+  icons,
+  IconTypes,
+  RowView,
+  Text,
+  SizedBox,
+} from "components";
+import ModalTask from "app/components/Modal";
+import I18n from "localization";
+import {
+  IArchived,
+  TaskFormattedModel,
+  TaskRawModel,
+  TimeShiftType,
+} from "model";
 import {
   ApplicationStyles,
   Colors,
   Fonts,
   Metrics,
+  spacing,
   strings,
 } from "../../../themes";
-import { capitalize } from "../../../tools";
+import { capitalize, switchcase } from "tools";
 import { getTokenString } from "app/api/firebase";
+import moment from "moment";
 
 const SubIconEnum = {
   close: "close",
@@ -34,12 +52,12 @@ interface IProps {
   style?: object;
   leftText?: string;
   rightText?: string;
-  onCardPress: (detailCardInfo: TaskFormattedModel, ...rest: any) => void;
+  onCardPress: (detailCardInfo: TaskRawModel, ...rest: any) => void;
   leftButtonOnClick?: () => void;
   rightButtonOnClick?: () => void;
   releaseTime?: number;
   navigation: NavigationScreenProp<any, any>;
-  cardInfo: TaskFormattedModel;
+  cardInfo: TaskRawModel;
   editTaskStatus: typeof editTaskStatus;
   taskDate: string;
   deleteTask: Function;
@@ -167,6 +185,35 @@ class HabitCard extends Component<IProps> {
     }
   };
 
+  getIconShift = () => {
+    const { cardInfo } = this.props;
+    const currentTime = new Date().getHours();
+
+    let shift: TimeShiftType = "evening";
+    let icon: IconTypes = "sun";
+
+    // if (currentTime >= 4 && currentTime <= 6) {
+    //   shift = "morning";
+    //   icon = "sunrise";
+    // } else if (currentTime > 6 && currentTime < 12) {
+    //   shift = "morning";
+    //   icon = "sun";
+    // } else if (currentTime >= 12 && currentTime <= 18) {
+    //   shift = "afternoon";
+    // } else if (currentTime > 18 && currentTime < 4) {
+    //   shift = "evening";
+    //   icon = "moon";
+    // }
+
+    switchcase({
+      morning: icon = "cloud",
+      afternoon: icon = "sun",
+      evening: icon = "moon",
+    })((icon = "moon"))(cardInfo.schedule.shift[0]);
+
+    return <AppIcon icon={icon} size={Metrics.icon.big} />;
+  };
+
   renderLeftButtons = () => [
     <LeftSwipeView>
       <Button
@@ -220,6 +267,7 @@ class HabitCard extends Component<IProps> {
     const leftButtons = isDisable ? null : this.renderLeftButtons();
     const rightButtons = isDisable ? null : this.renderRightButtons();
     const textInactiveColor = isDisable ? { color: Colors.inActiveText } : null;
+    const iconShift = this.getIconShift();
 
     const length = 12;
     let trimTitle = "";
@@ -251,50 +299,51 @@ class HabitCard extends Component<IProps> {
           onLeftButtonsOpenRelease={this.leftButtonRelease}
           onRightButtonsOpenRelease={this.rightButtonRelease}
         >
-          <TouchableOpacity onPress={this.containerPress}>
-            <RowView>
-              <Icon
-                type="MaterialCommunityIcons"
-                name={iconName}
-                iconStyle={{ color: colorToggle || color }}
-                containerStyle={styles.icon}
-                color="transparent"
-                size={Metrics.icons.medium}
-                reverse
-              />
+          <Grid>
+            <Row
+              onPress={this.containerPress}
+              style={{
+                paddingHorizontal: spacing[3],
+                paddingVertical: spacing[1],
+              }}
+            >
+              <Col size={1} style={styles.leftCol}>
+                <Icon
+                  type="MaterialCommunityIcons"
+                  name={iconName}
+                  iconStyle={{ color: colorToggle || color }}
+                  containerStyle={styles.icon}
+                  color="transparent"
+                  size={Metrics.icons.medium}
+                  reverse
+                />
+              </Col>
 
-              <Content>
-                <Text style={[styles.title, textInactiveColor]}>
-                  {capitalize(trimTitle)}
-                </Text>
-                <SizedBox height={2} />
-                <StatusView>
+              <Col size={5} style={styles.centerView}>
+                <Row style={{ padding: 0, paddingVertical: spacing[2] }}>
+                  <Text style={[styles.title, textInactiveColor]}>
+                    {capitalize(trimTitle)}
+                  </Text>
+                </Row>
+                <Row style={{ padding: 0 }}>
                   <Icon
                     type="MaterialCommunityIcons"
                     name={subTitleIcon}
                     color={colorToggle || color}
                     size={20}
-                    containerStyle={{ marginRight: 10 }}
+                    containerStyle={{ marginRight: spacing[2] }}
                   />
                   <Text style={textInactiveColor}>{status}</Text>
-                </StatusView>
-              </Content>
-            </RowView>
-          </TouchableOpacity>
+                </Row>
+              </Col>
+              <Col style={styles.rightCol}>{iconShift}</Col>
+            </Row>
+          </Grid>
         </Swipeable>
       </Container>
     );
   }
 }
-
-const StatusView = styled(RowView)`
-  padding: 10px;
-`;
-
-const Content = styled(View)`
-  padding: 5px;
-  margin: 10px 0;
-`;
 
 const Container = styled(CardItem)`
   padding: 0;
@@ -320,6 +369,17 @@ const RightSwipeView = styled(View)`
 `;
 
 const styles = StyleSheet.create({
+  centerView: {
+    justifyContent: "center",
+    padding: spacing[2],
+  },
+  rightCol: {
+    alignItems: "flex-end",
+    justifyContent: "center",
+  },
+  leftCol: {
+    justifyContent: "center",
+  },
   leftButton: {
     alignSelf: "flex-end",
   },
@@ -330,8 +390,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...ApplicationStyles.text.titleText,
-    flex: 1,
-    marginRight: 100,
   },
   icon: {
     alignSelf: "center",

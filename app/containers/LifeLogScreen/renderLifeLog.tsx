@@ -16,7 +16,7 @@ import {
   View,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Entypo from "react-native-vector-icons/Entypo";
 import { ProgressCircle } from "react-native-svg-charts";

@@ -5,15 +5,15 @@ interface Props {
   style?: ViewStyle;
 }
 
-export class RowView extends PureComponent<Props> {
+export class ColView extends PureComponent<Props> {
   render() {
     const { style } = this.props;
     return (
-      <View {...this.props} style={{ flexDirection: "row", ...style }}>
+      <View {...this.props} style={style}>
         {this.props.children}
       </View>
     );
   }
 }
 
-export default RowView;
+export default ColView;

@@ -8,7 +8,7 @@ import { NavigationInjectedProps } from "react-navigation";
 import styled from "styled-components";
 import {
   AppButton,
-  Icon,
+  AppIcon,
   SizedBox,
   ToastService,
   withSpacing,
@@ -79,7 +79,7 @@ export class AuthScreen extends Component<IAuthScreenProps, State> {
       <AppBackground isLinear>
         <StyledBody>
           <SizedBox style={{ height: screen.height * 0.25 }} />
-          <Icon icon="logoWithText" size={metrics.logo.normal} />
+          <AppIcon icon="logoWithText" size={metrics.logo.normal} />
           <SizedBox height={5} />
           <Row>
             <StyledButton

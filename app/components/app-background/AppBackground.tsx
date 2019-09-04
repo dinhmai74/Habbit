@@ -17,7 +17,7 @@ import { screen } from "app/themes/Metrics";
 import { withNavigation, NavigationInjectedProps } from "react-navigation";
 import { RootRouteName } from "app/router/RootNavigator";
 import contains from "ramda/es/contains";
-import { icons, Icon } from "app/components/icon";
+import { icons, AppIcon } from "app/components/icon";
 
 export const ABBackground = styled(Container)`
   background: ${Colors.background};
@@ -36,7 +36,7 @@ const StyledBottomImageWrapper = styled(View)`
   height: 150px;
 `;
 
-const StyledBottomImage = styled(Icon)`
+const StyledBottomImage = styled(AppIcon)`
   width: ${screen.width};
   z-index: -1;
   height: 150px;

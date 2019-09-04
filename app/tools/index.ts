@@ -7,11 +7,12 @@ export * from "./getPlatFormElevation";
 export * from "./taskHelper";
 export * from "./Logger";
 export * from "./SagaHelper";
+export * from "./switchCaseHelper";
 
 export function getStyleFromProps(
   // @ts-ignore
   propStyleKeys: string[],
-  props: { style?: object } = {}
+  props: { style?: object } = {},
 ) {
   let style = {};
   propStyleKeys.map((propStyleKey: string | number) => {
