@@ -175,13 +175,13 @@ export default {
   iconHeaderSize: platform === 'ios' ? 33 : 24,
 
   // InputGroup
-  inputFontSize: 17,
+  inputFontSize: 14,
   inputBorderColor: '#D9D5DC',
   inputSuccessBorderColor: '#2b8339',
   inputErrorBorderColor: '#ed2f2f',
-  inputHeightBase: 50,
+  inputHeightBase: 60,
   get inputColor() {
-    return this.textColor
+    return Colors.text.normal
   },
   get inputColorPlaceholder() {
     return '#575757'

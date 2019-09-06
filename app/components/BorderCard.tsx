@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import { Card, NativeBase, View } from "native-base";
+import { NativeBase, View } from "native-base";
 import styled from "styled-components";
-import { Text } from "./Text";
 import { Colors } from "../themes";
-import { withSpacing } from "./WrappedSpacingComponent";
-import { ViewStyle } from "react-native";
-import { spacing } from "../themes/spacing";
+import { spacing } from "app/themes";
 import { flatten, mergeAll } from "ramda";
-import { presets } from "./Text/text.presets";
 
 export interface IBorderCardProps extends NativeBase.View {}
 

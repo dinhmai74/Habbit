@@ -9,6 +9,7 @@ import RenderWaitingScreen from "app/components/RenderWaitingScreen";
 export * from "app/components/PullToRefreshView/index";
 export * from "./Button";
 export * from "./AppButton";
+export * from "./AppInput";
 export * from "./Text";
 export * from "./form";
 export * from "./icon";

@@ -1,3 +1,5 @@
+import { en } from "app/localization/languages";
+import { Colors, spacing } from "app/themes";
 import { Formik, FormikActions, FormikProps } from "formik";
 import {
   Body,
@@ -7,11 +9,17 @@ import {
   Item as NBItem,
   Label,
 } from "native-base";
+import { Divider } from "react-native-elements";
+import { Sae } from "react-native-textinput-effects";
+import MaterialsIcon from "react-native-vector-icons/MaterialIcons";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import React, { Component } from "react";
+
 import * as Yup from "yup";
 import {
   AppButton,
   AppText,
+  AppInput,
   AppIcon,
   SizedBox,
   ToastService,
@@ -30,6 +38,7 @@ const Content = withSpacing(NContent);
 const Item = withSpacing(NBItem);
 
 export interface ISignUpScreenProps {}
+
 interface IState {}
 
 type FormTypes = "email" | "password";
@@ -43,15 +52,15 @@ interface FormValues {
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
-    .email("errors.invalidEmailFormat")
-    .required("errors.emailRequired"),
+    .email("invalidEmailFormat")
+    .required("emailRequired"),
   password: Yup.string()
-    .min(5, "errors.passwordMinLength")
-    .required("errors.passwordRequired"),
-  userName: Yup.string().required("errors.userNameRequired"),
+    .min(5, "passwordMinLength")
+    .required("passwordRequired"),
+  userName: Yup.string().required("userNameRequired"),
   confirmPassword: Yup.string()
-    .required("errors.passwordRequired")
-    .test("passwords-match", "errors.passwordsNotMatch", function(value) {
+    .required("passwordRequired")
+    .test("passwords-match", "passwordsNotMatch", function(value) {
       // @ts-ignore
       return this.parent.password === value;
     }),
@@ -109,105 +118,96 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
     setFieldTouched,
     isSubmitting,
   }: FormikProps<FormValues>) {
-    const showEmailError = !!(touched.userName && errors.email);
+    const showEmailError = !!(touched.email && errors.email);
     const showUserNameError = !!(touched.userName && errors.userName);
     const showPasswordError = !!(touched.password && errors.password);
     const showPasswordRequiredError = !!(
       touched.confirmPassword && errors.confirmPassword
     );
 
+    const buttonSidePadding = spacing[2];
+
     return (
-      <Form style={{ margin: 0 }}>
-        <Item margin={0} floatingLabel error={!!errors.email}>
-          <Label>{AppI18n.t("auth.email")}</Label>
-          <Input
-            autoCapitalize="none"
-            value={values.email}
-            onChangeText={value => setFieldValue("email", value)}
-            onBlur={() => setFieldTouched("email")}
-            editable={!isSubmitting}
-            onSubmitEditing={() => this.refUserName.focus()}
-          />
-        </Item>
+      <Form style={{ paddingHorizontal: spacing[4] }}>
+        <AppInput
+          label={"textEmail"}
+          iconColor={errors.email && Colors.error}
+          value={values.email}
+          onChangeText={value => setFieldValue("email", value)}
+          onFocus={() => setFieldTouched("email")}
+          onBlur={() => setFieldTouched("email", false)}
+        />
+        {!touched.email&& !values.email && (
+          <Divider style={{ marginTop: spacing[3] }} />
+        )}
         {showEmailError && this.renderErrorText(errors.email || "")}
 
-        <Item margin={0} floatingLabel error={!!errors.userName}>
-          <Label>{AppI18n.t("auth.userName")}</Label>
-          <Input
-            autoCapitalize="none"
-            getRef={ref => {
-              // @ts-ignore
-              this.refUserName = ref.wrappedInstance; // <-- notice
-            }}
-            value={values.userName}
-            onChangeText={value => setFieldValue("userName", value)}
-            onBlur={() => setFieldTouched("userName")}
-            editable={!isSubmitting}
-            onSubmitEditing={() => this.refPassword.focus()}
-          />
-        </Item>
+        <AppInput
+          label={"textUsername"}
+          iconColor={errors.userName && Colors.error}
+          value={values.userName}
+          onChangeText={value => setFieldValue("userName", value)}
+          onFocus={() => setFieldTouched("userName")}
+          onBlur={() => setFieldTouched("userName", false)}
+        />
+        {!touched.userName && !values.userName && (
+          <Divider style={{ marginTop: spacing[3] }} />
+        )}
         {showUserNameError && this.renderErrorText(errors.userName)}
 
-        <Item margin={0} floatingLabel error={!!errors.password}>
-          <Label>{AppI18n.t("auth.password")}</Label>
-          <Input
-            autoCapitalize="none"
-            secureTextEntry
-            value={values.password}
-            onChangeText={value => setFieldValue("password", value)}
-            onBlur={() => setFieldTouched("password")}
-            editable={!isSubmitting}
-            getRef={ref => {
-              // @ts-ignore
-              this.refPassword = ref.wrappedInstance; // <-- notice
-            }}
-            onSubmitEditing={() => this.refConfirmPass.focus()}
-          />
-        </Item>
+        <AppInput
+          label={"textPassword"}
+          iconColor={errors.password && Colors.error}
+          value={values.password}
+          secureTextEntry
+          onChangeText={value => setFieldValue("password", value)}
+          onFocus={() => setFieldTouched("password")}
+          onBlur={() => setFieldTouched("password", false)}
+        />
+        {!touched.password && !values.password && (
+          <Divider style={{ marginTop: spacing[3] }} />
+        )}
         {showPasswordError && this.renderErrorText(errors.password || "")}
 
-        <Item margin={0} floatingLabel error={!!errors.confirmPassword}>
-          <Label>{AppI18n.t("auth.confirmPassword")}</Label>
-          <Input
-            autoCapitalize="none"
-            secureTextEntry
-            value={values.confirmPassword}
-            onChangeText={value => setFieldValue("confirmPassword", value)}
-            onBlur={() => setFieldTouched("confirmPassword")}
-            editable={!isSubmitting}
-            getRef={ref => {
-              // @ts-ignore
-              this.refConfirmPass = ref.wrappedInstance; // <-- notice
-            }}
-          />
-        </Item>
+        <AppInput
+          label={"confirmPassword"}
+          iconColor={errors.confirmPassword && Colors.error}
+          value={values.confirmPassword}
+          secureTextEntry
+          onChangeText={value => setFieldValue("confirmPassword", value)}
+          onFocus={() => setFieldTouched("confirmPassword")}
+          onBlur={() => setFieldTouched("confirmPassword", false)}
+        />
+        {!touched.confirmPassword && !values.confirmPassword && (
+          <Divider style={{ marginTop: spacing[3] }} />
+        )}
         {showPasswordRequiredError &&
           this.renderErrorText(errors.confirmPassword)}
 
-        <SizedBox height={6} />
+        <SizedBox height={8} />
 
         <AppButton
-          tx="title.signUp"
+          tx="signUp"
           // @ts-ignore
           onPress={handleSubmit}
           preset="authTrans"
           disabled={isSubmitting}
           loading={isSubmitting}
-          marginLeft={5}
-          marginRight={5}
+          buttonStyle={{ marginHorizontal: buttonSidePadding }}
+          style={{ marginHorizontal: buttonSidePadding }}
           loadingProps={{ size: "small", color: "white" }}
         />
         <SizedBox height={4} />
 
         <AppButton
-          tx="title.login"
+          tx="login"
           // @ts-ignore
           onPress={() => NavigateService.navigate("login")}
           disabled={isSubmitting}
           loading={isSubmitting}
           linear
-          marginLeft={5}
-          marginRight={5}
+          buttonStyle={{ marginHorizontal: buttonSidePadding }}
+          style={{ marginHorizontal: buttonSidePadding }}
         />
       </Form>
     );
@@ -216,7 +216,7 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
   render() {
     return (
       <AppBackground>
-        <Content padding={5}>
+        <Content style={{ paddingHorizontal: spacing[5] }}>
           <Body>
             <SizedBox height={3} />
             <AppIcon icon="logo" size={metrics.logo.small} />
@@ -242,6 +242,7 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
   private renderErrorText(text?: string): React.ReactNode {
     return (
       <StyledAppText
+        // @ts-ignore
         tx={text}
         preset="error"
         padding={3}

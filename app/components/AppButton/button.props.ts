@@ -1,3 +1,4 @@
+import { TranslateKey } from "app/localization/languages";
 import { TextStyle, ViewStyle } from "react-native";
 import { ButtonProps } from "react-native-elements";
 import { IMargin, IPadding } from "../WrappedSpacingComponent";
@@ -8,7 +9,7 @@ export interface ButtonProps extends ButtonProps, IMargin, IPadding {
   /**
    * Text which is looked up via i18n.
    */
-  tx?: string;
+  tx?: TranslateKey ;
 
   /**
    * The text to display if not using `tx` or nested components.

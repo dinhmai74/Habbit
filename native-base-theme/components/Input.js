@@ -11,6 +11,7 @@ export default (variables /*: * */ = variable) => {
     color: variables.inputColor,
     paddingLeft: 5,
     paddingRight: 5,
+    paddingBottom: 5,
     flex: 1,
     fontSize: variables.inputFontSize
   };

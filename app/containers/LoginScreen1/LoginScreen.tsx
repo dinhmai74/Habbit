@@ -1,3 +1,4 @@
+import { Colors, spacing } from "app/themes";
 import { Formik, FormikActions, FormikProps } from "formik";
 import {
   Body,
@@ -8,6 +9,8 @@ import {
   Label,
 } from "native-base";
 import React, { Component } from "react";
+import { Divider } from "react-native-elements";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import * as Yup from "yup";
 import {
   AppButton,
@@ -18,6 +21,7 @@ import {
   withSpacing,
   Text,
   AppHeader,
+  AppInput,
 } from "../../components";
 import I18n from "../../localization";
 import { AppBackground } from "../../components/app-background";
@@ -48,11 +52,11 @@ interface FormValues {
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
-    .email("errors.invalidEmailFormat")
-    .required("errors.emailRequired"),
+    .email("invalidEmailFormat")
+    .required("emailRequired"),
   password: Yup.string()
-    .min(5, "errors.passwordMinLength")
-    .required("errors.passwordRequired"),
+    .min(5, "passwordMinLength")
+    .required("passwordRequired"),
 });
 
 export class LoginScreen extends Component<ILoginScreenProps, IState> {
@@ -109,23 +113,27 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
       errorEmail = true;
     }
 
-    const buttonSidePadding = 2;
+    const buttonSidePadding = spacing[2];
 
     return (
-      <Form>
-        <Item floatingLabel error={errorEmail}>
-          <Label>{I18n.t("auth.email")}</Label>
-          <Input
-            autoCapitalize="none"
-            value={values.email}
-            onChangeText={value => setFieldValue("email", value)}
-            onBlur={() => setFieldTouched("email")}
-            editable={!isSubmitting}
-            onSubmitEditing={() => this.refPassword.focus()}
+      <Form style={{ paddingHorizontal: spacing[4] }}>
+        <AppInput
+          label={"textEmail"}
+          iconColor={errors.email && Colors.error}
+          value={values.email}
+          onChangeText={value => setFieldValue("email", value)}
+          onFocus={() => setFieldTouched("email")}
+          onBlur={() => setFieldTouched("email", false)}
+          // active border height
+        />
+        {!touched.email && !values.email && (
+          <Divider
+            style={{ marginTop: spacing[3], backgroundColor: Colors.dim , }}
           />
-        </Item>
+        )}
         {touched.email && errors.email && (
           <StyledAppText
+            // @ts-ignore
             tx={errors.email}
             preset="error"
             padding={3}
@@ -134,23 +142,21 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
           />
         )}
 
-        <Item floatingLabel last>
-          <Label>{I18n.t("auth.password")}</Label>
-          <Input
-            autoCapitalize="none"
-            secureTextEntry
-            value={values.password}
-            onChangeText={value => setFieldValue("password", value)}
-            onBlur={() => setFieldTouched("password")}
-            editable={!isSubmitting}
-            getRef={ref => {
-              // @ts-ignore
-              this.refPassword = ref.wrappedInstance; // <-- notice
-            }}
-          />
-        </Item>
+        <AppInput
+          label={"textPassword"}
+          iconColor={errors.password && Colors.error}
+          value={values.password}
+          secureTextEntry
+          onChangeText={value => setFieldValue("password", value)}
+          onFocus={() => setFieldTouched("password")}
+          onBlur={() => setFieldTouched("password", false)}
+        />
+        {!touched.password && !values.password && (
+          <Divider style={{ marginTop: spacing[3] }} />
+        )}
         {touched.password && errors.password && (
           <StyledAppText
+            // @ts-ignore
             tx={errors.password}
             preset="error"
             padding={3}
@@ -158,22 +164,23 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
             marginBottom={0}
           />
         )}
-        <SizedBox height={6} />
+        <SizedBox height={5} />
         <AppButton
-          tx="title.login"
           // @ts-ignore
+          tx="signIn"
           onPress={handleSubmit}
           disabled={isSubmitting}
           loading={isSubmitting}
           disabledStyle={{ backgroundColor: colors.white }}
           preset="authTrans"
           buttonStyle={{ marginHorizontal: buttonSidePadding }}
+          style={{ marginHorizontal: buttonSidePadding }}
           loadingProps={{ size: "small", color: colors.primary }}
         />
         <SizedBox height={4} />
 
         <AppButton
-          tx="title.signUp"
+          tx="signUp"
           // @ts-ignore
           onPress={() => NavigateService.navigate("signUp")}
           disabled={isSubmitting}
@@ -188,10 +195,10 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
   render() {
     return (
       <AppBackground>
-        <Content padding={5}>
+        <Content style={{ paddingHorizontal: spacing[5] }}>
           <Body>
             <SizedBox height={8} />
-            <AppIcon icon="logoColored" size={metrics.logo.normal} />
+            <AppIcon icon="logoColored" size={metrics.logo.small2} />
           </Body>
           <Formik
             initialValues={{ email: "dinhmai@gmail.com", password: "password" }}

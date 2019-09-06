@@ -185,10 +185,10 @@ export default {
   inputBorderColor: '#D9D5DC',
   // inputSuccessBorderColor: "#2b8339",
   inputSuccessBorderColor: Colors.success,
-  inputErrorBorderColor: '#ed2f2f',
+  inputErrorBorderColor: Colors.error,
   inputHeightBase: 50,
   get inputColor() {
-    return this.textColor
+    return Colors.text.normal
   },
   get inputColorPlaceholder() {
     return '#575757'
@@ -266,7 +266,7 @@ export default {
   borderWidth: 1 / PixelRatio.getPixelSizeForLayoutSize(1),
   contentPadding: 10,
   dropdownLinkColor: '#414142',
-  inputLineHeight: 24,
+  inputLineHeight: 30,
   deviceWidth,
   deviceHeight,
   isIphoneX,

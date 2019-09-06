@@ -1,3 +1,4 @@
+import { TranslateKey } from "app/localization/languages";
 import Fonts, { FontTypes } from "app/themes/Fonts";
 import { NativeBase } from "native-base";
 import React from "react";
@@ -68,7 +69,7 @@ export interface TextProps extends NativeBase.Text {
   /**
    * Text which is looked up via i18n.
    */
-  tx?: string | number;
+  tx?: TranslateKey;
 
   /**
    * Optional options to pass to i18n. Useful for interpolation

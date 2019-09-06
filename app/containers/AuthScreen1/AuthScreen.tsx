@@ -1,5 +1,6 @@
 import { ApiFactory, getTokenString } from "app/api/firebase";
 import { login } from "app/appRedux";
+import { en } from "app/localization/languages/english";
 import { Body, Row } from "native-base";
 import React, { Component } from "react";
 import { AsyncStorage } from "react-native";
@@ -83,14 +84,14 @@ export class AuthScreen extends Component<IAuthScreenProps, State> {
           <SizedBox height={5} />
           <Row>
             <StyledButton
-              tx="title.login"
+              tx={"signIn"}
               margin={3}
               padding={3}
               type="outline"
               onPress={() => NavigateService.navigate("login")}
             />
             <StyledButton
-              tx="title.signUp"
+              tx="signUp"
               margin={3}
               padding={3}
               type="outline"

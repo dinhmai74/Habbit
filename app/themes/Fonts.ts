@@ -41,7 +41,7 @@ const size = {
   p2: normalize(15),
   p3: normalize(13),
   p4: normalize(11),
-  input: normalize(17),
+  input: normalize(14),
   base: normalize(15),
   regular: normalize(16),
   medium: normalize(14),

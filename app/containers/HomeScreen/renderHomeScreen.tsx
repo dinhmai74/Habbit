@@ -188,8 +188,8 @@ export default class HomeRender extends Component<Props, State> {
         // @ts-ignore
         <HabitCard
           title={item.quest}
-          leftText={capitalize(I18n.t(strings.textDone))}
-          rightText={capitalize(I18n.t(strings.textSkip))}
+          leftText={capitalize(I18n.t("textDone"))}
+          rightText={capitalize(I18n.t("textSkip"))}
           leftButtonOnClick={() =>
             this.updateTaskStatus(item.id, "done", item.date)
           }

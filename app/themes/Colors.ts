@@ -25,7 +25,7 @@ const colors = {
   transparent: "rgba(0,0,0,0)",
   silver: "#F7F7F7",
   steel: "#CCCCCC",
-  error: "#FFAACC",
+  error: "#ed2f2f",
   ricePaper: "rgba(255,255,255, 0.75)",
   frost: "#D8D8D8",
   cloud: "rgba(200,200,200, 0.35)",
@@ -94,6 +94,7 @@ const colors = {
   text: {
     primary: palette.white,
     text: "#595959",
+    label: palette.mortar,
     secondary: palette.lightStateBlue,
     third: palette.lightGrey,
     black: palette.black,

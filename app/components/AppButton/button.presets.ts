@@ -2,14 +2,15 @@ import { TextStyle, ViewStyle } from "react-native";
 import { Colors } from "app/themes";
 import { palette } from "app/themes/palette";
 import { spacing } from "app/themes/spacing";
+import { normalize } from "react-native-elements";
 import { presets } from "../Text/text.presets";
 
 /**
  * All text will start off looking like this.
  */
 const BASE_VIEW: ViewStyle = {
-  paddingVertical: spacing[3],
-  paddingHorizontal: spacing[5],
+  paddingVertical: spacing[2],
+  paddingHorizontal: spacing[3],
   borderRadius: 4,
   justifyContent: "center",
   alignItems: "center",
@@ -17,9 +18,9 @@ const BASE_VIEW: ViewStyle = {
 };
 
 const BASE_TEXT: TextStyle = {
-  paddingHorizontal: spacing[1],
-  fontSize: 16,
   ...presets.default,
+  paddingHorizontal: spacing[1],
+  fontSize: normalize(14),
 };
 
 /**

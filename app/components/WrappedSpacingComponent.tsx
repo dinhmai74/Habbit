@@ -1,8 +1,8 @@
-import flatten from "ramda/es/flatten";
-import mergeAll from "ramda/es/mergeAll";
 import React from "React";
 import styled from "styled-components";
 import { spacing, Spacing } from "../themes/spacing";
+import { mergeAll } from "ramda";
+import { flatten } from "lodash";
 
 export const wrapComponentWithPadding = (
   component,

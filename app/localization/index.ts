@@ -1,9 +1,10 @@
+import { TranslateKey } from "app/localization/languages";
 import I18n from "react-native-i18n";
 
 const missingTranslationRegex = /^\[missing ".*" translation\]$/;
 
 // This function is a wrapper to avoid exception wich leads in a crash
-const translateOrFallback = (initialMsg: any) => {
+const translateOrFallback = (initialMsg: TranslateKey) => {
   // We tried to translate something else than a string
   // The native I18n function will simply crash instead of rejecting the attempt with an error message
   if (typeof initialMsg !== "string") {
@@ -31,8 +32,14 @@ const translateOrFallback = (initialMsg: any) => {
   return localMsg;
 };
 
+export const switchLanguage = (lang, component) => {
+  I18n.locale = lang;
+  component.forceUpdate();
+};
+
 export const AppI18n = {
   ...I18n,
+  switchLanguage,
   t: translateOrFallback,
 };
 export default AppI18n;

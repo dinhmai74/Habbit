@@ -6,7 +6,6 @@ import { ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import I18n from "app/localization";
 import { Colors } from "app/themes";
-import { withSpacing } from "../WrappedSpacingComponent";
 import { textPresets, viewPresets } from "./button.presets";
 import { ButtonProps } from "./button.props";
 
