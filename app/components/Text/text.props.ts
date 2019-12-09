@@ -69,7 +69,7 @@ export interface TextProps extends NativeBase.Text {
   /**
    * Text which is looked up via i18n.
    */
-  tx?: TranslateKey;
+  tx?: string;
 
   /**
    * Optional options to pass to i18n. Useful for interpolation

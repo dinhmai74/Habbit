@@ -73,7 +73,7 @@ export class AuthScreen extends Component<IAuthScreenProps, State> {
           NavigateService.navigate("main");
         },
         "bottom",
-        1000
+        1
       );
     }
     return (

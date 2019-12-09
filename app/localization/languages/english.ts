@@ -115,6 +115,21 @@ export const en = {
   // detail Screen
   allStreaks: "All Streaks",
   thereIsNoStreakYet: "There is no streak yet!",
+
+  lifeLog: {
+    today: "Today",
+    daily: "Daily",
+    weekly: "weekly",
+    monthly: "monthly",
+    currentStreaks: "Current streaks",
+  },
+  detail: {
+    allStreaks: "All streaks",
+  },
+
+  messages: {
+    loginSuccess: "Login...",
+  },
 };
 
 export type TranslateKey = keyof typeof en;

@@ -15,13 +15,13 @@ export const getPlatformElevation = (elevation: number = 1) => {
   }
 
   return {
-    shadowColor: "black",
-    shadowOpacity: 0.1,
-    shadowRadius: elevation / 2,
+    shadowColor: "rgba(0, 0, 0, 0.1)",
     shadowOffset: {
-      height: 1,
       width: 0,
+      height: 1,
     },
+    shadowRadius: 15,
+    shadowOpacity: 1,
     // we need to have zIndex on iOS, otherwise the shadow is under components that
     // are rendered later
   };
