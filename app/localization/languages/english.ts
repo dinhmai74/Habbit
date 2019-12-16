@@ -27,6 +27,7 @@ export const en = {
   textUsername: "User name",
   textEmail: "Email",
   textPassword: "Password",
+  textPasswordRepeated: "Password repeat",
   confirmPassword: "Confirm password",
   or: "Or connect with",
   // home
@@ -119,9 +120,10 @@ export const en = {
   lifeLog: {
     today: "Today",
     daily: "Daily",
-    weekly: "weekly",
-    monthly: "monthly",
+    weekly: "Weekly",
+    monthly: "Monthly",
     currentStreaks: "Current streaks",
+    thereAreNoTaskFor: "There are no task for",
   },
   detail: {
     allStreaks: "All streaks",

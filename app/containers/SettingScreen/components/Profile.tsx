@@ -16,7 +16,7 @@ import styled from "styled-components";
 import I18n from "../../../localization";
 
 import { ToastService } from "../../../components";
-import { Colors, Metrics, strings } from "../../../themes";
+import { Colors, Metrics, strings, spacing } from "../../../themes";
 import { capitalize } from "../../../tools";
 import ProfileInput from "./ProfileInput";
 
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 50,
     padding: 5,
+    paddingVertical: spacing[2],
     margin: Metrics.sidesPadding,
     marginBottom: 30,
   },
@@ -208,6 +209,7 @@ export default class Profile extends PureComponent<IProps, IState> {
               <Icon
                 name="close"
                 style={styles.icon}
+                type="AntDesign"
                 // @ts-ignore
                 onPress={loading ? () => {} : this.props.onBackButtonPress}
               />
@@ -256,8 +258,8 @@ export default class Profile extends PureComponent<IProps, IState> {
             <ProfileInput
               icon="key"
               type="SimpleLineIcons"
-              label={capitalize(I18n.t(strings.textPasswordRepeated))}
-              placeholder={capitalize(I18n.t(strings.textPasswordRepeated))}
+              label={capitalize(I18n.t("textPasswordRepeated"))}
+              placeholder={capitalize(I18n.t("textPasswordRepeated"))}
               value={passwordRepeated}
               onChangeText={text =>
                 this.handleChangeInput("passwordRepeated", text)
@@ -269,8 +271,8 @@ export default class Profile extends PureComponent<IProps, IState> {
             <ProfileInput
               icon="key"
               type="SimpleLineIcons"
-              label={capitalize(I18n.t(strings.textOldPassword))}
-              placeholder={capitalize(I18n.t(strings.textOldPassword))}
+              label={capitalize(I18n.t("textOldPassword"))}
+              placeholder={capitalize(I18n.t("textOldPassword"))}
               value={oldPassword}
               onChangeText={text => this.handleChangeInput("oldPassword", text)}
               error={oldPasswordError}
@@ -283,7 +285,7 @@ export default class Profile extends PureComponent<IProps, IState> {
               start: { x: 1, y: 0 },
               end: { x: 0.2, y: 0 },
             }}
-            containerStyle={{ marginTop: 5 }}
+            containerStyle={{ marginTop: 5, paddingVertical: spacing[4] }}
             ViewComponent={LinearGradient} // Don't forget this!
             buttonStyle={styles.button}
             loadingStyle={styles.buttonLoading}

@@ -128,7 +128,7 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
         />
         {!touched.email && !values.email && (
           <Divider
-            style={{ marginTop: spacing[3], backgroundColor: Colors.dim , }}
+            style={{ marginTop: spacing[3], backgroundColor: Colors.dim }}
           />
         )}
         {touched.email && errors.email && (
@@ -164,7 +164,7 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
             marginBottom={0}
           />
         )}
-        <SizedBox height={5} />
+        <SizedBox height={8} />
         <AppButton
           // @ts-ignore
           tx="signIn"
@@ -202,6 +202,7 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
           </Body>
           <Formik
             initialValues={{ email: "dinhmai@gmail.com", password: "password" }}
+            //initialValues={{ email: "", password: "" }}
             validationSchema={validationSchema}
             onSubmit={this.onSubmit}
             render={(formikBag: FormikProps<FormValues>) =>
