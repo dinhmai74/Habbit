@@ -92,15 +92,15 @@ const deviceWidth = Dimensions.get("window").width;
 const isIphoneX =
   Platform.OS === "ios" && (deviceHeight === 812 || deviceWidth === 812);
 
-const paddingBottomIPX = isIphoneX && { paddingBottom: spacing[5]};
+const paddingBottomIPX = isIphoneX ? { paddingBottom: spacing[5]} : {};
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.dateSelectionBackgroundInactive,
-    ...getPlatformElevation(),
-    padding: 10,
-    flexDirection: "row",
     justifyContent: "center",
+    ...getPlatformElevation(),
+    flexDirection: "row",
+    padding: 10,
     width: "100%",
     ...paddingBottomIPX,
   },
