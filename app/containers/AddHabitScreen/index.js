@@ -7,15 +7,15 @@ import { strings } from "../../themes";
 export default class AddHabitScreen extends Component {
   goBack = () => {
     this.props.navigation.goBack(null);
-  };
+  }
 
   goToAddDetailScreen = () => {
     this.props.navigation.navigate(strings.routeAddDetailHabit, { type: "add" });
-  };
+  }
 
-  goToHobbiesScreen = () => {
-    this.props.navigation.navigate(strings.routeHobbies, {});
-  };
+  goToHobbiesScreen = (id) => {
+    this.props.navigation.navigate(strings.routeHobbies, {id});
+  }
 
   render() {
     return (

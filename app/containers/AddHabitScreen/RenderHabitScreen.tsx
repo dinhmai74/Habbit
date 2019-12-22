@@ -12,7 +12,7 @@ import {
   InlineDecorationText,
   AppBackground,
   AppHeader,
-  AppIcon as AppIcon,
+  AppIcon,
 } from "../../components";
 import TextWithIcon from "../../components/TextWithIcon";
 import I18n from "../../localization";
@@ -31,36 +31,49 @@ const SWIPE_THRESHOLD = 100;
 interface IProps {
   goBack?: () => void;
   goToAddDetailScreen?: () => void;
-  goToHobbiesScreen?: () => void;
+  goToHobbiesScreen: (id: number) => void;
 }
 
-const data = [
+interface TopicModel {
+  id: number;
+  icon: string;
+  color: string;
+  name: string;
+}
+
+const data: TopicModel[] = [
   {
+    id: 0,
     name: "Heath",
     icon: "queue",
     color: "red",
   },
   {
+    id: 1,
     name: "Fitness",
     icon: "fitness-center",
     color: "#9A58C4",
   },
   {
+    id: 2,
     name: "Home",
     icon: "home",
     color: "#4A73DD",
   },
   {
+    id: 3,
     name: "Hobbies",
     icon: "star",
     color: "#f1c40f",
   },
   {
+    id: 4,
     name: "Social",
     icon: "comment",
     color: "orange",
   },
   {
+    id: 5,
     name: "Efficiency",
     icon: "alarm",
     color: "green",
@@ -95,13 +108,9 @@ export default class RenderHabitScreen extends Component<IProps> {
     return <View />;
   };
 
-  renderListIcon = ({
-    item,
-  }: {
-    item: { icon: string; color: string; name: string };
-  }) => {
+  renderListIcon = ({ item }: { item }) => {
     return (
-      <TouchableOpacity onPress={this.props.goToHobbiesScreen}>
+      <TouchableOpacity onPress={() => this.props.goToHobbiesScreen(item.id)}>
         <View style={{ paddingLeft: 40, paddingRight: 40 }}>
           <View style={{ width: 70 }}>
             <Icon

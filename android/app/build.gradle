@@ -106,12 +106,10 @@ android {
     }
      signingConfigs {
         release {
-            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-                storeFile file(MYAPP_RELEASE_STORE_FILE)
-                storePassword "gewgew7489"
-                keyAlias MYAPP_RELEASE_KEY_ALIAS
-                keyPassword "gewgew7489"
-            }
+                storeFile file("my-upload-key.keystore")
+                storePassword ""
+                keyAlias "my-key-alias"
+                keyPassword ""
         }
     }
     splits {
