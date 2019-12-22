@@ -400,10 +400,10 @@ export const FirebaseWorker = {
       await AsyncStorage.setItem(strings.typeSignIn, strings.googleSignIn);
       await AsyncStorage.setItem(strings.uid, user.uid);
       await AsyncStorage.setItem(strings.userToken, JSON.stringify(token));
-      console.log("token: ", token);
+      console.tron.log("token: ", token);
       await AsyncStorage.setItem(strings.email, user.email || "");
       await AsyncStorage.setItem(strings.userName, user.displayName || "");
-      console.log(JSON.stringify(firebaseUserCredential.user.toJSON()));
+      console.tron.log(JSON.stringify(firebaseUserCredential.user.toJSON()));
       return {
         error: false,
         message: "Login successful by google account",

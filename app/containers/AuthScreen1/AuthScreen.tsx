@@ -43,19 +43,23 @@ export class AuthScreen extends Component<IAuthScreenProps, State> {
     };
   }
 
-  componentDidMount() {
-    // this.unsubscriber = firebase.auth().onAuthStateChanged(user => {
-    //   this.setState({ user });
-    //   if (user) {
-    //     user.getIdToken().then(token => {
-    //       ApiFactory.getInstance().setHeader(
-    //         "Authorization",
-    //         getTokenString(token)
-    //       );
-    //     });
-    //     AsyncStorage.setItem(strings.uid, user.uid);
-    //   }
-    // });
+  async componentDidMount() {
+    const result = await firebase.auth().currentUser;
+    if (result) {
+      this.props.navigation.navigate(strings.routeMain);
+    }
+    this.unsubscriber = firebase.auth().onAuthStateChanged(user => {
+      this.setState({ user });
+      if (user) {
+        user.getIdToken().then(token => {
+          ApiFactory.getInstance().setHeader(
+            "Authorization",
+            getTokenString(token)
+          );
+        });
+        AsyncStorage.setItem(strings.uid, user.uid);
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -65,17 +69,17 @@ export class AuthScreen extends Component<IAuthScreenProps, State> {
   }
 
   render() {
-    // if (this.state.user) {
-    //   ToastService.showToast(
-    //     "message.loginSuccess",
-    //     "success",
-    //     () => {
-    //       NavigateService.navigate("main");
-    //     },
-    //     "bottom",
-    //     1
-    //   );
-    // }
+    if (this.state.user) {
+      ToastService.showToast(
+        "message.loginSuccess",
+        "success",
+        () => {
+          NavigateService.navigate("main");
+        },
+        "bottom",
+        1
+      );
+    }
     return (
       <AppBackground isLinear>
         <StyledBody>

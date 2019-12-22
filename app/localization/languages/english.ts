@@ -80,8 +80,7 @@ export const en = {
   errMessPleaseChoseYourIcon: "Please choose your icon!",
   errGoogleLoginByPlayService:
     "Please make sure your device has Google Play Service",
-  errFbLogin:
-    "Please make sure your device has facebook",
+  errFbLogin: "Please make sure your device has facebook",
   invalidEmail: "Invalid email address.",
   invalidEmailFormat:
     "A valid email can only contain latin letters, numbers, '@' and '.'.",
@@ -132,6 +131,9 @@ export const en = {
 
   messages: {
     loginSuccess: "Login...",
+  },
+  title: {
+    hobbies: "Chose hobby",
   },
 };
 

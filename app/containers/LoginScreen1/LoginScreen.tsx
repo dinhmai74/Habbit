@@ -1,4 +1,4 @@
-import { Colors, spacing } from "app/themes";
+import { Colors, spacing, strings } from "app/themes";
 import { Formik, FormikActions, FormikProps } from "formik";
 import {
   Body,
@@ -141,9 +141,13 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
   onSubmitSocical = async (callBack, bag: FormikActions<FormValues>) => {
     bag.setSubmitting(true);
     const result = await callBack();
+    console.tron.log("result", result);
     if (result && result.error) {
-      console.log("result",result)
+      console.log("result", result);
       ToastService.showToast(result.message, "danger");
+    } else {
+      bag.setSubmitting(false);
+      this.props.navigation.navigate(strings.routeMain);
     }
     bag.setSubmitting(false);
   };
@@ -260,14 +264,18 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
             raised={false}
             type="facebook"
             style={styles.socialButton}
-            onPress={() => this.onSubmitSocical(FirebaseWorker.loginByFacebook, bag)}
+            onPress={() =>
+              this.onSubmitSocical(FirebaseWorker.loginByFacebook, bag)
+            }
           />
           <SocialIcon
             light
             raised={false}
             type="google-plus-official"
             style={styles.socialButton}
-            onPress={() => this.onSubmitSocical(FirebaseWorker.googleLogin, bag)}
+            onPress={() =>
+              this.onSubmitSocical(FirebaseWorker.googleLogin, bag)
+            }
           />
         </Animatable.View>
       </Form>
