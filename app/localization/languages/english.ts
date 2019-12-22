@@ -68,6 +68,9 @@ export const en = {
   loginSuccess: "Login success, we'll navigate soon!",
   editIconAndNameSuccessful: "Edit icon and name successful",
   /* Error */
+  error: {
+    google: "Something went wrong, please try again."
+  },
   errMessUnmatchedPassword: "Your passwords don’t match",
   errEditScheduleFailed: "Edit schedule failed!",
   errMessYourUserNameIsEmpty: "Your user name is empty",
@@ -80,7 +83,6 @@ export const en = {
   errMessPleaseChoseYourIcon: "Please choose your icon!",
   errGoogleLoginByPlayService:
     "Please make sure your device has Google Play Service",
-  errGoogleLogin: "Something went wrong, please try again.",
   invalidEmail: "Invalid email address.",
   invalidEmailFormat:
     "A valid email can only contain latin letters, numbers, '@' and '.'.",

@@ -1,45 +1,37 @@
-import { en } from "app/localization/languages";
 import { Colors, spacing } from "app/themes";
 import { Formik, FormikActions, FormikProps } from "formik";
-import {
-  Body,
-  Content as NContent,
-  Form,
-  Input,
-  Item as NBItem,
-  Label,
-} from "native-base";
-import { Divider } from "react-native-elements";
-import { Sae } from "react-native-textinput-effects";
-import MaterialsIcon from "react-native-vector-icons/MaterialIcons";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import { Body, Content as NContent, Form } from "native-base";
 import React, { Component } from "react";
-
+import {
+  createAnimatableComponent,
+  View as AnimationView,
+} from "react-native-animatable";
+import { Divider } from "react-native-elements";
+import { NavigationInjectedProps } from "react-navigation";
 import * as Yup from "yup";
+import FirebaseWorker from "../api/firebase";
 import {
   AppButton,
-  AppText,
-  AppInput,
   AppIcon,
+  AppInput as Input,
   SizedBox,
+  Text,
   ToastService,
   withSpacing,
-  Text,
 } from "../components";
-import AppI18n from "../localization";
 import { AppBackground } from "../components/app-background";
 import metrics from "../themes/Metrics";
-import FirebaseWorker from "../api/firebase";
 import NavigateService from "../tools/NavigateService";
-
 const StyledAppText = withSpacing(Text);
 const Content = withSpacing(NContent);
+// @ts-ignore
+const AppInput = createAnimatableComponent(Input);
 
-const Item = withSpacing(NBItem);
+export interface ISignUpScreenProps extends NavigationInjectedProps {}
 
-export interface ISignUpScreenProps {}
-
-interface IState {}
+interface IState {
+  [rest: string]: any;
+}
 
 type FormTypes = "email" | "password";
 
@@ -66,6 +58,8 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
+const DEFAULT_DURATION = 500;
+const DELAY_TIME = 150;
 export class SignUp extends Component<ISignUpScreenProps, IState> {
   refPassword: any;
 
@@ -73,9 +67,69 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
 
   refUserName: any;
 
+  willFocusListener: any;
+
+  refAnims: any = {};
+
   constructor(props: ISignUpScreenProps) {
     super(props);
+
+    this.state = {
+      animDuration: {
+        emailDelay: 0,
+        usernameDelay: DELAY_TIME,
+        passwordDelay: DELAY_TIME * 1.5,
+        confirmPasswordDelay: DELAY_TIME * 2,
+        btnSignInDelay: DELAY_TIME * 3,
+        btnSignUpDelay: DELAY_TIME * 2.5,
+      },
+    };
   }
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.willFocusListener = navigation.addListener("willFocus", () => {
+      this.refresh();
+    });
+  }
+
+  componentWillUnmount() {
+    this.willFocusListener.remove();
+  }
+
+  refresh = () => {
+    this.doAnimate();
+  };
+
+  doAnimate = () => {
+    const {
+      emailDelay,
+      usernameDelay,
+      passwordDelay,
+      confirmPasswordDelay,
+      btnSignUpDelay,
+      btnSignInDelay,
+    } = this.state.animDuration;
+    const {
+      btnSignUp,
+      btnSignIn,
+      password,
+      email,
+      userName,
+      confirmPassword,
+    } = this.refAnims;
+    email && email.animate("fadeInLeft", DEFAULT_DURATION, emailDelay);
+    userName && userName.animate("fadeInLeft", DEFAULT_DURATION, usernameDelay);
+    confirmPassword &&
+      confirmPassword.animate(
+        "fadeInLeft",
+        DEFAULT_DURATION,
+        confirmPasswordDelay
+      );
+    password && password.animate("fadeInLeft", DEFAULT_DURATION, passwordDelay);
+    btnSignUp && btnSignUp.animate("zoomIn", DEFAULT_DURATION, btnSignUpDelay);
+    btnSignIn && btnSignIn.animate("zoomIn", DEFAULT_DURATION, btnSignInDelay);
+  };
 
   handleChangeInput = (stateName: FormTypes, text: string) => {
     this.setState({
@@ -131,19 +185,21 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
       <Form style={{ paddingHorizontal: spacing[4] }}>
         <AppInput
           label={"textEmail"}
+          ref={c => (this.refAnims.email = c)}
           iconColor={errors.email && Colors.error}
           value={values.email}
           onChangeText={value => setFieldValue("email", value)}
           onFocus={() => setFieldTouched("email")}
           onBlur={() => setFieldTouched("email", false)}
         />
-        {!touched.email&& !values.email && (
+        {!touched.email && !values.email && (
           <Divider style={{ marginTop: spacing[3] }} />
         )}
         {showEmailError && this.renderErrorText(errors.email || "")}
 
         <AppInput
           label={"textUsername"}
+          ref={c => (this.refAnims.userName = c)}
           iconColor={errors.userName && Colors.error}
           value={values.userName}
           onChangeText={value => setFieldValue("userName", value)}
@@ -157,6 +213,7 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
 
         <AppInput
           label={"textPassword"}
+          ref={c => (this.refAnims.password = c)}
           iconColor={errors.password && Colors.error}
           value={values.password}
           secureTextEntry
@@ -171,6 +228,7 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
 
         <AppInput
           label={"confirmPassword"}
+          ref={c => (this.refAnims.confirmPassword = c)}
           iconColor={errors.confirmPassword && Colors.error}
           value={values.confirmPassword}
           secureTextEntry
@@ -186,29 +244,31 @@ export class SignUp extends Component<ISignUpScreenProps, IState> {
 
         <SizedBox height={8} />
 
-        <AppButton
-          tx="signUp"
-          // @ts-ignore
-          onPress={handleSubmit}
-          preset="authTrans"
-          disabled={isSubmitting}
-          loading={isSubmitting}
-          buttonStyle={{ marginHorizontal: buttonSidePadding }}
-          style={{ marginHorizontal: buttonSidePadding }}
-          loadingProps={{ size: "small", color: "white" }}
-        />
+        <AnimationView ref={c => (this.refAnims.btnSignUp = c)}>
+          <AppButton
+            tx="signUp"
+            // @ts-ignore
+            onPress={handleSubmit}
+            preset="authTrans"
+            disabled={isSubmitting}
+            loading={isSubmitting}
+            buttonStyle={{ marginHorizontal: buttonSidePadding }}
+            style={{ marginHorizontal: buttonSidePadding }}
+            loadingProps={{ size: "small", color: "white" }}
+          />
+        </AnimationView>
         <SizedBox height={4} />
-
-        <AppButton
-          tx="login"
-          // @ts-ignore
-          onPress={() => NavigateService.navigate("login")}
-          disabled={isSubmitting}
-          loading={isSubmitting}
-          linear
-          buttonStyle={{ marginHorizontal: buttonSidePadding }}
-          style={{ marginHorizontal: buttonSidePadding }}
-        />
+        <AnimationView ref={c => (this.refAnims.btnSignIn = c)}>
+          <AppButton
+            tx="login"
+            // @ts-ignore
+            onPress={() => NavigateService.navigate("login")}
+            disabled={isSubmitting}
+            linear
+            buttonStyle={{ marginHorizontal: buttonSidePadding }}
+            style={{ marginHorizontal: buttonSidePadding }}
+          />
+        </AnimationView>
       </Form>
     );
   }
