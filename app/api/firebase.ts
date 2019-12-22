@@ -1,7 +1,11 @@
 import apisauce, { ApisauceInstance } from "apisauce";
 import _ from "lodash";
+import moment from "moment";
 import { AsyncStorage } from "react-native";
+import { AccessToken, LoginManager } from "react-native-fbsdk";
 import firebase from "react-native-firebase";
+import { GoogleSignin, statusCodes } from "react-native-google-signin";
+import I18n from "../localization";
 import {
   IconDisplayModel,
   ScheduleTaskModel,
@@ -9,10 +13,6 @@ import {
 } from "../model";
 import { strings } from "../themes";
 import { fillTask, formatDate, logReactotron, today } from "../tools";
-import { GoogleSignin, statusCodes } from "react-native-google-signin";
-import { AccessToken, LoginManager } from "react-native-fbsdk";
-import I18n from "../localization";
-import moment from "moment";
 
 export const BASE_URL = "https://us-central1-habit-74198.cloudfunctions.net";
 // export const BASE_URL = 'http://localhost:5000/habit-74198/us-central1'
@@ -64,16 +64,20 @@ export const FirebaseWorker = {
         .auth()
         .signInWithEmailAndPassword(email, oldPassword);
       const user = await firebase.auth().currentUser;
+      if (!user) {
+        throw {
+          error: true,
+          message: "Unknown error",
+        };
+      }
 
       if (userName) {
-        // @ts-ignore
         await user.updateProfile({
           displayName: userName,
         });
       }
 
       if (password) {
-        // @ts-ignore
         await user.updatePassword(password);
       }
 
@@ -169,8 +173,13 @@ export const FirebaseWorker = {
         };
       }
       const uid = await AsyncStorage.getItem(strings.uid);
-      // @ts-ignore
-      date = formatDate(date);
+      if (!uid) {
+        throw {
+          error: true,
+          message: "Unknown error",
+        };
+      }
+      date = formatDate(new Date(date));
 
       const updates = {};
       updates[`/uid=${uid}/tasks/${taskId}/archived/${date}`] = {
@@ -206,7 +215,6 @@ export const FirebaseWorker = {
       if (!user) {
         throw { message: "Unknown error!" };
       }
-      // @ts-ignore
       user.updateProfile({
         displayName: userName,
       });
@@ -245,7 +253,12 @@ export const FirebaseWorker = {
           _.trimStart(_.trimEnd(password))
         );
       const user = await firebase.auth().currentUser;
-      // @ts-ignore
+      if (!user) {
+        throw {
+          error: true,
+          message: "Unknown error",
+        };
+      }
       const token = await user.getIdToken();
 
       await AsyncStorage.setItem(strings.uid, accountSignIn.user.uid);
@@ -272,7 +285,6 @@ export const FirebaseWorker = {
       const result: any = await ApiFactory.getInstance().get("/getTasks");
       // const result = await firebase.database().ref(`/tasks/uid=${uid}`)
       if (result.data && result.data.data) {
-        // @ts-ignore
         const { data } = result.data;
         data.forEach(e => {
           const { archived, createdDate, id, schedule } = e;
@@ -367,11 +379,16 @@ export const FirebaseWorker = {
       });
 
       const data = await GoogleSignin.signIn();
+      if (!data.accessToken) {
+        throw {
+          error: true,
+          message: "Unknown error",
+        };
+      }
 
       // create a new firebase credential with the token
       const credential = firebase.auth.GoogleAuthProvider.credential(
         data.idToken,
-        // @ts-ignore
         data.accessToken
       );
       // login with credential
@@ -379,7 +396,6 @@ export const FirebaseWorker = {
         .auth()
         .signInWithCredential(credential);
       const user = await firebaseUserCredential.user;
-      // @ts-ignore
       const token = await user.getIdToken();
       await AsyncStorage.setItem(strings.typeSignIn, strings.googleSignIn);
       await AsyncStorage.setItem(strings.uid, user.uid);
@@ -475,12 +491,12 @@ export const FirebaseWorker = {
       if (e.code === CANCELED) {
         return {
           error: true,
-          message: "",
+          message: e.message,
         };
       }
       return {
         error: true,
-        message: I18n.t(strings.errGoogleLogin),
+        message: I18n.t("errFbLogin"),
       };
     }
   },

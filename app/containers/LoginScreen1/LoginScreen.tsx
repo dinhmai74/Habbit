@@ -9,8 +9,7 @@ import {
   Label,
 } from "native-base";
 import React, { Component } from "react";
-import { Divider } from "react-native-elements";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import { Divider, SocialIcon } from "react-native-elements";
 import * as Animatable from "react-native-animatable";
 
 import * as Yup from "yup";
@@ -65,6 +64,8 @@ const validationSchema = Yup.object().shape({
     .min(5, "passwordMinLength")
     .required("passwordRequired"),
 });
+
+type SocialLoginType = "fb" | "gg";
 
 export class LoginScreen extends Component<ILoginScreenProps, IState> {
   refPassword: any;
@@ -137,6 +138,16 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
     formikBag.setSubmitting(false);
   };
 
+  onSubmitSocical = async (callBack, bag: FormikActions<FormValues>) => {
+    bag.setSubmitting(true);
+    const result = await callBack();
+    if (result && result.error) {
+      console.log("result",result)
+      ToastService.showToast(result.message, "danger");
+    }
+    bag.setSubmitting(false);
+  };
+
   onSubmit = (values: FormValues, formikBag: FormikActions<FormValues>) => {
     this.handleSubmit(values, formikBag);
   };
@@ -145,15 +156,16 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
    * render part
    */
 
-  renderForm({
-    values,
-    handleSubmit,
-    setFieldValue,
-    touched,
-    errors,
-    setFieldTouched,
-    isSubmitting,
-  }: FormikProps<FormValues>) {
+  renderForm(bag: FormikProps<FormValues>) {
+    const {
+      values,
+      handleSubmit,
+      setFieldValue,
+      touched,
+      errors,
+      setFieldTouched,
+      isSubmitting,
+    } = bag;
     let errorEmail = false;
     if (errors.email) {
       errorEmail = true;
@@ -239,6 +251,23 @@ export class LoginScreen extends Component<ILoginScreenProps, IState> {
             linear
             buttonStyle={{ marginHorizontal: buttonSidePadding }}
             style={{ marginHorizontal: buttonSidePadding }}
+          />
+        </Animatable.View>
+
+        <Animatable.View style={styles.socialContainer}>
+          <SocialIcon
+            light
+            raised={false}
+            type="facebook"
+            style={styles.socialButton}
+            onPress={() => this.onSubmitSocical(FirebaseWorker.loginByFacebook, bag)}
+          />
+          <SocialIcon
+            light
+            raised={false}
+            type="google-plus-official"
+            style={styles.socialButton}
+            onPress={() => this.onSubmitSocical(FirebaseWorker.googleLogin, bag)}
           />
         </Animatable.View>
       </Form>
