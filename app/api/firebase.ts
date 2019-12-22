@@ -203,18 +203,27 @@ export const FirebaseWorker = {
         .auth()
         .createUserWithEmailAndPassword(email, password);
       const user = firebase.auth().currentUser;
+      if (!user) {
+        throw { message: "Unknown error!" };
+      }
       // @ts-ignore
       user.updateProfile({
         displayName: userName,
       });
-      // @ts-ignore
       const token = await user.getIdToken();
-      await AsyncStorage.setItem(strings.uid, createUser.user.uid);
+      await AsyncStorage.setItem(
+        strings.uid,
+        JSON.stringify(createUser.user.uid)
+      );
       await AsyncStorage.setItem(strings.userToken, JSON.stringify(token));
-      // @ts-ignore
-      await AsyncStorage.setItem(strings.email, createUser.user.email);
-      // @ts-ignore
-      await AsyncStorage.setItem(strings.userName, createUser.user.displayName);
+      await AsyncStorage.setItem(
+        strings.email,
+        JSON.stringify(createUser.user.email)
+      );
+      await AsyncStorage.setItem(
+        strings.userName,
+        JSON.stringify(createUser.user.displayName)
+      );
 
       return {
         error: false,
@@ -396,12 +405,12 @@ export const FirebaseWorker = {
         // play services not available or outdated
         return {
           error: true,
-          message: I18n.t(strings.errGoogleLoginByPlayService),
+          message: I18n.t("errGoogleLoginByPlayService"),
         };
       }
       return {
         error: true,
-        message: I18n.t(strings.errGoogleLogin),
+        message: I18n.t("errGoogleLoginByPlayService"),
       };
     }
   },

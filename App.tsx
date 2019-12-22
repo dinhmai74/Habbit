@@ -25,6 +25,7 @@ YellowBox.ignoreWarnings([
   "Cannot update during an existing state",
   "Overriding previous layout animation with new one before the first began",
   "Required dispatch",
+  "Deprecation"
 ]);
 
 class App extends Component {

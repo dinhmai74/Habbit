@@ -261,8 +261,8 @@ export default class HomeRender extends Component<Props, State> {
                     ]}
                     text={capitalize(
                       watchingDate === today
-                        ? I18n.t(strings.textPullToAdd)
-                        : I18n.t(strings.textNothingHere)
+                        ? I18n.t("textPullToAdd")
+                        : I18n.t("textNothingHere")
                     )}
                   />
                 )}
@@ -275,7 +275,7 @@ export default class HomeRender extends Component<Props, State> {
             <InlineDecorationText
               // @ts-ignore
               style={[styles.inLineTip, { top: this.state.headerHeight }]}
-              text={capitalize(I18n.t(strings.textPullToAdd))}
+              text={capitalize(I18n.t("textPullToAdd"))}
             />
           </View>
         )}
