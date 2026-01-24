@@ -16,7 +16,7 @@
     "@redux-offline/redux-offline": "^2.5.1",
     "apisauce": "^1.0.2",
     "formik": "^1.5.8",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.23",
     "lottie-react-native": "2.3.2",
     "moment": "^2.24.0",
     "native-base": "^2.13.7",
